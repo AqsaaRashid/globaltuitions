@@ -1,0 +1,90 @@
+<x-app-layout>
+    <div class="bg-black min-h-screen">
+
+        <!-- SIDEBAR (FIXED, NEVER SQUEEZES) -->
+        <aside class="fixed top-0 left-0 w-64 h-screen
+                      bg-black text-white
+                      flex flex-col
+                      border-r border-gray-800
+                      z-40">
+
+            <!-- Brand -->
+            <div class="px-6 py-5 border-b border-gray-800">
+                <h1 class="text-xl font-bold tracking-wide">
+                    <span class="text-white">Admin</span>
+                    <span class="text-yellow-500">Panel</span>
+                </h1>
+            </div>
+
+            <!-- Menu -->
+            <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+
+                <!-- Dashboard -->
+                <a href="{{ route('dashboard') }}"
+                   class="flex items-center px-4 py-3 rounded-md
+                   {{ request()->routeIs('dashboard')
+                        ? 'bg-yellow-500 text-black font-semibold'
+                        : 'text-white hover:bg-white hover:text-black transition' }}">
+                    Dashboard
+                </a>
+
+                <!-- Courses -->
+                <a href="{{ route('admin.courses.index') }}"
+                   class="flex items-center px-4 py-3 rounded-md
+                   {{ request()->routeIs('admin.courses.*')
+                        ? 'bg-yellow-500 text-black font-semibold'
+                        : 'text-white hover:bg-white hover:text-black transition' }}">
+                    Manage Courses
+                </a>
+
+                <!-- Divider -->
+                <div class="pt-4 text-xs uppercase tracking-wider text-gray-500">
+                    Training Section
+                </div>
+
+                <!-- Training Manager -->
+                <a href="{{ route('training.index') }}"
+                   class="flex items-center px-4 py-3 rounded-md
+                   {{ request()->routeIs('training.index')
+                        ? 'bg-yellow-500 text-black font-semibold'
+                        : 'text-white hover:bg-white hover:text-black transition' }}">
+                    Training Moments
+                </a>
+
+                <!-- Course Enrollments -->
+                <a href="{{ route('admin.course-enrollments.index') }}"
+                   class="flex items-center px-4 py-3 rounded-md
+                   {{ request()->routeIs('admin.course-enrollments.*')
+                        ? 'bg-yellow-500 text-black font-semibold'
+                        : 'text-white hover:bg-white hover:text-black transition' }}">
+                    Course Enrollments
+                </a>
+
+            </nav>
+
+            <!-- Footer -->
+            <div class="px-6 py-4 border-t border-gray-800 text-sm text-gray-500">
+                © {{ date('Y') }} BTMG TRAININGS
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT (SHIFTED RIGHT) -->
+        <main class="ml-64 min-h-screen bg-black text-white">
+
+            <!-- Header -->
+            <div class="border-b border-gray-800 px-6 py-4 sticky top-0 bg-black z-30">
+                <h2 class="text-xl font-semibold">
+                    {{ $title ?? '' }}
+                </h2>
+            </div>
+
+            <!-- Page Content -->
+            <div class="p-6">
+                @yield('content')
+                @stack('scripts')
+            </div>
+
+        </main>
+
+    </div>
+</x-app-layout>
