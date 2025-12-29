@@ -6,9 +6,19 @@ use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CourseEnrollmentController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CourseTopicController;
+// frontend
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
+// backend (protect with auth later)
+Route::get('/admin/contacts', [ContactController::class, 'index'])->name('admin.contacts');
+
+ Route::get('/admin/contacts', [ContactController::class, 'index'])
+        ->name('admin.contacts.index');
+        Route::get('/search-courses', [App\Http\Controllers\Admin\CourseController::class, 'search'])
+    ->name('courses.search');
 
 Route::prefix('admin')->name('admin.')->group(function () {
 

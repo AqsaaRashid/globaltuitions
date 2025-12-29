@@ -10,8 +10,8 @@
             <!-- Brand -->
             <div class="px-6 py-5 border-b border-gray-800">
                 <h1 class="text-xl font-bold tracking-wide">
-                    <span class="text-white">Admin</span>
-                    <span class="text-yellow-500">Panel</span>
+                    <span class="text-white">BTMG</span>
+                    <span class="text-yellow-500">Trainings</span>
                 </h1>
             </div>
 
@@ -50,6 +50,15 @@
                         : 'text-white hover:bg-white hover:text-black' }}">
                     Course Enrollments
                 </a>
+                <!-- Contact Leads -->
+<a href="{{ route('admin.contacts.index') }}"
+   class="flex items-center px-4 py-3 rounded-md
+   {{ request()->routeIs('admin.contacts.*')
+        ? 'bg-yellow-500 text-black font-semibold'
+        : 'text-white hover:bg-white hover:text-black transition' }}">
+    Contact Leads
+</a>
+
             </nav>
 
             <!-- Footer -->

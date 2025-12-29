@@ -18,10 +18,12 @@
             <div class="hero-search-card">
                 <div class="hero-search-inner">
                     <input
-                        type="text"
-                        class="hero-search-input"
-                        placeholder="Discover your course"
-                    >
+    type="text"
+    id="courseSearch"
+    class="hero-search-input"
+    placeholder="Discover your course"
+/>
+
                     <button class="hero-search-btn">
                         <svg xmlns="http://www.w3.org/2000/svg"
                              viewBox="0 0 24 24"
@@ -33,9 +35,13 @@
                             <line x1="16" y1="16" x2="21" y2="21"></line>
                         </svg>
                     </button>
+
                 </div>
             </div>
         </div>
+<div class="courses-grid" id="coursesGrid" style="display:none">
+    @include('partials.course-cards', ['courses' => $courses])
+</div>
 
        {{-- Bottom Image Card --}}
 <div class="hero-image-card">
@@ -63,3 +69,32 @@
 
     </div>
 </section>
+<script>
+const searchInput = document.getElementById('courseSearch');
+const coursesGrid = document.getElementById('coursesGrid');
+
+let debounceTimer;
+
+searchInput.addEventListener('input', function () {
+    const query = this.value.trim();
+
+    clearTimeout(debounceTimer);
+
+    // If input is empty → hide results
+    if (query.length === 0) {
+        coursesGrid.style.display = 'none';
+        coursesGrid.innerHTML = '';
+        return;
+    }
+
+    debounceTimer = setTimeout(() => {
+        fetch(`/search-courses?q=${encodeURIComponent(query)}`)
+            .then(res => res.text())
+            .then(html => {
+                coursesGrid.innerHTML = html;
+                coursesGrid.style.display = 'grid';
+            });
+    }, 300);
+});
+</script>
+

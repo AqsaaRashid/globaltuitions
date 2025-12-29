@@ -114,4 +114,20 @@ class CourseController extends Controller
 
         return back()->with('success', 'Course deleted successfully');
     }
+    public function search(Request $request)
+{
+    $query = $request->q;
+
+    $courses = \App\Models\Course::where('is_active', 1)
+        ->where(function ($q) use ($query) {
+            $q->where('title', 'like', "%$query%")
+              ->orWhere('skills', 'like', "%$query%");
+        })
+        ->orderBy('sort_order')
+        ->get()
+        ->groupBy('title');
+
+    return view('partials.course-cards', compact('courses'));
+}
+
 }

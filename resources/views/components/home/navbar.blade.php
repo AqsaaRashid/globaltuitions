@@ -14,7 +14,9 @@
             <li><a href="#learn">About Platform</a></li>
             <li><a href="#trust">Why Choose Us</a></li>
             <li><a href="#testimonials">Testimonials</a></li>
-            <li><a href="#">Contact Us</a></li>
+<li>
+    <a href="javascript:void(0)" onclick="openContactModal()">Contact Us</a>
+</li>
         </ul>
 
         {{-- Right Buttons --}}
@@ -34,3 +36,197 @@
         </div>
     </div>
 </nav>
+<!-- Contact Modal -->
+<div id="contactModal" class="modal-overlay">
+    <div class="modal-box">
+        <span class="close-btn" onclick="closeContactModal()">×</span>
+
+        <h3 class="modal-title">Contact Us</h3>
+        <p class="modal-subtitle">We’ll get back to you shortly</p>
+
+        <form method="POST" action="{{ route('contact.store') }}">
+            @csrf
+
+            <div class="form-group">
+                <input type="text" name="name" placeholder="Full Name" required>
+            </div>
+
+            <div class="form-group">
+                <input type="email" name="email" placeholder="Email Address" required>
+            </div>
+
+            <div class="form-group">
+                <input type="tel" name="phone" placeholder="Phone Number" required>
+            </div>
+
+            <div class="form-group">
+                <textarea name="message" placeholder="Your Message..." rows="4" required></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+    </div>
+</div>
+
+<style>
+       /* ===============================
+   ENROLL MODAL – BRAND ALIGNED
+   =============================== */
+   .level-select{
+    margin-top:6px;
+    padding:6px 10px;
+    border-radius:6px;
+    border:1px solid #e5e7eb;
+    font-size:13px;
+    cursor:pointer;
+}
+
+.single-level{
+    font-size:13px;
+    color:#6b7280;
+    margin-top:6px;
+}
+
+.course-details-link{
+    display:inline-block;
+    font-size:13px;
+    color:#09515D;
+    font-weight:600;
+    text-decoration:none;
+}
+.course-details-link:hover{
+    color:#F47B1E;
+    text-decoration:underline;
+}
+
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    font-family: Inter, system-ui, sans-serif;
+}
+
+/* MODAL CARD */
+.modal-box {
+    background: #ffffff;
+    width: 100%;
+    max-width: 440px;
+    padding: 26px 26px 28px;
+    border-radius: 4px;                 /* matches your UI */
+    position: relative;
+    box-shadow: 0 18px 40px rgba(15,23,42,0.25);
+    animation: fadeInUp 0.25s ease;
+}
+
+/* CLOSE */
+.close-btn {
+    position: absolute;
+    right: 14px;
+    top: 10px;
+    font-size: 22px;
+    color: #6b7280;
+    cursor: pointer;
+    transition: color .2s ease;
+}
+.close-btn:hover {
+    color: #F47B1E;
+}
+
+/* HEADER */
+.modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 4px;
+}
+
+.modal-subtitle {
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 18px;
+}
+
+/* FORM */
+.form-group {
+    margin-bottom: 12px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 13px;
+    border-radius: 4px;
+    border: 1px solid #e5e7eb;
+    color: #111827;
+    outline: none;
+    transition: all .2s ease;
+    background: #fff;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+/* FOCUS */
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #F47B1E;
+    box-shadow: 0 0 0 2px rgba(244,123,30,0.15);
+}
+
+/* SUBMIT */
+.submit-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 12px;
+    background: #09515D;          /* brand teal */
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.submit-btn:hover {
+    background: #F47B1E;          /* brand orange on hover */
+}
+
+/* ANIMATION */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+</style>
+<script>
+function openContactModal() {
+    document.getElementById('contactModal').style.display = 'flex';
+}
+
+function closeContactModal() {
+    document.getElementById('contactModal').style.display = 'none';
+}
+
+// Close on outside click
+window.addEventListener('click', function(e) {
+    const modal = document.getElementById('contactModal');
+    if (e.target === modal) {
+        closeContactModal();
+    }
+});
+</script>
