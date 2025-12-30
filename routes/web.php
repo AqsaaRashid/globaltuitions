@@ -9,14 +9,28 @@ use App\Http\Controllers\CourseEnrollmentController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CourseTopicController;
-// frontend
-Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+// contact
+Route::post('/contact', [ContactController::class, 'store'])
+    ->name('contact.store');
 
-// backend (protect with auth later)
-Route::get('/admin/contacts', [ContactController::class, 'index'])->name('admin.contacts');
+Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
 
- Route::get('/admin/contacts', [ContactController::class, 'index'])
-        ->name('admin.contacts.index');
+    // Contact listing
+    Route::get('/contacts', [ContactController::class, 'index'])
+        ->name('contacts.index');
+
+    // View contact (AJAX modal)
+    Route::get('/contacts/{contact}', [ContactController::class, 'show'])
+        ->name('contacts.show');
+
+    // Reply to contact
+    Route::post('/contacts/{contact}/reply', [ContactController::class, 'reply'])
+        ->name('contacts.reply');
+});
+
+
+// 
+
         Route::get('/search-courses', [App\Http\Controllers\Admin\CourseController::class, 'search'])
     ->name('courses.search');
 
