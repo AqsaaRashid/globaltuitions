@@ -216,7 +216,7 @@
 
 /* ===== HERO ===== */
 .course-hero{
-    background:#0f172a;
+    background:#09515D;
     border-radius:18px;
     padding:36px;
     display:grid;
@@ -255,13 +255,17 @@
 .level-switcher label{
     font-size:13px;
     font-weight:700;
+
 }
 
 .level-switcher select{
-    padding:6px 10px;
-    border-radius:6px;
+    padding:8px 12px;
+    border-radius:4px;
     border:none;
     font-size:13px;
+    background-color: #F47B1E;
+    color: #fff;
+
 }
 
 #levelMessage{
@@ -315,60 +319,95 @@
     border-radius:999px;
     font-weight:700;
 }
-
-/* ===== CTA BUTTONS ===== */
+/*  */
+/* ===== CTA BUTTONS – SEGMENTED / SaaS STYLE ===== */
 .cta-buttons{
     display:flex;
-    gap:12px;
-    margin-top:22px;
+    align-items:center;
+    gap:18px;
+    margin-top:30px;
     flex-wrap:wrap;
 }
 
-.btn-primary{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-
-    padding:4px 12px;          /* tight vertical + horizontal */
-    font-size:12px;            /* 8px is TOO small for UX */
-    font-weight:800;
-    line-height:1;             /* removes extra vertical space */
-
+/* PRIMARY – ENROLL */
+.cta-buttons .btn-primary:first-child{
+    padding:14px 30px;
+    font-size:14px;
+    font-weight:900;
     border-radius:4px;
     background:#F47B1E;
     color:#fff;
     border:none;
-    cursor:pointer;
-    transition:all .25s ease;
+    box-shadow:0 12px 28px rgba(244,123,30,.45);
+    transition:.25s ease;
 }
 
-
-.btn-primary:hover{
-    background:#d46210;
+.cta-buttons .btn-primary:first-child:hover{
     transform:translateY(-2px);
+    box-shadow:0 18px 40px rgba(244,123,30,.55);
 }
 
+/* SECONDARY ACTIONS – TEXT BUTTONS */
+.cta-buttons .btn-primary{
+    background:none;
+    border:none;
+    padding:0;
+    font-size:13px;
+    font-weight:700;
+    color:#cbd5e1;
+    cursor:pointer;
+    position:relative;
+}
+
+/* underline on hover */
+.cta-buttons .btn-primary::after{
+    content:'';
+    position:absolute;
+    left:0;
+    bottom:-4px;
+    width:0;
+    height:2px;
+    background:#F47B1E;
+    transition:.25s;
+}
+
+.cta-buttons .btn-primary:hover{
+    color:#fff;
+}
+
+.cta-buttons .btn-primary:hover::after{
+    width:100%;
+}
+
+/* BACK LINK – NAV STYLE */
 .btn-secondary{
-    padding:14px 26px;
-    font-size:14px;
-    font-weight:800;
-    border-radius:10px;
-    background:transparent;
-    color:#ffffff;
-    border:2px solid rgba(255,255,255,.5);
+    margin-left:auto;
+    background:none;
+    border:none;
+    padding:0;
+    font-size:13px;
+    font-weight:700;
+    color:#94a3b8;
     text-decoration:none;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    transition:all .25s ease;
 }
 
 .btn-secondary:hover{
-    background:#ffffff;
-    color:#0f172a;
-    border-color:#ffffff;
-    transform:translateY(-2px);
+    color:#fff;
 }
+
+/* MOBILE */
+@media(max-width:700px){
+    .cta-buttons{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:14px;
+    }
+
+    .btn-secondary{
+        margin-left:0;
+    }
+}
+
 
 /* ===== BODY ===== */
 .course-body{
@@ -476,15 +515,7 @@
     .course-hero{grid-template-columns:1fr;}
 }
 
-@media(max-width:520px){
-    .cta-buttons{
-        flex-direction:column;
-    }
-    .btn-primary,
-    .btn-secondary{
-        width:100%;
-    }
-}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 

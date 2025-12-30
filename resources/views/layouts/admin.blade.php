@@ -1,4 +1,5 @@
 <x-app-layout>
+   
     <div class="bg-black min-h-screen">
 
         <!-- SIDEBAR (FIXED, NEVER SQUEEZES) -->
@@ -27,6 +28,9 @@
                         : 'text-white hover:bg-white hover:text-black transition' }}">
                     Dashboard
                 </a>
+                <div class="pt-4 text-xs uppercase tracking-wider text-gray-500">
+                    Your Courses
+                </div>
 
                 <!-- Courses -->
                 <a href="{{ route('admin.courses.index') }}"
@@ -50,6 +54,10 @@
                         : 'text-white hover:bg-white hover:text-black transition' }}">
                     Training Moments
                 </a>
+                <!-- Divider -->
+                <div class="pt-4 text-xs uppercase tracking-wider text-gray-500">
+                    Enrollments & Inquiries
+                </div>
 
                 <!-- Course Enrollments -->
                 <a href="{{ route('admin.course-enrollments.index') }}"
@@ -58,6 +66,12 @@
                         ? 'bg-yellow-500 text-black font-semibold'
                         : 'text-white hover:bg-white hover:text-black transition' }}">
                     Course Enrollments
+                    @if($pendingEnrollmentsCount > 0)
+        <span class="ml-auto bg-yellow-500 text-black text-xs font-bold
+                     rounded-full px-2 py-0.5">
+            {{ $pendingEnrollmentsCount }}
+        </span>
+    @endif
                 </a>
                 <a href="{{ route('admin.course-inquiries.index') }}"
    class="flex items-center px-4 py-3 rounded-md
@@ -65,7 +79,17 @@
         ? 'bg-yellow-500 text-black font-semibold'
         : 'text-white hover:bg-white hover:text-black transition' }}">
     Course Inquiries
+     @if($pendingInquiriesCount > 0)
+        <span class="ml-auto bg-yellow-500 text-black text-xs font-bold
+                     rounded-full px-2 py-0.5">
+            {{ $pendingInquiriesCount }}
+        </span>
+    @endif
 </a>
+<div class="pt-4 text-xs uppercase tracking-wider text-gray-500">
+                    Contact Us
+                </div>
+
                 <!-- Contact Leads -->
 <a href="{{ route('admin.contacts.index') }}"
    class="flex items-center px-4 py-3 rounded-md
@@ -73,6 +97,12 @@
         ? 'bg-yellow-500 text-black font-semibold'
         : 'text-white hover:bg-white hover:text-black transition' }}">
     Contact Leads
+     @if($pendingContactsCount > 0)
+        <span class="ml-auto bg-yellow-500 text-black text-xs font-bold
+                     rounded-full px-2 py-0.5">
+            {{ $pendingContactsCount }}
+        </span>
+    @endif
 </a>
 
 
