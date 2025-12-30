@@ -1,0 +1,164 @@
+@extends('layouts.admin')
+
+@section('content')
+
+<div class="flex items-center justify-between mb-6">
+    <h2 class="text-2xl font-semibold text-white">
+        Course Inquiries
+    </h2>
+</div>
+
+<div class="bg-white text-black rounded-lg shadow-lg overflow-hidden">
+
+<table class="min-w-full border-collapse">
+    <thead class="bg-black text-white">
+        <tr>
+            <th class="px-4 py-3 text-left text-sm font-semibold"> For Course</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold">Name</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold">Email</th>
+            <!-- <th class="px-4 py-3 text-left text-sm font-semibold">Phone</th> -->
+            <th class="px-4 py-3 text-left text-sm font-semibold">Message</th>
+            <th class="px-4 py-3 text-center text-sm font-semibold">Date</th>
+            <th class="px-4 py-3 text-center text-sm font-semibold">Replied</th>
+            <th class="px-4 py-3 text-center text-sm font-semibold">Viewed</th>
+            <th class="px-4 py-3 text-center text-sm font-semibold">Action</th>
+
+        </tr>
+    </thead>
+
+    <tbody class="divide-y divide-gray-200">
+        @forelse($inquiries as $inquiry)
+            <tr class="hover:bg-gray-50 transition">
+
+                <td class="px-4 py-3 font-medium">
+                    {{ $inquiry->course_title }}
+                </td>
+
+                <td class="px-4 py-3">
+                    {{ $inquiry->name }}
+                </td>
+
+                <!-- <td class="px-4 py-3">
+                    {{ $inquiry->email }}
+                </td> -->
+
+                <td class="px-4 py-3">
+                    {{ $inquiry->phone }}
+                </td>
+
+                <td class="px-4 py-3 text-sm text-gray-700">
+                    {{ \Illuminate\Support\Str::limit($inquiry->message, 60) }}
+                </td>
+
+                <td class="px-4 py-3 text-center text-sm">
+                    {{ $inquiry->created_at->format('d M Y') }}
+                </td>
+                <td class="px-4 py-3 text-center text-sm">
+    @if($inquiry->reply_status === 'replied')
+        <span class="text-green-600 font-semibold">Replied</span>
+    @else
+        <span class="text-red-500 font-semibold">Pending</span>
+    @endif
+</td>
+
+<td class="px-4 py-3 text-center text-sm">
+    @if($inquiry->is_viewed)
+        <span class="text-green-600 font-semibold">Viewed</span>
+    @else
+        <span class="text-gray-400">—</span>
+    @endif
+</td>
+
+<td class="px-4 py-3 text-center">
+    <button
+        onclick="openInquiryModal({{ $inquiry->id }})"
+        class="text-blue-600 hover:underline text-sm">
+        View
+    </button>
+</td>
+
+
+            </tr>
+        @empty
+            <tr>
+                <td colspan="6" class="px-4 py-6 text-center text-gray-500">
+                    No inquiries found.
+                </td>
+            </tr>
+        @endforelse
+    </tbody>
+</table>
+
+</div>
+
+<div class="mt-4">
+    {{ $inquiries->links() }}
+</div>
+<div id="inquiryModal"
+class="fixed inset-0 bg-black/70 hidden z-50 flex items-start justify-center overflow-y-auto">
+
+<div class="bg-black text-white w-full max-w-2xl mt-16 rounded-xl shadow-2xl border border-gray-800">
+
+    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-700">
+        <h3 class="text-lg font-semibold">Inquiry Details</h3>
+        <button onclick="closeInquiryModal()" class="text-xl">×</button>
+    </div>
+
+    <div class="px-6 py-5 space-y-4">
+
+        <div id="inquiryDetails"
+            class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
+        </div>
+
+        <div class="border-t border-gray-700"></div>
+
+        <form method="POST" id="inquiryReplyForm">
+            @csrf
+
+            <label class="text-xs text-gray-400 uppercase">Reply Message</label>
+
+            <textarea name="reply_message" required
+                class="w-full min-h-[120px] p-3 rounded-md bg-gray-900 border border-gray-700"></textarea>
+
+            <button type="submit"
+                class="mt-4 bg-yellow-500 hover:bg-yellow-400 text-black px-5 py-2 rounded-md font-semibold">
+                Send Reply
+            </button>
+        </form>
+
+    </div>
+</div>
+</div>
+
+@endsection
+@push('scripts')
+<script>
+function openInquiryModal(id) {
+    fetch(`/admin/course-inquiries/${id}`, {
+        headers: { 'Accept': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('inquiryDetails').innerHTML = `
+            <div><span class="text-gray-400">Course</span><p>${data.course_title}</p></div>
+            <div><span class="text-gray-400">Name</span><p>${data.name}</p></div>
+            <div><span class="text-gray-400">Email</span><p>${data.email}</p></div>
+            <div><span class="text-gray-400">Phone</span><p>${data.phone}</p></div>
+            <div class="sm:col-span-2">
+                <span class="text-gray-400">Message</span>
+                <p>${data.message}</p>
+            </div>
+        `;
+
+        document.getElementById('inquiryReplyForm').action =
+            `/admin/course-inquiries/${id}/reply`;
+
+        document.getElementById('inquiryModal').classList.remove('hidden');
+    });
+}
+
+function closeInquiryModal() {
+    document.getElementById('inquiryModal').classList.add('hidden');
+}
+</script>
+@endpush

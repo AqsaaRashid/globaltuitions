@@ -50,6 +50,13 @@
                         : 'text-white hover:bg-white hover:text-black' }}">
                     Course Enrollments
                 </a>
+                <a href="{{ route('admin.course-inquiries.index') }}"
+   class="flex items-center px-4 py-3 rounded-md
+   {{ request()->routeIs('admin.course-inquiries.*')
+        ? 'bg-yellow-500 text-black font-semibold'
+        : 'text-white hover:bg-white hover:text-black transition' }}">
+    Course Inquiries
+</a>
                 <!-- Contact Leads -->
 <a href="{{ route('admin.contacts.index') }}"
    class="flex items-center px-4 py-3 rounded-md
@@ -58,6 +65,8 @@
         : 'text-white hover:bg-white hover:text-black transition' }}">
     Contact Leads
 </a>
+
+
 
             </nav>
 

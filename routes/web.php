@@ -9,9 +9,33 @@ use App\Http\Controllers\CourseEnrollmentController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CourseTopicController;
+use App\Http\Controllers\CourseInquiryController;
+
+Route::post('/course-inquiry', [CourseInquiryController::class, 'store'])
+    ->name('course.inquiry');
+    Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
+
+    Route::get('/course-inquiries', [CourseInquiryController::class, 'index'])
+        ->name('course-inquiries.index');
+
+        
+
+
+
+    Route::get('/course-inquiries/{courseInquiry}', [CourseInquiryController::class, 'show'])
+        ->name('course-inquiries.show');
+
+    Route::post('/course-inquiries/{courseInquiry}/reply', [CourseInquiryController::class, 'reply'])
+        ->name('course-inquiries.reply');
+
+
+});
+
+
 // contact
 Route::post('/contact', [ContactController::class, 'store'])
     ->name('contact.store');
+
 
 Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
 

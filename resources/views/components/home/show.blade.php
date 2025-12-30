@@ -65,6 +65,11 @@
                         onclick="openEnrollModal('{{ $course->title }}')">
                     Enroll Now
                 </button>
+                <button class="btn-primary"
+        onclick="openInquiryModal('{{ $course->title }}')">
+    Inquiry
+</button>
+
 
                 <button class="btn-primary"
                         onclick="printCourse()">
@@ -161,6 +166,44 @@
         </form>
     </div>
 </div>
+<!-- INQUIRY MODAL -->
+<div id="inquiryModal" class="modal-overlay">
+    <div class="modal-box">
+        <span class="close-btn" onclick="closeInquiryModal()">×</span>
+
+        <h3 class="modal-title">Course Inquiry</h3>
+
+        <form method="POST" action="{{ route('course.inquiry') }}">
+            @csrf
+
+            <input type="hidden" name="course_title" value="{{ $course->title }}">
+
+            <div class="form-group">
+                <input type="text" name="name" placeholder="Full Name" required>
+            </div>
+
+            <div class="form-group">
+                <input type="email" name="email" placeholder="Email Address" required>
+            </div>
+
+            <div class="form-group">
+                <input type="tel" name="phone" placeholder="Phone Number" required>
+            </div>
+
+            <div class="form-group">
+                <textarea name="message"
+                          placeholder="Your inquiry message..."
+                          rows="4"
+                          required></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                Submit Inquiry
+            </button>
+        </form>
+    </div>
+</div>
+
 
 <style>
 
@@ -509,4 +552,15 @@ function switchCourseLevel(select){
 }
 
 
+</script>
+<script>
+function openInquiryModal(courseTitle){
+    document.body.style.overflow = 'hidden';
+    document.getElementById('inquiryModal').style.display = 'flex';
+}
+
+function closeInquiryModal(){
+    document.body.style.overflow = '';
+    document.getElementById('inquiryModal').style.display = 'none';
+}
 </script>
