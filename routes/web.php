@@ -10,6 +10,23 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CourseTopicController;
 use App\Http\Controllers\CourseInquiryController;
+// routes/web.php
+
+use App\Http\Controllers\SubscriberController;
+
+Route::post('/subscribe', [SubscriberController::class, 'store'])->name('subscribe.store');
+
+
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+
+    // Subscribers
+    Route::get('/subscribers', [SubscriberController::class, 'index'])
+        ->name('subscribers.index');
+          Route::post('/subscribers/send-message', [SubscriberController::class, 'sendMessage'])
+        ->name('subscribers.send');
+
+});
+
 
 Route::post('/course-inquiry', [CourseInquiryController::class, 'store'])
     ->name('course.inquiry');

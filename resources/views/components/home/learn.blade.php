@@ -47,15 +47,41 @@
             <!-- SUBSCRIBE BAR -->
             <!-- SUBSCRIBE OUTER WRAPPER (missing in your version) -->
 <div class="subscribe-outer">
-    <div class="subscribe-bar">
-        <input type="email" class="subscribe-input" placeholder="Enter Email Address for updates">
-        <button class="subscribe-btn">
+    <form id="subscribeForm" class="subscribe-bar">
+        @csrf
+        <input type="email" name="email" class="subscribe-input" placeholder="Enter Email Address for updates" required>
+        <button type="submit" class="subscribe-btn">
             Subscribe <i class="bi bi-arrow-right"></i>
         </button>
-    </div>
+    </form>
+    <p id="subscribeMsg"></p>
 </div>
+
 
         </div>
 
     </div>
 </section>
+<script>
+document.getElementById('subscribeForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+
+    fetch("{{ route('subscribe.store') }}", {
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('input[name=_token]').value
+        },
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('subscribeMsg').innerText = data.message;
+        document.getElementById('subscribeForm').reset();
+    })
+    .catch(() => {
+        document.getElementById('subscribeMsg').innerText = "Something went wrong";
+    });
+});
+</script>

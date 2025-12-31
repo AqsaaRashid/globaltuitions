@@ -105,6 +105,17 @@
         </span>
     @endif
 </a>
+<div class="pt-4 text-xs uppercase tracking-wider text-gray-500">
+    Newsletter
+</div>
+
+<a href="{{ route('admin.subscribers.index') }}"
+   class="flex items-center px-4 py-3 rounded-md
+   {{ request()->routeIs('admin.subscribers.*')
+        ? 'bg-yellow-500 text-black font-semibold'
+        : 'text-white hover:bg-white hover:text-black transition' }}">
+    Subscribers
+</a>
 
 
 
