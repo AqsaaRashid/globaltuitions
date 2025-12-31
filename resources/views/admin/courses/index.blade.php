@@ -23,6 +23,10 @@
                 <th class="px-4 py-3 text-left text-sm font-semibold">Image</th>
                 <th class="px-4 py-3 text-left text-sm font-semibold">Course</th>
                 <th class="px-4 py-3 text-left text-sm font-semibold">Level</th>
+                <th class="px-4 py-3 text-left text-sm font-semibold">
+    Category
+</th>
+
                 <th class="px-4 py-3 text-left text-sm font-semibold">Duration</th>
                 <th class="px-4 py-3 text-left text-sm font-semibold">Price</th>
                 <th class="px-4 py-3 text-center text-sm font-semibold">Sort</th>
@@ -59,6 +63,11 @@
                     <td class="px-4 py-3">
                         {{ $course->level ?? '-' }}
                     </td>
+                    {{-- Category --}}
+<td class="px-4 py-3">
+    {{ $course->category?->name ?? 'Uncategorized' }}
+</td>
+
 
                     {{-- Duration --}}
                     <td class="px-4 py-3">

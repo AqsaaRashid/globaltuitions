@@ -4,35 +4,49 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\TrainingCategory;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
+    /* ==============================
+     | INDEX
+     ============================== */
     public function index()
     {
-        $courses = Course::orderBy('sort_order')
+        $courses = Course::with('category')
+            ->orderBy('sort_order')
             ->orderByDesc('id')
             ->get();
 
         return view('admin.courses.index', compact('courses'));
     }
 
+    /* ==============================
+     | CREATE
+     ============================== */
     public function create()
     {
-        return view('admin.courses.create');
+        $categories = TrainingCategory::orderBy('name')->get();
+
+        return view('admin.courses.create', compact('categories'));
     }
 
+    /* ==============================
+     | STORE
+     ============================== */
     public function store(Request $request)
     {
         $request->validate([
-            'title'       => 'required|string|max:255',
-            'description' => 'nullable|string', // ✅ NEW
-            'image'       => 'required|image|mimes:png,jpg,jpeg,webp',
-            'level'       => 'nullable|string|max:100',
-            'duration'    => 'nullable|string|max:100',
-            'price'       => 'nullable|numeric',
-            'skills'      => 'nullable|string',
-            'sort_order'  => 'required|integer',
+            'title'                 => 'required|string|max:255',
+            'description'           => 'nullable|string',
+            'image'                 => 'required|image|mimes:png,jpg,jpeg,webp',
+            'level'                 => 'nullable|string|max:100',
+            'duration'              => 'nullable|string|max:100',
+            'price'                 => 'nullable|numeric',
+            'skills'                => 'nullable|string',
+            'sort_order'            => 'required|integer',
+            'training_category_id'  => 'nullable|exists:training_categories,id',
         ]);
 
         // Upload image
@@ -40,15 +54,16 @@ class CourseController extends Controller
         $request->image->move(public_path('images'), $imageName);
 
         Course::create([
-            'title'       => $request->title,
-            'description' => $request->description, // ✅ NEW
-            'image'       => $imageName,
-            'level'       => $request->level,
-            'duration'    => $request->duration,
-            'price'       => $request->price,
-            'skills'      => $request->skills,
-            'sort_order'  => $request->sort_order,
-            'is_active'   => $request->has('is_active'),
+            'title'                => $request->title,
+            'description'          => $request->description,
+            'image'                => $imageName,
+            'level'                => $request->level,
+            'duration'             => $request->duration,
+            'price'                => $request->price,
+            'skills'               => $request->skills,
+            'sort_order'           => $request->sort_order,
+            'is_active'            => $request->has('is_active'),
+            'training_category_id' => $request->training_category_id, // ✅ CATEGORY
         ]);
 
         return redirect()
@@ -56,29 +71,38 @@ class CourseController extends Controller
             ->with('success', 'Course added successfully');
     }
 
+    /* ==============================
+     | EDIT
+     ============================== */
     public function edit(Course $course)
     {
-        return view('admin.courses.edit', compact('course'));
+        $categories = TrainingCategory::orderBy('name')->get();
+
+        return view('admin.courses.edit', compact('course', 'categories'));
     }
 
+    /* ==============================
+     | UPDATE
+     ============================== */
     public function update(Request $request, Course $course)
     {
         $request->validate([
-            'title'       => 'required|string|max:255',
-            'description' => 'nullable|string', // ✅ NEW
-            'image'       => 'nullable|image|mimes:png,jpg,jpeg,webp',
-            'level'       => 'nullable|string|max:100',
-            'duration'    => 'nullable|string|max:100',
-            'price'       => 'nullable|numeric',
-            'skills'      => 'nullable|string',
-            'sort_order'  => 'required|integer',
+            'title'                 => 'required|string|max:255',
+            'description'           => 'nullable|string',
+            'image'                 => 'nullable|image|mimes:png,jpg,jpeg,webp',
+            'level'                 => 'nullable|string|max:100',
+            'duration'              => 'nullable|string|max:100',
+            'price'                 => 'nullable|numeric',
+            'skills'                => 'nullable|string',
+            'sort_order'            => 'required|integer',
+            'training_category_id'  => 'nullable|exists:training_categories,id',
         ]);
 
         $imageName = $course->image;
 
         if ($request->hasFile('image')) {
             $oldPath = public_path('images/' . $course->image);
-            if (file_exists($oldPath)) {
+            if ($course->image && file_exists($oldPath)) {
                 unlink($oldPath);
             }
 
@@ -87,15 +111,16 @@ class CourseController extends Controller
         }
 
         $course->update([
-            'title'       => $request->title,
-            'description' => $request->description, // ✅ NEW
-            'image'       => $imageName,
-            'level'       => $request->level,
-            'duration'    => $request->duration,
-            'price'       => $request->price,
-            'skills'      => $request->skills,
-            'sort_order'  => $request->sort_order,
-            'is_active'   => $request->has('is_active'),
+            'title'                => $request->title,
+            'description'          => $request->description,
+            'image'                => $imageName,
+            'level'                => $request->level,
+            'duration'             => $request->duration,
+            'price'                => $request->price,
+            'skills'               => $request->skills,
+            'sort_order'           => $request->sort_order,
+            'is_active'            => $request->has('is_active'),
+            'training_category_id' => $request->training_category_id, // ✅ CATEGORY
         ]);
 
         return redirect()
@@ -103,9 +128,13 @@ class CourseController extends Controller
             ->with('success', 'Course updated successfully');
     }
 
+    /* ==============================
+     | DELETE
+     ============================== */
     public function destroy(Course $course)
     {
         $imagePath = public_path('images/' . $course->image);
+
         if ($course->image && file_exists($imagePath)) {
             unlink($imagePath);
         }
@@ -114,20 +143,23 @@ class CourseController extends Controller
 
         return back()->with('success', 'Course deleted successfully');
     }
+
+    /* ==============================
+     | SEARCH (FRONTEND)
+     ============================== */
     public function search(Request $request)
-{
-    $query = $request->q;
+    {
+        $query = $request->q;
 
-    $courses = \App\Models\Course::where('is_active', 1)
-        ->where(function ($q) use ($query) {
-            $q->where('title', 'like', "%$query%")
-              ->orWhere('skills', 'like', "%$query%");
-        })
-        ->orderBy('sort_order')
-        ->get()
-        ->groupBy('title');
+        $courses = Course::where('is_active', 1)
+            ->where(function ($q) use ($query) {
+                $q->where('title', 'like', "%$query%")
+                  ->orWhere('skills', 'like', "%$query%");
+            })
+            ->orderBy('sort_order')
+            ->get()
+            ->groupBy('title');
 
-    return view('partials.course-cards', compact('courses'));
-}
-
+        return view('partials.course-cards', compact('courses'));
+    }
 }

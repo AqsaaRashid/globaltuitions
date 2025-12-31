@@ -9,6 +9,36 @@
     <p class="courses-subtitle">
         Master practical skills that help you grow personally and professionally.
     </p>
+    <div class="course-filters">
+    <select id="categoryFilter" class="category-btn">
+<option value="all">▦ All Categories</option>
+
+        @foreach($categories as $category)
+            <option value="{{ $category->id }}">
+                {{ $category->name }}
+            </option>
+        @endforeach
+    </select>
+
+    <button id="freeFilterBtn" class="category-btn free-btn">
+    <i class="bi bi-gift"></i> Free Courses
+</button>
+
+</div>
+
+<div id="noCoursesMessage"
+     style="
+        display:none;
+        text-align:center;
+        padding:40px 20px;
+        color:#6b7280;
+        font-size:16px;
+        font-weight:500;
+     ">
+    <i class="bi bi-info-circle"></i>
+    No free courses available for this category.
+</div>
+
 
    
     <div class="courses-grid">
@@ -17,7 +47,11 @@
         $defaultCourse = $courseLevels->first();
     @endphp
 
-    <div class="course-card">
+<div class="course-card"
+     data-category="{{ $defaultCourse->training_category_id ?? 'none' }}"
+     data-free="{{ ($defaultCourse->price == 0) ? 'yes' : 'no' }}">
+
+        
         <div class="course-image"style="background-image:url('{{ asset('images/'.$defaultCourse->image) }}')">
         </div>
 
@@ -101,6 +135,52 @@
 </div>
 
 <style>
+   
+#noCoursesMessage{
+    display:none;
+    text-align:center;
+    padding:40px 20px;
+    color:#6b7280;
+    font-size:16px;
+    font-weight:500;
+}
+#noCoursesMessage i{
+    display:block;
+    font-size:24px;
+    margin-bottom:8px;
+    color:#09515D;
+}
+
+.course-filters{
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+    margin-bottom:30px;
+    margin-right:100px !important;
+}
+
+.category-btn{
+    padding:12px 16px;
+    background:#09515D;
+    color:#fff;
+    border:1px solid #09515D;
+    border-radius:4px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all .2s ease;
+
+}
+
+.category-btn:hover{
+    background: #F47B1E;
+}
+
+.free-btn.active{
+    background: #F47B1E;   /* green when active */
+    border-color: #F47B1E;
+}
+
    /* ===============================
    ENROLL MODAL – BRAND ALIGNED
    =============================== */
@@ -264,4 +344,55 @@ window.onclick = function(e) {
         closeEnrollModal();
     }
 }
+</script>
+
+<script>
+let freeOnly = false;
+
+document.getElementById('freeFilterBtn').addEventListener('click', function () {
+    freeOnly = !freeOnly;
+    this.classList.toggle('active', freeOnly);
+    applyFilters();
+});
+
+document.getElementById('categoryFilter').addEventListener('change', function () {
+    freeOnly = false; // 👈 reset free filter
+    document.getElementById('freeFilterBtn').classList.remove('active');
+    applyFilters();
+});
+
+function applyFilters(){
+    const selectedCategory = document.getElementById('categoryFilter').value;
+    const cards = document.querySelectorAll('.course-card');
+    const message = document.getElementById('noCoursesMessage');
+
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+        const cardCategory = card.dataset.category;
+        const isFree = card.dataset.free === 'yes';
+
+        let show = true;
+
+        if (selectedCategory !== 'all' && cardCategory !== selectedCategory) {
+            show = false;
+        }
+
+        if (freeOnly && !isFree) {
+            show = false;
+        }
+
+        card.style.display = show ? 'block' : 'none';
+
+        if (show) visibleCount++;
+    });
+
+    // 🔔 SHOW MESSAGE IF NOTHING VISIBLE
+    if (freeOnly && visibleCount === 0) {
+        message.style.display = 'block';
+    } else {
+        message.style.display = 'none';
+    }
+}
+
 </script>

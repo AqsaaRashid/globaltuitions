@@ -43,7 +43,7 @@
                     Update Category
                 </button>
 
-                <a href="{{ route('training.index') }}"
+                <a href="{{ route('training.categories.index') }}"
                    class="text-sm text-gray-600 hover:text-black">
                     Cancel
                 </a>

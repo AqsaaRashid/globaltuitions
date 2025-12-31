@@ -37,9 +37,9 @@ class TrainingController extends Controller
             'slug' => Str::slug($request->name),
         ]);
 
-        return redirect()
-            ->route('training.index')
-            ->with('success', 'Category added');
+         return redirect()
+        ->route('training.categories.index')
+        ->with('success', 'Category added');
     }
 
     public function editCategory(TrainingCategory $category)
@@ -59,8 +59,8 @@ class TrainingController extends Controller
         ]);
 
         return redirect()
-            ->route('training.index')
-            ->with('success', 'Category updated');
+        ->route('training.categories.index')
+        ->with('success', 'Category updated');
     }
 
     /* ==============================
@@ -138,4 +138,19 @@ class TrainingController extends Controller
 
         return back()->with('success', 'Image deleted');
     }
+    public function categoriesIndex()
+{
+    $categories = TrainingCategory::latest()->get();
+    return view('admin.training.categories.index', compact('categories'));
+}
+
+public function destroyCategory(TrainingCategory $category)
+{
+    $category->delete();
+
+    return redirect()
+        ->route('training.categories.index')
+        ->with('success', 'Category deleted');
+}
+
 }

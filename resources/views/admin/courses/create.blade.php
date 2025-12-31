@@ -33,6 +33,30 @@
                            focus:outline-none focus:ring-2 focus:ring-yellow-500">
             </div>
 
+            <!-- Course Category -->
+<div>
+    <label class="block text-sm font-medium mb-1">
+        Course Category
+    </label>
+
+    <select
+        name="training_category_id"
+        required
+        class="w-full rounded-md border border-gray-300 px-4 py-2
+               focus:outline-none focus:ring-2 focus:ring-yellow-500">
+
+        <option value="">Select Category</option>
+
+        @foreach($categories as $category)
+            <option value="{{ $category->id }}">
+                {{ $category->name }}
+            </option>
+        @endforeach
+
+    </select>
+</div>
+
+
             <!-- Course Description (Rich Text - Quill) -->
             <div>
                 <label class="block text-sm font-medium mb-1">

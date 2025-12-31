@@ -12,5 +12,9 @@ class TrainingCategory extends Model
     {
         return $this->hasMany(TrainingImage::class);
     }
+    public function courses()
+{
+    return $this->hasMany(Course::class, 'training_category_id');
+}
 }
 

@@ -13,33 +13,39 @@
     </button>
 </div>
 
-<div class="bg-black text-white rounded-lg shadow-lg overflow-hidden border border-gray-800">
+@if(session('success'))
+    <div style="background:#d1fae5;color:#065f46;padding:10px;margin-bottom:10px;border-radius:4px">
+        {{ session('success') }}
+    </div>
+@endif
+
+<div class="bg-white text-black rounded-lg shadow-lg overflow-hidden">
 
 <table class="min-w-full border-collapse">
-    <thead class="bg-black text-white border-b border-gray-700">
+    <thead class="bg-black text-white">
         <tr>
             <th class="px-4 py-3 text-left text-sm font-semibold">Email</th>
             <th class="px-4 py-3 text-center text-sm font-semibold">Status</th>
             <th class="px-4 py-3 text-center text-sm font-semibold">Select</th>
-            <th class="px-4 py-3 text-center text-sm font-semibold">Select All
-    <input type="checkbox"
-           id="selectAll"
-           class="w-4 h-4 accent-yellow-500">
-</th>
-
+            <th class="px-4 py-3 text-center text-sm font-semibold">
+                Select All
+                <input type="checkbox"
+                       id="selectAll"
+                       class="ml-2 w-4 h-4 accent-yellow-500">
+            </th>
         </tr>
     </thead>
 
-    <tbody class="divide-y divide-gray-800">
+    <tbody class="divide-y divide-gray-200">
         @forelse($subscribers as $subscriber)
-        <tr class="hover:bg-gray-900 transition">
+        <tr class="hover:bg-gray-50 transition">
 
             <td class="px-4 py-3 font-medium">
                 {{ $subscriber->email }}
             </td>
 
             <td class="px-4 py-3 text-center text-sm">
-                <span class="text-green-500 font-semibold">Active</span>
+                <span class="text-green-600 font-semibold">Active</span>
             </td>
 
             <td class="px-4 py-3 text-center">
@@ -48,10 +54,14 @@
                        value="{{ $subscriber->email }}">
             </td>
 
+            <td class="px-4 py-3 text-center text-gray-400">
+                —
+            </td>
+
         </tr>
         @empty
         <tr>
-            <td colspan="3" class="px-4 py-6 text-center text-gray-400">
+            <td colspan="4" class="px-4 py-6 text-center text-gray-500">
                 No subscribers found.
             </td>
         </tr>
@@ -93,7 +103,7 @@ class="fixed inset-0 bg-black/70 hidden z-50 flex items-start justify-center ove
                 Message
             </label>
 
-            <!-- Quill Editor -->
+            <!-- Quill -->
             <div id="quillEditor"
                  class="bg-white text-black rounded-md min-h-[150px]"></div>
 
@@ -108,6 +118,7 @@ class="fixed inset-0 bg-black/70 hidden z-50 flex items-start justify-center ove
 </div>
 
 @endsection
+
 @push('scripts')
 
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
@@ -160,9 +171,11 @@ document.getElementById('sendMessageForm').addEventListener('submit', function(e
         closeMessageModal();
         quill.setText('');
         document.querySelectorAll('.subscriber-checkbox').forEach(cb => cb.checked = false);
+        document.getElementById('selectAll').checked = false;
     });
 });
 </script>
+
 <script>
 document.getElementById('selectAll').addEventListener('change', function () {
     document.querySelectorAll('.subscriber-checkbox').forEach(cb => {
@@ -170,6 +183,5 @@ document.getElementById('selectAll').addEventListener('change', function () {
     });
 });
 </script>
-
 
 @endpush

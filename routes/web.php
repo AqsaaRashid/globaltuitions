@@ -13,6 +13,32 @@ use App\Http\Controllers\CourseInquiryController;
 // routes/web.php
 
 use App\Http\Controllers\SubscriberController;
+// categories
+Route::middleware(['auth'])->prefix('admin/training')->name('training.')->group(function () {
+
+    // Categories (SEPARATE PAGE)
+    Route::get('/categories', [TrainingController::class, 'categoriesIndex'])
+        ->name('categories.index');
+
+    Route::get('/categories/create', [TrainingController::class, 'createCategory'])
+        ->name('categories.create');
+
+    Route::post('/categories', [TrainingController::class, 'storeCategory'])
+        ->name('categories.store');
+
+    Route::get('/categories/{category}/edit', [TrainingController::class, 'editCategory'])
+        ->name('categories.edit');
+
+    Route::put('/categories/{category}', [TrainingController::class, 'updateCategory'])
+        ->name('categories.update');
+
+    Route::delete('/categories/{category}', [TrainingController::class, 'destroyCategory'])
+        ->name('categories.destroy');
+
+});
+
+
+// 
 
 Route::post('/subscribe', [SubscriberController::class, 'store'])->name('subscribe.store');
 

@@ -16,10 +16,15 @@ class Course extends Model
         'skills',
         'sort_order',
         'is_active',
+        'training_category_id',
     ];
 
     public function topics()
     {
         return $this->hasMany(CourseTopic::class);
+    }
+     public function category()
+    {
+        return $this->belongsTo(TrainingCategory::class, 'training_category_id');
     }
 }
