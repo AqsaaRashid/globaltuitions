@@ -11,6 +11,9 @@
                 {{ $category->name }}
             </button>
         @endforeach
+        <button class="nav-btn" type="button" aria-label="Next" style="margin-left:50px;">
+        <i class="bi bi-chevron-right"></i>
+      </button>
     </div>
 
     <!-- Image Stack -->
@@ -25,8 +28,48 @@
 
         </div>
     @endforeach
+    <!-- Carousel Controls -->
+<div class="carousel-controls">
+    <button class="carousel-btn prev" aria-label="Previous">
+        &lt;
+    </button>
+    <button class="carousel-btn next" aria-label="Next">
+        &gt;
+    </button>
+</div>
+
+    
 </section>
 <style>
+    /* ===============================
+   IMAGE CAROUSEL CONTROLS
+   =============================== */
+
+.carousel-controls {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.carousel-btn {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #cfcfcf;
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    transition: all .2s ease;
+}
+
+.carousel-btn:hover {
+    background: #f47b1e;
+    color: #fff;
+    border-color: #f47b1e;
+}
+
     /* ===============================
    RESPONSIVE – TRAINING SECTION
    =============================== */
@@ -91,24 +134,26 @@
 }
 
 /* MOBILE */
+/* MOBILE */
 @media (max-width: 640px) {
-    .training-section {
-        margin: 40px auto;
-    }
-
-    .training-section h2 {
-        font-size: 22px;
-    }
 
     .training-tabs {
-        justify-content: center;
+        justify-content: flex-start;   /* ❗ not center */
+        overflow: hidden;              /* pagination handled by JS */
     }
 
-    .image-carousel {
-        grid-template-columns: 1fr;
-        gap: 16px;
+    .training-tabs .tab {
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+
+    /* SHOW arrow on mobile */
+    .training-tabs .nav-btn {
+        display: inline-flex;
+        margin-left: auto !important;
     }
 }
+
 
 /* VERY SMALL PHONES */
 @media (max-width: 420px) {
@@ -120,6 +165,13 @@
         font-size: 12px;
     }
 }
+.training-tabs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+}
+
 
 </style>
 <script>
@@ -137,4 +189,95 @@ document.querySelectorAll('.tab').forEach(tab => {
         });
     });
 });
+</script>
+
+
+<script>
+(() => {
+    const nextBtn = document.querySelector('.carousel-btn.next');
+    const prevBtn = document.querySelector('.carousel-btn.prev');
+
+    if (!nextBtn || !prevBtn) return;
+
+    function rotate(direction = 'next') {
+        const activeCarousel = document.querySelector(
+            '.image-carousel:not([style*="display:none"])'
+        );
+        if (!activeCarousel) return;
+
+        const images = Array.from(activeCarousel.querySelectorAll('.img'));
+        if (images.length <= 1) return;
+
+        images.forEach(img => {
+            const cls = [...img.classList].find(c => c.startsWith('img-'));
+            if (!cls) return;
+
+            const num = parseInt(cls.split('-')[1]);
+            img.classList.remove(cls);
+
+            let next;
+            if (direction === 'next') {
+                next = num === images.length ? 1 : num + 1;
+            } else {
+                next = num === 1 ? images.length : num - 1;
+            }
+
+            img.classList.add(`img-${next}`);
+        });
+    }
+
+    nextBtn.addEventListener('click', () => rotate('next'));
+    prevBtn.addEventListener('click', () => rotate('prev'));
+})();
+</script>
+
+<script>
+(() => {
+    const tabsContainer = document.querySelector('.training-tabs');
+    const tabs = Array.from(tabsContainer.querySelectorAll('.tab'));
+    const arrow = tabsContainer.querySelector('.nav-btn');
+
+    if (!tabs.length || !arrow) return;
+
+    function getPageSize() {
+        if (window.innerWidth <= 640) return 3;   // 📱 mobile
+        if (window.innerWidth <= 1024) return 4;  // 📱 tablet
+        return 5;                                 // 🖥 desktop
+    }
+
+    let pageIndex = 0;
+
+    function renderTabs() {
+        const PAGE_SIZE = getPageSize();
+        const totalPages = Math.ceil(tabs.length / PAGE_SIZE);
+
+        const start = pageIndex * PAGE_SIZE;
+        const end = start + PAGE_SIZE;
+
+        tabs.forEach((tab, index) => {
+            tab.style.display =
+                index >= start && index < end ? 'inline-flex' : 'none';
+        });
+
+        if (pageIndex >= totalPages) pageIndex = 0;
+    }
+
+    // Initial render
+    renderTabs();
+
+    // Arrow click
+    arrow.addEventListener('click', () => {
+        const PAGE_SIZE = getPageSize();
+        const totalPages = Math.ceil(tabs.length / PAGE_SIZE);
+
+        pageIndex = (pageIndex + 1) % totalPages;
+        renderTabs();
+    });
+
+    // Recalculate on resize
+    window.addEventListener('resize', () => {
+        pageIndex = 0;
+        renderTabs();
+    });
+})();
 </script>

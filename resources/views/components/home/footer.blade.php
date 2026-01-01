@@ -211,3 +211,26 @@
 
 
 </style>
+<script>
+(() => {
+    const scrollBtn = document.querySelector('.scroll-top');
+    if (!scrollBtn) return;
+
+    // Show / hide button
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            scrollBtn.classList.add('show');
+        } else {
+            scrollBtn.classList.remove('show');
+        }
+    });
+
+    // Scroll to top on click
+    scrollBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+})();
+</script>

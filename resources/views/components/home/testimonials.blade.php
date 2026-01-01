@@ -45,6 +45,22 @@
           </div>
         </div>
       </div>
+      <div class="t-card">
+        <div class="quote">“</div>
+        <p class="t-text">
+          A fantastic learning experience! The course provided real-world examples that helped me understand complex concepts easily.
+        </p>
+
+        <div class="profile">
+          <div class="avatar">
+            <img src="images/faarooq.png" alt="Jane Doe">
+          </div>
+          <div class="who">
+            <div class="name">Jane Doe</div>
+            <div class="role">Data Scientist</div>
+          </div>
+        </div>
+      </div>
 
       <div class="t-card">
         <div class="quote">“</div>
@@ -82,3 +98,69 @@
     </div>
 
 </div>
+<style>
+  .cards {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;      /* ✅ allow horizontal scroll */
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+}
+
+/* hide scrollbar (clean UI) */
+.cards::-webkit-scrollbar {
+    display: none;
+}
+.cards {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+
+/* Each card keeps its normal size */
+.t-card {
+    flex: 0 0 280px;   /* fixed width */
+}
+
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+    .t-card {
+        flex: 0 0 calc(50% - 12px); /* 2 per row */
+    }
+}
+
+@media (max-width: 600px) {
+    .t-card {
+        flex: 0 0 100%; /* 1 per row */
+    }
+}
+
+</style>
+<script>
+(() => {
+    const container = document.querySelector('.cards');
+    const btn = document.querySelector('.nav-btn');
+
+    if (!container || !btn) return;
+
+    btn.addEventListener('click', () => {
+        const maxScroll =
+            container.scrollWidth - container.clientWidth;
+
+        // 🚫 If nothing hidden, do nothing
+        if (maxScroll <= 0) return;
+
+        const card = container.querySelector('.t-card');
+        const gap = 24;
+        const moveBy = card.offsetWidth + gap;
+
+        // 👉 Move or loop
+        if (container.scrollLeft + moveBy >= maxScroll) {
+            container.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+            container.scrollBy({ left: moveBy, behavior: 'smooth' });
+        }
+    });
+})();
+</script>
