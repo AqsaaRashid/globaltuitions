@@ -40,6 +40,14 @@
                         : 'text-white hover:bg-white hover:text-black transition' }}">
                     Manage Courses
                 </a>
+                <a href="{{ route('admin.course-launches.index') }}"
+   class="flex items-center px-4 py-3 rounded-md
+   {{ request()->routeIs('admin.course-launches.*')
+        ? 'bg-yellow-500 text-black font-semibold'
+        : 'text-white hover:bg-white hover:text-black transition' }}">
+    Course Launch Dates
+</a>
+
                 <a href="{{ route('training.categories.index') }}"
    class="flex items-center px-4 py-3 rounded-md
    {{ request()->routeIs('training.categories.*')

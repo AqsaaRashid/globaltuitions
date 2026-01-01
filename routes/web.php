@@ -13,6 +13,16 @@ use App\Http\Controllers\CourseInquiryController;
 // routes/web.php
 
 use App\Http\Controllers\SubscriberController;
+// routes/web.php
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('course-launches', \App\Http\Controllers\Admin\CourseLaunchController::class);
+});
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+
+    Route::resource('course-launches', \App\Http\Controllers\Admin\CourseLaunchController::class);
+
+});
 // categories
 Route::middleware(['auth'])->prefix('admin/training')->name('training.')->group(function () {
 

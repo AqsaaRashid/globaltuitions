@@ -55,3 +55,85 @@
 
     </div>
 </section>
+<style>
+    /* ===============================
+   RESPONSIVE – HOW IT WORKS
+   =============================== */
+
+/* LARGE TABLET */
+@media (max-width: 1024px) {
+    .how-it-works {
+        margin-left: 0 !important;
+        max-width: 100% !important;
+        padding: 40px 16px 48px;
+    }
+
+    .hiw-container {
+        max-width: 100% !important;
+    }
+}
+
+/* TABLET */
+@media (max-width: 768px) {
+    .hiw-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .hiw-btn {
+        align-self: flex-start;
+    }
+
+    .hiw-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 640px) {
+    .how-it-works {
+        padding: 32px 14px 40px;
+    }
+
+    .hiw-header h2 {
+        font-size: 20px;
+    }
+
+    .hiw-header p {
+        font-size: 11px;
+    }
+
+    .hiw-card {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .hiw-number {
+        width: 30px;
+        height: 30px;
+        font-size: 11px;
+    }
+
+    .hiw-content h3 {
+        font-size: 13px;
+    }
+
+    .hiw-content p {
+        font-size: 11px;
+    }
+}
+
+/* VERY SMALL PHONES */
+@media (max-width: 420px) {
+    .hiw-header h2 {
+        font-size: 18px;
+    }
+
+    .hiw-card {
+        padding: 14px;
+    }
+}
+
+</style>

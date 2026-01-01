@@ -323,6 +323,108 @@
         transform: translateY(0);
     }
 }
+/* corsess respon */
+/* ===============================
+   RESPONSIVE – COURSES SECTION
+   =============================== */
+
+/* LARGE LAPTOP / SMALL DESKTOP */
+@media (max-width: 1200px) {
+    .courses-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .course-filters {
+        margin-right: 40px !important;
+    }
+}
+
+/* TABLET */
+@media (max-width: 992px) {
+    .courses-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .courses-title {
+        font-size: 26px;
+    }
+
+    .course-filters {
+        justify-content: center;
+        margin-right: 0 !important;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+    }
+}
+
+/* SMALL TABLET */
+@media (max-width: 768px) {
+    .courses-wrapper {
+        padding: 30px 16px;
+    }
+
+    .courses-subtitle {
+        font-size: 13px;
+        margin-bottom: 26px;
+    }
+
+    .courses-grid {
+        gap: 18px;
+    }
+
+    .course-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .enroll-btn {
+        align-self: flex-start;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 640px) {
+    .courses-grid {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+    }
+
+    .courses-title {
+        font-size: 24px;
+    }
+
+    .course-image {
+        height: 160px;
+    }
+
+    .course-content h3 {
+        font-size: 15px;
+    }
+
+    .enroll-btn {
+        font-size: 12px;
+        padding: 7px 16px;
+    }
+}
+
+/* VERY SMALL PHONES */
+@media (max-width: 420px) {
+    .courses-title {
+        font-size: 22px;
+    }
+
+    .courses-subtitle {
+        font-size: 12px;
+    }
+
+    .course-image {
+        height: 150px;
+    }
+}
+
 
 
 </style>

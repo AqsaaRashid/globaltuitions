@@ -1,6 +1,12 @@
 
 <nav class="navbar-wrapper">
     <div class="nav-container">
+<!-- Mobile Menu Toggle -->
+<div class="nav-toggle" onclick="toggleNav()" style="margin-right:-250px !important; color:#09515D !important;">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
 
         {{-- Logo --}}
         <div class="nav-logo">
@@ -211,6 +217,182 @@
         transform: translateY(0);
     }
 }
+/* responsive */
+/* ===============================
+   RESPONSIVE NAVBAR FIXES
+   =============================== */
+
+/* TABLET */
+@media (max-width: 1024px) {
+    .nav-container {
+        padding: 0 16px;
+    }
+
+    .nav-links {
+        gap: 20px;
+        font-size: 13px;
+    }
+
+    .nav-logo img {
+        height: 58px;
+    }
+}
+
+/* SMALL TABLET */
+@media (max-width: 768px) {
+    .nav-container {
+        flex-wrap: wrap;
+        row-gap: 14px;
+    }
+
+    .nav-links {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 18px;
+        text-align: center;
+    }
+
+    .nav-right {
+        width: 100%;
+        justify-content: center;
+        gap: 14px;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 640px) {
+    .navbar-wrapper {
+        padding: 14px 0;
+    }
+
+    .nav-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .nav-logo img {
+        height: 52px;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .nav-links li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-links a {
+        display: inline-block;
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    .nav-right {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .join-btn {
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .lang-box {
+        width: 38px;
+        height: 38px;
+    }
+}
+
+/* VERY SMALL PHONES */
+@media (max-width: 420px) {
+    .nav-links {
+        font-size: 13px;
+    }
+
+    .nav-logo img {
+        height: 48px;
+    }
+}
+/* ===============================
+   MOBILE DRAWER TOGGLER
+   =============================== */
+
+/* HIDE TOGGLER ON DESKTOP */
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.nav-toggle span {
+    width: 22px;
+    height: 2px;
+    background: #111827;
+    display: block;
+}
+
+/* MOBILE ONLY */
+@media (max-width: 768px) {
+
+    .nav-toggle {
+        display: flex;
+    }
+
+    /* Drawer base */
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100vh;
+        width: 260px;
+        background: #ffffff;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 90px 24px 24px;
+        gap: 16px;
+        box-shadow: -12px 0 30px rgba(15,23,42,.12);
+        transition: right .3s ease;
+        z-index: 9998;
+    }
+
+    /* Show drawer */
+    .nav-links.open {
+        right: 0;
+    }
+
+    .nav-links li {
+        width: 100%;
+    }
+
+    .nav-links a {
+        width: 100%;
+        padding: 10px 0;
+        font-size: 14px;
+    }
+
+    /* Overlay when open */
+    body.nav-open::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: rgba(15,23,42,.45);
+        z-index: 9997;
+    }
+
+    /* Keep logo + buttons aligned */
+    .nav-container {
+        justify-content: space-between;
+    }
+}
+
 
 </style>
 <script>
@@ -228,5 +410,20 @@ window.addEventListener('click', function(e) {
     if (e.target === modal) {
         closeContactModal();
     }
+});
+</script>
+<script>
+function toggleNav() {
+    const nav = document.querySelector('.nav-links');
+    nav.classList.toggle('open');
+    document.body.classList.toggle('nav-open');
+}
+
+/* Close drawer on link click (mobile UX) */
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        document.querySelector('.nav-links').classList.remove('open');
+        document.body.classList.remove('nav-open');
+    });
 });
 </script>

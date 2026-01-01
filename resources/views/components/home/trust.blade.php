@@ -65,3 +65,97 @@
         </div>
     </div>
 </section>
+<style>
+    /* ===============================
+   RESPONSIVE – TRUST SECTION
+   =============================== */
+
+/* LARGE TABLET */
+@media (max-width: 1024px) {
+    .trust-section {
+        margin: 60px auto;
+        padding: 0 16px;
+    }
+
+    .trust-content {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .trust-image img {
+        max-height: 360px;
+    }
+}
+
+/* TABLET */
+@media (max-width: 768px) {
+    .trust-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .trust-header h2 {
+        font-size: 26px;
+    }
+
+    .trust-header p {
+        font-size: 13px;
+    }
+
+    .btn-orange {
+        align-self: flex-start;
+        padding: 10px 18px;
+        font-size: 13px;
+    }
+
+    .trust-cards {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 640px) {
+    .trust-section {
+        margin: 40px auto;
+    }
+
+    .trust-header h2 {
+        font-size: 22px;
+    }
+
+    .trust-card {
+        padding: 18px;
+    }
+
+    .trust-card h4 {
+        font-size: 15px;
+    }
+
+    .trust-card p {
+        font-size: 13px;
+    }
+
+    .trust-card .icon {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+}
+
+/* VERY SMALL PHONES */
+@media (max-width: 420px) {
+    .trust-header h2 {
+        font-size: 20px;
+    }
+
+    .trust-header p {
+        font-size: 12px;
+    }
+
+    .trust-card {
+        padding: 16px;
+    }
+}
+
+</style>

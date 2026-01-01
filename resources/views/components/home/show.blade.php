@@ -13,9 +13,19 @@
                 @if($course->level)
                     <span class="meta-pill">Level: {{ $course->level }}</span>
                 @endif
-                @if($course->duration)
-                    <span class="meta-pill">Duration: {{ $course->duration }}</span>
-                @endif
+             @if($course->duration)
+    <span class="meta-pill">
+        Duration: {{ $course->duration }}
+    </span>
+@endif
+
+@if($course->launch?->launch_date)
+    <span class="meta-pill">
+        Starts From:
+        {{ \Carbon\Carbon::parse($course->launch->launch_date)->format('d M Y') }}
+    </span>
+@endif
+
                 @if($course->price !== null)
                     <span class="meta-pill">
                         Price: ${{ number_format($course->price,2) }}
@@ -513,6 +523,136 @@
 
 @media(max-width:900px){
     .course-hero{grid-template-columns:1fr;}
+}
+/* responsiveness */
+/* ===============================
+   RESPONSIVE – COURSE DETAIL PAGE
+   =============================== */
+
+/* LARGE TABLET */
+@media (max-width: 1024px) {
+    .course-title {
+        font-size: 30px;
+    }
+
+    .course-hero {
+        padding: 28px;
+        gap: 28px;
+    }
+
+    .course-hero-img {
+        min-height: 320px;
+    }
+}
+
+/* TABLET */
+@media (max-width: 900px) {
+    .course-hero {
+        grid-template-columns: 1fr;
+    }
+
+    .course-hero-img {
+        min-height: 280px;
+    }
+
+    .course-title {
+        font-size: 28px;
+    }
+
+    .course-meta {
+        gap: 8px;
+    }
+
+    .meta-pill {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    .level-switcher {
+        flex-wrap: wrap;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 640px) {
+    .course-detail-wrapper {
+        padding: 30px 14px;
+    }
+
+    .course-hero {
+        padding: 22px;
+        border-radius: 14px;
+    }
+
+    .course-hero-img {
+        min-height: 220px;
+    }
+
+    .course-title {
+        font-size: 24px;
+    }
+
+    .skills-wrap {
+        padding: 14px;
+    }
+
+    .skill-tag {
+        font-size: 11px;
+        padding: 5px 8px;
+    }
+
+    .cta-buttons {
+        margin-top: 24px;
+    }
+
+    .cta-buttons .btn-primary:first-child {
+        width: 100%;
+        text-align: center;
+        padding: 12px 0;
+    }
+
+    .cta-buttons .btn-primary {
+        font-size: 12px;
+    }
+
+    .btn-secondary {
+        font-size: 12px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .sec-title {
+        font-size: 16px;
+    }
+
+    .rich-text {
+        font-size: 14px;
+    }
+}
+
+/* VERY SMALL PHONES */
+@media (max-width: 420px) {
+    .course-title {
+        font-size: 22px;
+    }
+
+    .course-hero-img {
+        min-height: 200px;
+    }
+
+    .meta-pill {
+        font-size: 11px;
+    }
+
+    .topic-title {
+        font-size: 14px;
+    }
+
+    .topic-desc {
+        font-size: 13px;
+    }
 }
 
 

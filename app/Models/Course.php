@@ -27,4 +27,11 @@ class Course extends Model
     {
         return $this->belongsTo(TrainingCategory::class, 'training_category_id');
     }
+    // app/Models/Course.php
+
+public function launch()
+{
+    return $this->hasOne(CourseLaunch::class);
+}
+
 }
