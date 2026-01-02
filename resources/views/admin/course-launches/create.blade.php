@@ -17,8 +17,9 @@
             <option value="" style="color:#000;">Select Course</option>
             @foreach($courses as $course)
                 <option value="{{ $course->id }}" style="color:#000;">
-                    {{ $course->title }}
-                </option>
+    {{ $course->title }} ({{ ucfirst($course->level) }})
+</option>
+
             @endforeach
         </select>
     </div>

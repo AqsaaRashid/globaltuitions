@@ -28,15 +28,10 @@
                 <!-- <th class="px-4 py-3 text-left text-sm font-semibold">
                     Phone
                 </th> -->
-                <th class="px-4 py-3 text-center text-sm font-semibold">
-                    Preferred Date
-                </th>
-                <th class="px-4 py-3 text-center text-sm font-semibold">
-                    Preferred Time
-                </th>
-                <!-- <th class="px-4 py-3 text-left text-sm font-semibold">
+                
+                <th class="px-4 py-3 text-left text-sm font-semibold">
                     Message
-                </th> -->
+                </th>
                 <th class="px-4 py-3 text-center text-sm font-semibold">
                     Submitted
                 </th>
@@ -70,17 +65,11 @@
                         {{ $enroll->phone }}
                     </td> -->
 
-                    <td class="px-4 py-3 text-center text-sm">
-                        {{ \Carbon\Carbon::parse($enroll->preferred_date)->format('d M Y') }}
-                    </td>
+                    
 
-                    <td class="px-4 py-3 text-center text-sm">
-                        {{ \Carbon\Carbon::parse($enroll->preferred_time)->format('h:i A') }}
-                    </td>
-
-                    <!-- <td class="px-4 py-3 text-sm max-w-xs truncate">
+                    <td class="px-4 py-3 text-sm max-w-xs truncate">
                         {{ $enroll->message ?? '—' }}
-                    </td> -->
+                    </td>
 
                     <td class="px-4 py-3 text-center text-sm text-gray-600">
                         {{ $enroll->created_at->format('d M Y') }}
@@ -243,15 +232,7 @@ function openEnrollmentModal(id) {
         <p class="font-medium">${data.course_name}</p>
     </div>
 
-    <div>
-        <span class="text-gray-400">Preferred Date</span>
-        <p class="font-medium">${data.preferred_date}</p>
-    </div>
-
-    <div>
-        <span class="text-gray-400">Preferred Time</span>
-        <p class="font-medium">${data.preferred_time}</p>
-    </div>
+   
 
     <div class="sm:col-span-2">
         <span class="text-gray-400">Message</span>

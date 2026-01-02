@@ -6,7 +6,7 @@
         <div class="sec-sub">Stories from Students Who Gained Skills and Confidence</div>
       </div>
 
-      <button class="nav-btn" type="button" aria-label="Next">
+      <button class="navv-btn" type="button" aria-label="Next">
         <i class="bi bi-chevron-right"></i>
       </button>
     </div>
@@ -99,6 +99,20 @@
 
 </div>
 <style>
+  .navv-btn{
+      width:34px;
+      height:34px;
+      border:1px solid var(--border);
+      background:#fff;
+      border-radius:2px;            /* square-ish like screenshot */
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      transition:transform .2s ease;
+    }
+    .navv-btn i{ font-size:16px; color:#4b5563; }
+    .navv-btn:hover{ transform:translateY(-1px); }
+
   .cards {
     display: flex;
     gap: 24px;
@@ -140,7 +154,7 @@
 <script>
 (() => {
     const container = document.querySelector('.cards');
-    const btn = document.querySelector('.nav-btn');
+    const btn = document.querySelector('.navv-btn');
 
     if (!container || !btn) return;
 

@@ -27,7 +27,7 @@
                 @foreach($courses as $course)
                     <option value="{{ $course->id }}"
                         {{ $courseLaunch->course_id == $course->id ? 'selected' : '' }}>
-                        {{ $course->title }}
+{{ $course->title }} ({{ ucfirst($course->level) }})
                     </option>
                 @endforeach
 

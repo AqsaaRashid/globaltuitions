@@ -5,26 +5,55 @@
 @endif
 
 <section id="courses" class="courses-wrapper">
+
     <h2 class="courses-title">Skill Up Fast</h2>
     <p class="courses-subtitle">
         Master practical skills that help you grow personally and professionally.
     </p>
-    <div class="course-filters">
-    <select id="categoryFilter" class="category-btn">
-<option value="all">▦ All Categories</option>
 
-        @foreach($categories as $category)
-            <option value="{{ $category->id }}">
-                {{ $category->name }}
-            </option>
-        @endforeach
-    </select>
+    <div class="courses-layout">
 
-    <button id="freeFilterBtn" class="category-btn free-btn">
+    <div class="filters-sidebar" >
+    <h4>Categories</h4>
+
+    <label class="check-item">
+        <input type="radio" name="category" value="all" checked onchange="setCategory('all')">
+        <span>All Categories</span>
+    </label>
+
+    @foreach($categories as $category)
+    <label class="check-item">
+        <input type="radio" name="category" value="{{ $category->id }}"
+               onchange="setCategory('{{ $category->id }}')">
+        <span>{{ $category->name }}</span>
+    </label>
+    @endforeach
+
+    <h4 style="margin-top:20px">Levels</h4>
+
+    <label class="check-item">
+    <input type="radio" name="level" value="beginner" onchange="setLevel(this.value)">
+    <span>Beginner</span>
+</label>
+
+<label class="check-item">
+    <input type="radio" name="level" value="intermediate" onchange="setLevel(this.value)">
+    <span>Intermediate</span>
+</label>
+
+<label class="check-item">
+    <input type="radio" name="level" value="advanced" onchange="setLevel(this.value)">
+    <span>Advanced</span>
+</label>
+
+
+   <button id="freeFilterBtn" class="free-checkbox" type="button">
     <i class="bi bi-gift"></i> Free Courses
 </button>
 
 </div>
+
+   
 
 <div id="noCoursesMessage"
      style="
@@ -36,62 +65,59 @@
         font-weight:500;
      ">
     <i class="bi bi-info-circle"></i>
-    No free courses available for this category.
+    <span id="noCoursesText">
+        No courses availaible for this category.
+    </span>
 </div>
 
 
+
    
+<div class="courses-content">
     <div class="courses-grid">
-        @foreach($courses as $title => $courseLevels)
-    @php
-        $defaultCourse = $courseLevels->first();
-    @endphp
+  @foreach($courses as $course)
+@php
+    $launchDate = optional($course->launch)->launch_date;
+@endphp
 
 <div class="course-card"
-     data-category="{{ $defaultCourse->training_category_id ?? 'none' }}"
-     data-free="{{ ($defaultCourse->price == 0) ? 'yes' : 'no' }}">
+     data-category="{{ $course->training_category_id ?? 'none' }}"
+     data-level="{{ strtolower($course->level) }}"
+     data-free="{{ ($course->price == 0) ? 'yes' : 'no' }}"
+     data-launch="{{ $launchDate }}">
 
-        
-        <div class="course-image"style="background-image:url('{{ asset('images/'.$defaultCourse->image) }}')">
-        </div>
 
-        <div class="course-content">
-            <div>
-                <h3>{{ $title }}</h3>
-                <a href="{{ route('show', $defaultCourse->id) }}"
-                   class="course-details-link" style="color: #636363;">
-                    View Course Details
-                </a>
-                <button class="enroll-btn" style="margin-left:20px !important;"
-                onclick="openEnrollModal('{{ $title }}')">
+    <div class="course-image"style="background-image:url('{{ asset('images/'.$course->image) }}')">
+    </div>
+
+    <div class="course-content">
+        <div>
+            <h3>{{ $course->title }}</h3>
+            <a href="{{ route('show', $course->id) }}"
+               class="course-details-link" style="color: #636363;">
+                View Course Details
+            </a>
+            <button class="enroll-btn" 
+                    onclick="openEnrollModal('{{ $course->title }}')">
                 Enroll Now
             </button>
 
-                <!-- LEVEL SELECT -->
-                @if($courseLevels->count() > 1)
-                    <select class="level-select"
-                        onchange="location.href=this.value">
-                        @foreach($courseLevels as $c)
-                            <option value="{{ route('show', $c->id) }}">
-                                {{ $c->level }}
-                            </option>
-                        @endforeach
-                    </select>
-                @else
-                    <p class="single-level">
-                        Level: {{ $defaultCourse->level }}
-                    </p>
-                @endif
+           
 
-                
-            </div>
-
-            
         </div>
     </div>
+</div>
 @endforeach
 
+
+
+        
+        
+
+            
     </div>
+    </div>
+</div>
 </section>
 <!-- Enroll Modal -->
 <div id="enrollModal" class="modal-overlay">
@@ -114,17 +140,12 @@
             </div>
 
             <div class="form-group">
-                <input type="tel" name="phone" placeholder="Phone Number" required>
+                <input type="tel" name="phone" placeholder="Phone Number(Optional)">
             </div>
 
-            <div class="form-group">
-                <input type="date" name="preferred_date" required>
-            </div>
+            
 
-            <div class="form-group">
-                <input type="time" name="preferred_time" required>
-            </div>
-
+            
             <div class="form-group">
                 <textarea name="message" placeholder="Any additional information..." rows="4"></textarea>
             </div>
@@ -135,6 +156,12 @@
 </div>
 
 <style>
+    .courses-content{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+}
+
    
 #noCoursesMessage{
     display:none;
@@ -425,8 +452,147 @@
     }
 }
 
+/* ===============================
+   COURSES LAYOUT (LIKE IMAGE)
+   =============================== */
+
+.courses-layout{
+    display:flex;
+    gap:30px;
+}
+
+/* SIDEBAR */
+.filters-sidebar{
+    width:240px;
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:6px;
+    padding:18px;
+    height:fit-content;
+
+    position: sticky;
+    top: 100px;               /* distance from top */
+    align-self: flex-start;   /* IMPORTANT for flex layouts */
+
+    margin-left: 100px !important;
+}
 
 
+.filters-sidebar h4{
+    font-size:15px;
+    font-weight:700;
+    color:#111827;
+    margin-bottom:10px;
+}
+
+/* CHECK ITEMS */
+.check-item{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:14px;
+    color:#374151;
+    margin-bottom:8px;
+    cursor:pointer;
+}
+
+.check-item input{
+    accent-color:#09515D;
+}
+
+/* FREE BUTTON */
+.free-checkbox{
+    margin-top:18px;
+    width:100%;
+    padding:10px;
+    background:#09515D;
+    color:#fff;
+    border:none;
+    border-radius:4px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.free-checkbox.active{
+    background:#F47B1E;
+}
+
+/* CONTENT */
+.courses-content{
+    flex:1;
+}
+
+/* MOBILE */
+@media(max-width:992px){
+    .courses-layout{
+        flex-direction:column;
+    }
+
+    .filters-sidebar{
+        width:100%;
+    }
+}
+
+/* ===============================
+   TABLET & BELOW
+   =============================== */
+@media (max-width: 992px){
+    .courses-layout{
+        flex-direction: column;
+    }
+
+    .filters-sidebar{
+        width:100%;
+        position: static;
+        top:auto;
+        margin-left:0 !important;
+        display:grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap:12px;
+    }
+
+    .filters-sidebar h4{
+        grid-column: 1 / -1;
+    }
+
+    .free-checkbox{
+        grid-column: 1 / -1;
+    }
+}
+/* ===============================
+   MOBILE ONLY
+   =============================== */
+@media (max-width: 640px){
+    .filters-sidebar{
+        grid-template-columns: 1fr;
+        padding:14px;
+    }
+
+    .check-item{
+        font-size:13px;
+    }
+
+    .free-checkbox{
+        font-size:13px;
+        padding:10px;
+    }
+}
+/* Tablet */
+@media (max-width: 992px){
+    .courses-grid{
+        grid-template-columns: repeat(2, 1fr);
+        margin-left: 40px !important;
+    }
+}
+
+/* Mobile */
+@media (max-width: 640px){
+    .courses-grid{
+        grid-template-columns: 1fr;
+                margin-left: 40px !important;
+
+    }
+}
 </style>
 <script>
 function openEnrollModal(courseTitle) {
@@ -448,53 +614,129 @@ window.onclick = function(e) {
 }
 </script>
 
+
+
 <script>
+let selectedCategory = 'all';
+let selectedLevels = [];
 let freeOnly = false;
 
-document.getElementById('freeFilterBtn').addEventListener('click', function () {
-    freeOnly = !freeOnly;
-    this.classList.toggle('active', freeOnly);
-    applyFilters();
+// CATEGORY (radio)
+function setCategory(val){
+    selectedCategory = val;
+    selectedLevel = null;
+
+    // reset level radios
+    document.querySelectorAll('input[name="level"]').forEach(r => r.checked = false);
+
+    // reset free filter
+    freeOnly = false;
+    freeBtn.classList.remove('active');
+
+    applySidebarFilters();
+}
+
+
+
+
+const freeBtn = document.getElementById('freeFilterBtn');
+
+freeBtn.addEventListener('click', function () {
+    freeOnly = true;                // always ON
+    freeBtn.classList.add('active');
+    applySidebarFilters();
 });
 
-document.getElementById('categoryFilter').addEventListener('change', function () {
-    freeOnly = false; // 👈 reset free filter
-    document.getElementById('freeFilterBtn').classList.remove('active');
-    applyFilters();
-});
-
-function applyFilters(){
-    const selectedCategory = document.getElementById('categoryFilter').value;
+function applySidebarFilters(){
     const cards = document.querySelectorAll('.course-card');
-    const message = document.getElementById('noCoursesMessage');
+    const messageBox = document.getElementById('noCoursesMessage');
+    const messageText = document.getElementById('noCoursesText');
 
     let visibleCount = 0;
 
     cards.forEach(card => {
         const cardCategory = card.dataset.category;
-        const isFree = card.dataset.free === 'yes';
+        const cardLevel = card.dataset.level;
+const isFree = card.dataset.free === 'yes';
+const launchDate = card.dataset.launch; // yyyy-mm-dd
+const today = new Date().toISOString().split('T')[0];
 
         let show = true;
 
-        if (selectedCategory !== 'all' && cardCategory !== selectedCategory) {
+        // CATEGORY FILTER
+        if(selectedCategory !== 'all' && cardCategory !== selectedCategory){
             show = false;
         }
 
-        if (freeOnly && !isFree) {
-            show = false;
-        }
+        if(selectedLevel && cardLevel !== selectedLevel){
+    show = false;
+}
+
+
+        
+// FREE FILTER LOGIC (UPCOMING + TODAY ONLY)
+
+
+// Case 1: Free filter NOT active → HIDE all free courses
+if (!freeOnly && isFree) {
+    show = false;
+}
+
+// Case 2: Free filter active → show ONLY upcoming/today free courses
+if (freeOnly) {
+
+    // must be free
+    if (!isFree) {
+        show = false;
+    }
+
+    // must have launch date AND must be today or future
+    if (!launchDate || launchDate < today) {
+        show = false;
+    }
+}
+
+
 
         card.style.display = show ? 'block' : 'none';
-
-        if (show) visibleCount++;
+        if(show) visibleCount++;
     });
 
-    // 🔔 SHOW MESSAGE IF NOTHING VISIBLE
-    if (freeOnly && visibleCount === 0) {
-        message.style.display = 'block';
+    // MESSAGE LOGIC
+    if(visibleCount === 0){
+        messageBox.style.display = 'block';
+
+      if (freeOnly) {
+    messageText.innerText = 'No upcoming free courses available yet.';
+}
+
+        else if(selectedLevels.length > 0 && selectedCategory !== 'all'){
+            messageText.innerText = 'No courses found for this category and level.';
+        }
+        else if(selectedLevels.length > 0){
+            messageText.innerText = 'No courses found for the selected level.';
+        }
+        else {
+            messageText.innerText = 'No courses found for the selected filters.';
+        }
+
     } else {
-        message.style.display = 'none';
+        messageBox.style.display = 'none';
     }
+}
+</script>
+<script>
+let selectedLevel = null;
+
+// LEVEL (radio – single select)
+function setLevel(level){
+    selectedLevel = level;
+
+    // reset free filter
+    freeOnly = false;
+    freeBtn.classList.remove('active');
+
+    applySidebarFilters();
 }
 
 </script>

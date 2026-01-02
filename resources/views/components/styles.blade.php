@@ -387,12 +387,20 @@
 }
 
 .courses-grid {
-    max-width: 1150px;
+    max-width: 1000px;
     margin: auto;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 22px;
+    display:grid;
+    margin-left: -10px !important;
+
 }
+/* ===============================
+   FORCE 3 COURSES PER ROW
+   =============================== */
+
+
 
 /* CARD */
 .course-card {

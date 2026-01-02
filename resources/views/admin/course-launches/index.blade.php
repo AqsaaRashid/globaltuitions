@@ -24,7 +24,12 @@
         <tbody>
             @foreach($launches as $launch)
             <tr class="border-t">
-                <td class="p-3"style="color:#000;">{{ $launch->course->title }}</td>
+<td class="p-3" style="color:#000;">
+    {{ $launch->course->title }}
+    <span class="text-sm text-gray-600">
+        ({{ ucfirst($launch->course->level) }})
+    </span>
+</td>
                 <td class="p-3 text-center"style="color:#000;" >{{ $launch->launch_date }}</td>
                 <td class="p-3 text-center flex justify-center gap-3">
 

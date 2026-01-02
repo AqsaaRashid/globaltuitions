@@ -10,15 +10,14 @@ class CourseEnrollmentController extends Controller
 {
     public function store(Request $request)
     {
-        $request->validate([
-            'course_name'     => 'required|string',
-            'name'            => 'required|string|max:255',
-            'email'           => 'required|email',
-            'phone'           => 'required|string|max:20',
-            'preferred_date'  => 'required|date',
-            'preferred_time'  => 'required',
-            'message'         => 'nullable|string',
-        ]);
+       $request->validate([
+    'course_name' => 'required|string',
+    'name'        => 'required|string|max:255',
+    'email'       => 'required|email',
+    'phone'       => 'nullable|string|max:20',
+    'message'     => 'nullable|string',
+]);
+
 
         CourseEnrollment::create($request->all());
 
@@ -86,8 +85,6 @@ public function show(CourseEnrollment $enrollment)
         'email' => $enrollment->email,
         'phone' => $enrollment->phone,
         'message' => $enrollment->message,
-        'preferred_date' => $enrollment->preferred_date,
-        'preferred_time' => $enrollment->preferred_time,
         'status' => $enrollment->status,
         'created_at' => $enrollment->created_at->format('d M Y'),
     ]);

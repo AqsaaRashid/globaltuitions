@@ -134,6 +134,7 @@
 </section>
 
 <!-- ENROLL MODAL -->
+ <!-- ENROLL MODAL -->
 <div id="enrollModal" class="modal-overlay">
     <div class="modal-box">
         <span class="close-btn" onclick="closeEnrollModal()">×</span>
@@ -152,17 +153,12 @@
                 <input type="email" name="email" placeholder="Email Address" required>
             </div>
 
+            <!-- PHONE OPTIONAL -->
             <div class="form-group">
-                <input type="tel" name="phone" placeholder="Phone Number" required>
+                <input type="tel" name="phone" placeholder="Phone Number (Optional)">
             </div>
 
-            <div class="form-group">
-                <input type="date" name="preferred_date" required>
-            </div>
-
-            <div class="form-group">
-                <input type="time" name="preferred_time" required>
-            </div>
+            <!-- REMOVED preferred date & time -->
 
             <div class="form-group">
                 <textarea name="message"
@@ -176,6 +172,7 @@
         </form>
     </div>
 </div>
+
 <!-- INQUIRY MODAL -->
 <div id="inquiryModal" class="modal-overlay">
     <div class="modal-box">

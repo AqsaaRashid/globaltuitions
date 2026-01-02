@@ -17,8 +17,8 @@ class WebsiteController extends Controller
         $courses = Course::where('is_active', true)
             ->orderBy('sort_order')
             ->orderBy('id')
-            ->get()
-            ->groupBy('title'); // 👈 IMPORTANT: group same courses (Beginner/Intermediate)
+            ->get();
+             // 👈 IMPORTANT: group same courses (Beginner/Intermediate)
 
         $categories = TrainingCategory::with('images')->get();
 

@@ -157,8 +157,7 @@ class CourseController extends Controller
                   ->orWhere('skills', 'like', "%$query%");
             })
             ->orderBy('sort_order')
-            ->get()
-            ->groupBy('title');
+            ->get();
 
         return view('partials.course-cards', compact('courses'));
     }

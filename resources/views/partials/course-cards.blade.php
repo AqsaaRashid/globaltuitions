@@ -1,44 +1,28 @@
-@foreach($courses as $title => $courseLevels)
-    @php $defaultCourse = $courseLevels->first(); @endphp
+@foreach($courses as $course)
+<div class="course-card">
+    
+    <div class="course-image"style="background-image:url('{{ asset('images/'.$course->image) }}')">
+    </div>
 
-    <div class="course-card">
-        <div class="course-image"style="background-image:url('{{ asset('images/'.$defaultCourse->image) }}')">
-        </div>
+    <div class="course-content">
+        <div>
+            <h3>{{ $course->title }}</h3>
+            <a href="{{ route('show', $course->id) }}"
+               class="course-details-link" style="color: #636363;">
+                View Course Details
+            </a>
+            <button class="enroll-btn" 
+                    onclick="openEnrollModal('{{ $course->title }}')" style="margin-left:70px !important;">
+                Enroll Now
+            </button>
 
-        <div class="course-content">
-            <div>
-                <h3>{{ $title }}</h3>
+           
 
-                <a href="{{ route('show', $defaultCourse->id) }}"
-                   class="course-details-link"
-                   style="color:#636363">
-                    View Course Details
-                </a>
-
-                <button class="enroll-btn"
-                        style="margin-left:6px"
-                        onclick="openEnrollModal('{{ $title }}')">
-                    Enroll Now
-                </button>
-
-                @if($courseLevels->count() > 1)
-                    <select class="level-select"
-                            onchange="location.href=this.value">
-                        @foreach($courseLevels as $c)
-                            <option value="{{ route('show', $c->id) }}">
-                                {{ $c->level }}
-                            </option>
-                        @endforeach
-                    </select>
-                @else
-                    <p class="single-level">
-                        Level: {{ $defaultCourse->level }}
-                    </p>
-                @endif
-            </div>
         </div>
     </div>
+</div>
 @endforeach
+
 <style>
      .level-select{
     margin-top:6px;
