@@ -4,7 +4,7 @@
             <h2>Why Learners Trust Us</h2>
             <p>Discover the value we bring to your learning journey.</p>
         </div>
-        <a href="#" class="btn-orange">Explore Courses</a>
+        <a href="#courses" class="btn-orange">Explore Courses</a>
     </div>
 
     <div class="trust-content">

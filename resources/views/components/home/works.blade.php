@@ -8,7 +8,7 @@
                 <p>Very Simple Steps to Success Goals</p>
             </div>
 
-            <a href="#" class="hiw-btn">Enroll Now</a>
+            <a href="#courses" class="hiw-btn">Enroll Now</a>
         </div>
 
         <!-- Steps Grid -->

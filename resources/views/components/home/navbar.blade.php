@@ -27,7 +27,7 @@
 
         {{-- Right Buttons --}}
         <div class="nav-right">
-            <a href="#" class="join-btn">Join Us</a>
+            <a href="#courses" class="join-btn">Join Us</a>
 
             <div class="lang-box">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
