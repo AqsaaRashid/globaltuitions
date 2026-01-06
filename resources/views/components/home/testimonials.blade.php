@@ -20,7 +20,7 @@
 
         <div class="profile">
           <div class="avatar">
-            <img src="images/faarooq.png" alt="John Doe">
+            <img src="images/pp1.jpeg" alt="John Doe">
           </div>
           <div class="who">
             <div class="name">John Doe</div>
@@ -37,7 +37,7 @@
 
         <div class="profile">
           <div class="avatar">
-            <img src="images/faarooq.png" alt="Jane Doe">
+            <img src="images/pp2.jpeg" alt="Jane Doe">
           </div>
           <div class="who">
             <div class="name">Jane Doe</div>
@@ -53,7 +53,7 @@
 
         <div class="profile">
           <div class="avatar">
-            <img src="images/faarooq.png" alt="Jane Doe">
+            <img src="images/pp3.jpeg" alt="Jane Doe">
           </div>
           <div class="who">
             <div class="name">Jane Doe</div>
@@ -70,7 +70,7 @@
 
         <div class="profile">
           <div class="avatar">
-            <img src="images/faarooq.png" alt="Mike Smith">
+            <img src="images/pp4.jpeg" alt="Mike Smith">
           </div>
           <div class="who">
             <div class="name">Mike Smith</div>
@@ -87,7 +87,7 @@
 
         <div class="profile">
           <div class="avatar">
-            <img src="images/faarooq.png" alt="Susan Lee">
+            <img src="images/pp1.jpeg" alt="Susan Lee">
           </div>
           <div class="who">
             <div class="name">Susan Lee</div>
