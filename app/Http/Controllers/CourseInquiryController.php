@@ -64,7 +64,6 @@ class CourseInquiryController extends Controller
             'course_title' => 'required|string',
             'name'         => 'required|string|max:255',
             'email'        => 'required|email',
-            'phone'        => 'required|string|max:30',
             'message'      => 'required|string',
         ]);
 

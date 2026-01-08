@@ -25,6 +25,8 @@
     <thead class="bg-black text-white">
         <tr>
             <th class="px-4 py-3 text-left text-sm font-semibold">Name</th>
+             <th class="px-4 py-3 text-left text-sm font-semibold">Order</th>
+
             <th class="px-4 py-3 text-left text-sm font-semibold">Slug</th>
             <th class="px-4 py-3 text-right text-sm font-semibold">Action</th>
         </tr>
@@ -37,6 +39,10 @@
             <td class="px-4 py-3 font-medium">
                 {{ $category->name }}
             </td>
+            <!-- Sort Order -->
+    <td class="px-4 py-3 font-semibold text-gray-700">
+        {{ $category->sort_order }}
+    </td>
 
             <td class="px-4 py-3 text-gray-600">
                 {{ $category->slug }}

@@ -14,7 +14,11 @@ class TrainingController extends Controller
      ============================== */
     public function index()
     {
-        $categories = TrainingCategory::with('images')->get();
+        // ORDER BY sort_order
+        $categories = TrainingCategory::with('images')
+            ->orderBy('sort_order')
+            ->get();
+
         return view('admin.training.index', compact('categories'));
     }
 
@@ -29,17 +33,19 @@ class TrainingController extends Controller
     public function storeCategory(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name'       => 'required|string|max:255',
+            'sort_order' => 'nullable|integer|min:0',
         ]);
 
         TrainingCategory::create([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name),
+            'name'       => $request->name,
+            'slug'       => Str::slug($request->name),
+            'sort_order' => $request->sort_order ?? 0,   // 👈 added
         ]);
 
-         return redirect()
-        ->route('training.categories.index')
-        ->with('success', 'Category added');
+        return redirect()
+            ->route('training.categories.index')
+            ->with('success', 'Category added');
     }
 
     public function editCategory(TrainingCategory $category)
@@ -50,17 +56,19 @@ class TrainingController extends Controller
     public function updateCategory(Request $request, TrainingCategory $category)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name'       => 'required|string|max:255',
+            'sort_order' => 'nullable|integer|min:0',
         ]);
 
         $category->update([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name),
+            'name'       => $request->name,
+            'slug'       => Str::slug($request->name),
+            'sort_order' => $request->sort_order ?? 0,   // 👈 added
         ]);
 
         return redirect()
-        ->route('training.categories.index')
-        ->with('success', 'Category updated');
+            ->route('training.categories.index')
+            ->with('success', 'Category updated');
     }
 
     /* ==============================
@@ -68,7 +76,9 @@ class TrainingController extends Controller
      ============================== */
     public function createImage()
     {
-        $categories = TrainingCategory::all();
+        // ORDER BY sort_order so dropdown matches frontend order
+        $categories = TrainingCategory::orderBy('sort_order')->get();
+
         return view('admin.training.images.create', compact('categories'));
     }
 
@@ -94,7 +104,8 @@ class TrainingController extends Controller
 
     public function editImage(TrainingImage $image)
     {
-        $categories = TrainingCategory::all();
+        $categories = TrainingCategory::orderBy('sort_order')->get();
+
         return view('admin.training.images.edit', compact('image', 'categories'));
     }
 
@@ -138,19 +149,21 @@ class TrainingController extends Controller
 
         return back()->with('success', 'Image deleted');
     }
+
     public function categoriesIndex()
-{
-    $categories = TrainingCategory::latest()->get();
-    return view('admin.training.categories.index', compact('categories'));
-}
+    {
+        // ORDER BY sort_order
+        $categories = TrainingCategory::orderBy('sort_order')->get();
 
-public function destroyCategory(TrainingCategory $category)
-{
-    $category->delete();
+        return view('admin.training.categories.index', compact('categories'));
+    }
 
-    return redirect()
-        ->route('training.categories.index')
-        ->with('success', 'Category deleted');
-}
+    public function destroyCategory(TrainingCategory $category)
+    {
+        $category->delete();
 
+        return redirect()
+            ->route('training.categories.index')
+            ->with('success', 'Category deleted');
+    }
 }

@@ -11,10 +11,10 @@
                class="course-details-link" style="color: #636363;">
                 View Course Details
             </a>
-            <button class="enroll-btn" 
+            <!-- <button class="enroll-btn" 
                     onclick="openEnrollModal('{{ $course->title }}')" style="margin-left:70px !important;">
                 Enroll Now
-            </button>
+            </button> -->
 
            
 

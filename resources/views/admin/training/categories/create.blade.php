@@ -31,6 +31,25 @@
                            focus:outline-none focus:ring-2 focus:ring-yellow-500"
                 >
             </div>
+            <!-- Sort Order -->
+<div>
+    <label class="block text-sm font-medium mb-1">
+        Sort Order
+    </label>
+    <input
+        type="number"
+        name="sort_order"
+        placeholder="0"
+        value="0"
+        min="0"
+        class="w-full rounded-md border border-gray-300 px-4 py-2
+               focus:outline-none focus:ring-2 focus:ring-yellow-500"
+    >
+    <p class="text-xs text-gray-500 mt-1">
+        Lower number = shown first
+    </p>
+</div>
+
 
             <!-- Actions -->
             <div class="flex items-center gap-4 pt-4">

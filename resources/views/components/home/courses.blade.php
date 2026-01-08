@@ -31,7 +31,12 @@
 
     <h4 style="margin-top:20px">Levels</h4>
 
-    <label class="check-item">
+<label class="check-item">
+    <input type="radio" name="level" value="all" checked onchange="setLevel('all')">
+    <span>All Levels</span>
+</label>
+
+<label class="check-item">
     <input type="radio" name="level" value="beginner" onchange="setLevel(this.value)">
     <span>Beginner</span>
 </label>
@@ -97,10 +102,10 @@
                class="course-details-link" style="color: #636363;">
                 View Course Details
             </a>
-            <button class="enroll-btn" 
+            <!-- <button class="enroll-btn" 
                     onclick="openEnrollModal('{{ $course->title }}')">
                 Enroll Now
-            </button>
+            </button> -->
 
            
 
@@ -338,6 +343,16 @@
 .submit-btn:hover {
     background: #F47B1E;          /* brand orange on hover */
 }
+.course-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.course-content {
+    flex-grow: 1;
+}
+
 
 /* ANIMATION */
 @keyframes fadeInUp {
@@ -350,6 +365,7 @@
         transform: translateY(0);
     }
 }
+
 /* corsess respon */
 /* ===============================
    RESPONSIVE – COURSES SECTION
@@ -618,16 +634,15 @@ window.onclick = function(e) {
 
 <script>
 let selectedCategory = 'all';
-let selectedLevels = [];
 let freeOnly = false;
 
 // CATEGORY (radio)
 function setCategory(val){
     selectedCategory = val;
-    selectedLevel = null;
 
-    // reset level radios
-    document.querySelectorAll('input[name="level"]').forEach(r => r.checked = false);
+    // AUTO-SELECT "ALL LEVELS"
+    selectedLevel = 'all';
+    document.querySelector('input[name="level"][value="all"]').checked = true;
 
     // reset free filter
     freeOnly = false;
@@ -668,9 +683,11 @@ const today = new Date().toISOString().split('T')[0];
             show = false;
         }
 
-        if(selectedLevel && cardLevel !== selectedLevel){
+        // LEVEL FILTER
+if (selectedLevel !== 'all' && cardLevel !== selectedLevel) {
     show = false;
 }
+
 
 
         
@@ -697,8 +714,8 @@ if (freeOnly) {
 }
 
 
+card.style.display = show ? '' : 'none';
 
-        card.style.display = show ? 'block' : 'none';
         if(show) visibleCount++;
     });
 
@@ -725,10 +742,9 @@ if (freeOnly) {
     }
 }
 </script>
-<script>
-let selectedLevel = null;
 
-// LEVEL (radio – single select)
+<script>
+let selectedLevel = 'all';
 function setLevel(level){
     selectedLevel = level;
 

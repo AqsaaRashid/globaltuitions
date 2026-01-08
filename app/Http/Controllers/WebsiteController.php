@@ -12,18 +12,22 @@ class WebsiteController extends Controller
      * Homepage – show courses grouped by title
      */
     public function index()
-    {
-        // Fetch only active courses
-        $courses = Course::where('is_active', true)
-            ->orderBy('sort_order')
-            ->orderBy('id')
-            ->get();
-             // 👈 IMPORTANT: group same courses (Beginner/Intermediate)
+{
+    // Fetch only active courses
+    $courses = Course::where('is_active', true)
+        ->orderBy('sort_order')
+        ->orderBy('id')
+        ->get();
 
-        $categories = TrainingCategory::with('images')->get();
+    // Fetch categories in custom order
+   $categories = TrainingCategory::with('images')
+    ->orderBy('sort_order')
+    ->orderBy('id')
+    ->get();
 
-        return view('index', compact('courses', 'categories'));
-    }
+    return view('index', compact('courses', 'categories'));
+}
+
 
     /**
      * Course detail page

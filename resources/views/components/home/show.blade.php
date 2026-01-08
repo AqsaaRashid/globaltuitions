@@ -194,7 +194,7 @@
             </div>
 
             <div class="form-group">
-                <input type="tel" name="phone" placeholder="Phone Number" required>
+                <input type="tel" name="phone" placeholder="Phone Number(Optional)">
             </div>
 
             <div class="form-group">

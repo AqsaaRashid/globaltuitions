@@ -387,15 +387,13 @@
 }
 
 .courses-grid {
-    max-width: 1000px;
-    margin: auto;
+    width: 100%;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 22px;
-    display:grid;
-    margin-left: -10px !important;
-
+    box-sizing: border-box;
 }
+
 /* ===============================
    FORCE 3 COURSES PER ROW
    =============================== */
@@ -405,10 +403,15 @@
 /* CARD */
 .course-card {
     border-radius: 10px;
-    overflow: hidden;              /* IMPORTANT */
+    overflow: hidden;
     box-shadow: 0 10px 25px rgba(0,0,0,0.10);
     background: #fff;
+
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
+
 
 /* TOP IMAGE ONLY */
 .course-image {
@@ -421,15 +424,23 @@
 .course-content {
     padding: 14px 16px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
     text-align: left;
+    flex: 1;
+      min-width: 0;  
 }
+
 
 .course-content h3 {
     font-size: 16px;
     font-weight: 600;
-    margin: 0;
+    margin: 0 0 6px;
+    line-height: 1.3;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;   /* 👈 max 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .course-content p {
@@ -449,7 +460,11 @@
     border-radius: 4px;
     cursor: pointer;
     white-space: nowrap;
+
+    margin-top: auto;   /* 👈 MOST IMPORTANT LINE */
+    align-self: flex-start;
 }
+
 
 /* BACKGROUND IMAGES (ONLY IMAGE AREA) */
 .excel-bg   { background-image: url('/images/co1.png'); }
@@ -460,6 +475,63 @@
 .data-bg { background-image: url('/images/co6.png'); }
 .micro-bg      { background-image: url('/images/co7.png'); }
 .mern-bg  { background-image: url('/images/co8.png'); }
+/* ===============================
+   HARD FIX: ALIGN "VIEW COURSE DETAILS"
+   =============================== */
+
+.course-card{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* CONTENT AREA */
+.course-content{
+    position: relative;
+    padding: 14px 16px 40px; /* bottom space for link */
+    flex: 1;
+    text-align: left;
+    
+    min-width: 0;   
+
+}
+
+/* INNER WRAPPER */
+.course-content > div{
+    height: 100%;
+}
+
+/* TITLE — FIXED HEIGHT */
+.course-content h3{
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 6px;
+
+    height: 42px;              
+    overflow: hidden;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+/* VIEW COURSE DETAILS — LOCK POSITION */
+.course-details-link{
+    position: absolute;
+    bottom: 14px;
+    left: 16px;
+
+    font-size: 13px;
+    font-weight: 600;
+    color: #09515D;
+    text-decoration: none;
+}
+
+.course-details-link:hover{
+    color: #F47B1E;
+    text-decoration: underline;
+}
 
 /* learn */
 .confidence-wrap{
