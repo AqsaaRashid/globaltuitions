@@ -20,6 +20,10 @@
                     Course
                 </th>
                 <th class="px-4 py-3 text-left text-sm font-semibold">
+    Type
+</th>
+
+                <th class="px-4 py-3 text-left text-sm font-semibold">
                     Name
                 </th>
                 <th class="px-4 py-3 text-left text-sm font-semibold">
@@ -52,6 +56,15 @@
                     <td class="px-4 py-3 font-medium">
                         {{ $enroll->course_name }}
                     </td>
+                    <td class="px-4 py-3 text-sm">
+    <span class="px-3 py-1 rounded-full text-xs font-semibold
+        {{ $enroll->registration_type === 'Corporate'
+            ? 'bg-blue-100 text-blue-700'
+            : 'bg-gray-100 text-gray-700' }}">
+        {{ $enroll->registration_type ?? 'Individual' }}
+    </span>
+</td>
+
 
                     <td class="px-4 py-3">
                         {{ $enroll->name }}

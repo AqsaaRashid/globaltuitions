@@ -11,6 +11,7 @@ class CourseEnrollment extends Model
         'name',
         'email',
         'phone',
+        'registration_type', // 👈 ADD THIS
         'preferred_date',
         'preferred_time',
         'message',

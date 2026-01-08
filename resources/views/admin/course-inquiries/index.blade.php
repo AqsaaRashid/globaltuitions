@@ -38,13 +38,13 @@
                     {{ $inquiry->name }}
                 </td>
 
-                <!-- <td class="px-4 py-3">
-                    {{ $inquiry->email }}
-                </td> -->
-
                 <td class="px-4 py-3">
-                    {{ $inquiry->phone }}
+                    {{ $inquiry->email }}
                 </td>
+
+                <!-- <td class="px-4 py-3">
+                    {{ $inquiry->phone }}
+                </td> -->
 
                 <td class="px-4 py-3 text-sm text-gray-700">
                     {{ \Illuminate\Support\Str::limit($inquiry->message, 60) }}

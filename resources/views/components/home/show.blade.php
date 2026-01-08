@@ -1,113 +1,118 @@
 <section class="course-detail-wrapper" id="courseContent">
 
-    <!-- HERO -->
-    <div class="course-hero">
+   <!-- HERO -->
+<div class="course-hero hero-snapshot">
 
-        <div class="course-hero-img"style="background-image:url('{{ asset('images/'.$course->image) }}')">
-        </div>
+    <!-- LEFT SIDE -->
+    <div class="hero-left">
 
-        <div class="course-hero-content">
-            <h1 class="course-title">{{ $course->title }}</h1>
+        <span class="hero-badge">BTMG USA Professional Training</span>
 
-            <div class="course-meta">
-                @if($course->level)
-                    <span class="meta-pill">Level: {{ $course->level }}</span>
-                @endif
-             @if($course->duration)
-    <span class="meta-pill">
-        Duration: {{ $course->duration }}
+        <h1 class="hero-title">{{ $course->title }}</h1>
+        @if($course->launch?->launch_date)
+    <span style="color:#09515D;">
+        <i class="bi bi-calendar-event" style="margin-right:4px; color:#09515D;"></i>
+        Starts From {{ \Carbon\Carbon::parse($course->launch->launch_date)->format('d M Y') }}
     </span>
 @endif
 
-@if($course->launch?->launch_date)
-    <span class="meta-pill">
-        Starts From:
-        {{ \Carbon\Carbon::parse($course->launch->launch_date)->format('d M Y') }}
-    </span>
-@endif
-
-                @if($course->price !== null)
-                    <span class="meta-pill">
-                        Price: ${{ number_format($course->price,2) }}
-                    </span>
-                @endif
+         <div class="rich-text">
+                {!! $course->description !!}
             </div>
-            <div class="level-switcher">
-    <label>Switch Level:</label>
-
-    <select onchange="switchCourseLevel(this)">
-        <option value="">Select Level</option>
-        <option value="Beginner" {{ $course->level == 'Beginner' ? 'selected' : '' }}>
-            Beginner
-        </option>
-        <option value="Intermediate" {{ $course->level == 'Intermediate' ? 'selected' : '' }}>
-            Intermediate
-        </option>
-        <option value="Advanced" {{ $course->level == 'Advanced' ? 'selected' : '' }}>
-            Advanced
-        </option>
-    </select>
-
-    <span id="levelMessage" class="level-msg"></span>
-</div>
-
-
-            @php
-                $skills = $course->skills
-                    ? array_filter(array_map('trim', explode(',', $course->skills)))
-                    : [];
-            @endphp
-
-            @if(count($skills))
-                <div class="skills-wrap">
-                    <h3 class="sec-title">Skills / Prerequisites</h3>
-                    <div class="skills">
-                        @foreach($skills as $skill)
-                            <span class="skill-tag">{{ $skill }}</span>
-                        @endforeach
-                    </div>
-                </div>
+        <div class="hero-pills">
+            @if($course->level)
+                <span>🎯 Level: {{ $course->level }}</span>
             @endif
 
-            <!-- CTA BUTTONS -->
-            <div class="cta-buttons">
-                <button class="btn-primary"
-                        onclick="openEnrollModal('{{ $course->title }}')">
-                    Enroll Now
-                </button>
-                <button class="btn-primary"
-        onclick="openInquiryModal('{{ $course->title }}')">
-    Inquiry
-</button>
+            @if($course->duration)
+                <span>⏱ Duration: {{ $course->duration }}</span>
+            @endif
 
+            <span>💻 Online / Virtual</span>
 
-                <button class="btn-primary"
-                        onclick="printCourse()">
-                    Print
-                </button>
+            
+        </div>
 
-                <button class="btn-primary"
-                        onclick="downloadPDF()">
-                     Download PDF
-                </button>
+       
+        <div class="hero-actions">
+            <button class="btn-solid"
+                onclick="openEnrollModal('{{ $course->title }}')">
+                Register for the Course
+            </button>
 
-                <a href="{{ route('index') }}" class="btn-secondary">
-                    ← Back to Courses
-                </a>
-            </div>
+            <button class="btn-outline"
+                onclick="openInquiryModal('{{ $course->title }}')">
+                Inquiry about the Course
+            </button>
         </div>
 
     </div>
 
+    <!-- RIGHT SIDE SNAPSHOT -->
+    <div class="hero-right">
+        <div class="snapshot-card">
+
+            <h4>Course Snapshot</h4>
+
+            @if($course->price !== null)
+                <div class="snapshot-price">
+                    ${{ number_format($course->price, 2) }}
+                </div>
+            @endif
+
+            <ul class="snapshot-list">
+                @if($course->level)
+                    <li>Level: {{ $course->level }}</li>
+                @endif
+
+                @if($course->duration)
+                    <li>Duration: {{ $course->duration }}</li>
+                @endif
+
+                <li>Mode: Online / Virtual</li>
+
+                @if($course->launch?->launch_date)
+                    <li>
+                        Start Date:
+                        {{ \Carbon\Carbon::parse($course->launch->launch_date)->format('d M Y') }}
+                    </li>
+                @endif
+            </ul>
+             @php
+            $skills = $course->skills
+                ? array_filter(array_map('trim', explode(',', $course->skills)))
+                : [];
+        @endphp
+
+        @if(count($skills))
+            <div class="skills-wrap" style="margin-left:-20px;">
+                <h3 class="sec-title"style="    color:#09515D;
+">Skills / Prerequisites</h3>
+                <div class="skills">
+                    @foreach($skills as $skill)
+                        <span class="skill-tag" style="    color:#09515D;
+">{{ $skill }}</span>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+
+
+            <button class="btn-solid full"
+                onclick="openEnrollModal('{{ $course->title }}')">
+                Register Now
+            </button>
+
+        </div>
+    </div>
+
+</div>
+
+
     <!-- BODY -->
     <div class="course-body">
 
-        <div class="card">
-<h3 class="sec-title">{{ $course->title }}</h3>
-            <div class="rich-text">
-                {!! $course->description !!}
-            </div>
-        </div>
+       
 
         <div class="card">
             <h3 class="sec-title">What you will learn ?</h3>
@@ -130,6 +135,31 @@
             @endif
         </div>
 
+        <div class="card">
+           <!-- CTA BUTTONS -->
+            
+
+            <div class="cta-buttons">
+                 <button class="btn-primary"style="color: #fff;"
+                        onclick="downloadPDF()">
+                     Download PDF
+                </button>
+
+                <button class="btn-primary"style="color: #09515D;"
+                        onclick="printCourse()">
+                    Print
+                </button>
+
+               
+
+                <a href="{{ route('index') }}" class="btn-secondary" style="color: #09515D;">
+                    ← Back to Courses
+                </a>
+            </div>
+        </div>
+        
+                </div>
+
     </div>
 </section>
 
@@ -139,37 +169,74 @@
     <div class="modal-box">
         <span class="close-btn" onclick="closeEnrollModal()">×</span>
 
-        <h3 id="selectedCourse" class="modal-title">Enroll</h3>
+        <h3 id="selectedCourse" class="modal-title" style="text-align:center !important;">Enroll</h3>
+<div class="registration-card">
+    <h2 class="reg-title">Student Registration</h2>
+    <p class="reg-subtitle">
+        Fill the form below. A BTMG USA coordinator will confirm schedule and payment details.
+    </p>
 
-        <form method="POST" action="{{ route('course.enroll') }}">
-            @csrf
-            <input type="hidden" name="course_name" id="courseName">
+    <form method="POST" action="{{ route('course.enroll') }}">
+        @csrf
+        <input type="hidden" name="course_name" id="courseName">
 
-            <div class="form-group">
-                <input type="text" name="name" placeholder="Full Name" required>
+        <div class="reg-grid">
+            <div class="reg-group">
+                <label>Full Name</label>
+                <input type="text" name="name" placeholder="Your full name" required>
             </div>
 
-            <div class="form-group">
-                <input type="email" name="email" placeholder="Email Address" required>
+            <div class="reg-group">
+                <label>Email</label>
+                <input type="email" name="email" placeholder="name@email.com" required>
             </div>
 
-            <!-- PHONE OPTIONAL -->
-            <div class="form-group">
-                <input type="tel" name="phone" placeholder="Phone Number (Optional)">
+            <div class="reg-group">
+                <label>Phone (Optional)</label>
+                <input type="tel" name="phone" placeholder="+1 (___) ___-____">
             </div>
 
-            <!-- REMOVED preferred date & time -->
-
-            <div class="form-group">
-                <textarea name="message"
-                          placeholder="Any additional information..."
-                          rows="4"></textarea>
+            <div class="reg-group">
+                <label>Registration Type</label>
+                <select name="registration_type">
+                    <option>Individual</option>
+                    <option>Corporate</option>
+                </select>
             </div>
 
-            <button type="submit" class="submit-btn">
-                Submit Enrollment
-            </button>
-        </form>
+            <div class="reg-group full">
+                <label>Message (Optional)</label>
+                <textarea
+                    name="message"
+                    placeholder="Any questions, goals, or corporate training request details..."
+                    rows="4"></textarea>
+            </div>
+        </div>
+
+        <div class="consent-box">
+            <label class="consent-label">
+                <input type="checkbox" required>
+                <span>
+                    <strong>Consent & Disclaimer</strong><br>
+                    I confirm that all information provided is accurate.<br>
+                    I agree that my information will be used by
+                    <span class="highlight">Softc Solutions</span>
+                    solely for educational and enrollment purposes.<br>
+                    I understand that my data will not be shared with any third-party organizations.
+                </span>
+            </label>
+        </div>
+
+        <button type="submit" class="reg-submit">
+            Submit Registration
+        </button>
+
+        <p class="reg-footer">
+            By submitting, you agree to be contacted by BTMG USA for scheduling and payment coordination.
+        </p>
+    </form>
+</div>
+
     </div>
 </div>
 
@@ -178,39 +245,73 @@
     <div class="modal-box">
         <span class="close-btn" onclick="closeInquiryModal()">×</span>
 
-        <h3 class="modal-title">Course Inquiry</h3>
+        <h3 class="modal-title" style="text-align:center">Inquiry</h3>
 
-        <form method="POST" action="{{ route('course.inquiry') }}">
-            @csrf
+        <div class="registration-card">
+            <h2 class="reg-title">Course Inquiry</h2>
+            <p class="reg-subtitle">
+                Share your questions and our BTMG USA team will get back to you.
+            </p>
 
-            <input type="hidden" name="course_title" value="{{ $course->title }}">
+            <form method="POST" action="{{ route('course.inquiry') }}">
+                @csrf
 
-            <div class="form-group">
-                <input type="text" name="name" placeholder="Full Name" required>
-            </div>
+                <!-- KEEP THIS EXACT -->
+                <input type="hidden" name="course_title" value="{{ $course->title }}">
 
-            <div class="form-group">
-                <input type="email" name="email" placeholder="Email Address" required>
-            </div>
+                <div class="reg-grid">
+                    <div class="reg-group">
+                        <label>Full Name</label>
+                        <input type="text" name="name" required>
+                    </div>
 
-            <div class="form-group">
-                <input type="tel" name="phone" placeholder="Phone Number(Optional)">
-            </div>
+                    <div class="reg-group">
+                        <label>Email</label>
+                        <input type="email" name="email" required>
+                    </div>
 
-            <div class="form-group">
-                <textarea name="message"
-                          placeholder="Your inquiry message..."
-                          rows="4"
-                          required></textarea>
-            </div>
+                    <div class="reg-group">
+                        <label>Phone (Optional)</label>
+                        <input type="tel" name="phone">
+                    </div>
 
-            <button type="submit" class="submit-btn">
-                Submit Inquiry
-            </button>
-        </form>
+                    <!-- EMPTY GRID SLOT (keeps 2-column layout clean) -->
+                    <div></div>
+
+                    <div class="reg-group full">
+                        <label>Message</label>
+                        <textarea
+                            name="message"
+                            rows="4"
+                            placeholder="Your inquiry message..."
+                            required></textarea>
+                    </div>
+                </div>
+                 <div class="consent-box">
+            <label class="consent-label">
+                <input type="checkbox" required>
+                <span>
+                    <strong>Consent & Disclaimer</strong><br>
+                    I confirm that all information provided is accurate.<br>
+                    I agree that my information will be used by
+                    <span class="highlight">Softc Solutions</span>
+                    solely for educational and enrollment purposes.<br>
+                    I understand that my data will not be shared with any third-party organizations.
+                </span>
+            </label>
+        </div>
+
+                <button type="submit" class="reg-submit">
+                    Submit Inquiry
+                </button>
+
+                <p class="reg-footer">
+                    We usually respond within 24 hours.
+                </p>
+            </form>
+        </div>
     </div>
 </div>
-
 
 <style>
 
@@ -361,7 +462,7 @@
     padding:0;
     font-size:13px;
     font-weight:700;
-    color:#cbd5e1;
+    color: #cbd5e1;
     cursor:pointer;
     position:relative;
 }
@@ -377,6 +478,19 @@
     background:#F47B1E;
     transition:.25s;
 }
+.cta-buttons .btn-secondary::after{
+    content:'';
+    position:absolute;
+    left:0;
+    bottom:-4px;
+    width:0;
+    height:2px;
+    background:#F47B1E;
+    transition:.25s;
+}
+.cta-buttons .btn-secondary:hover::after{
+    width:100%;
+}
 
 .cta-buttons .btn-primary:hover{
     color:#fff;
@@ -389,17 +503,22 @@
 /* BACK LINK – NAV STYLE */
 .btn-secondary{
     margin-left:auto;
-    background:none;
-    border:none;
     padding:0;
     font-size:13px;
     font-weight:700;
     color:#94a3b8;
-    text-decoration:none;
+    padding:10px 16px;
+    border-radius:999px;
+    background:#eef7f6;
+    color:#09515D;
+    border:1px solid #cbd5e1;
+    transition:all .25s ease;
 }
 
 .btn-secondary:hover{
-    color:#fff;
+    background:#09515D;
+    color: #fff !important;
+    transform:translateX(-2px);
 }
 
 /* MOBILE */
@@ -481,12 +600,22 @@
 
 .modal-box{
     background:#fff;
-    max-width:440px;
-    width:100%;
-    padding:26px;
-    border-radius:10px;
+    width:900px;
+    height:600px;
+
+    max-width:95vw;
+    max-height:90vh;
+
+    padding:0;               /* important */
+    border-radius:14px;
     position:relative;
+
+    display:flex;
+    flex-direction:column;
+
+    overflow:hidden;         /* clean edges */
 }
+
 
 .close-btn{
     position:absolute;
@@ -651,6 +780,270 @@
         font-size: 13px;
     }
 }
+@media (max-width: 768px){
+    .modal-box{
+        width:95vw;
+        height:90vh;
+    }
+
+    .registration-card{
+        padding:20px;
+    }
+
+    .reg-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+/* registration */
+.registration-card{
+    background: linear-gradient(#fff, #fff) padding-box,
+                linear-gradient(135deg,#f59e0b,#22c1c3) border-box;
+    border:2px solid transparent;
+    border-radius:14px;
+
+    padding:28px;
+    font-family: Inter, system-ui, sans-serif;
+
+    width:100%;
+    height:100%;
+
+    overflow-y:auto;   /* 👈 scroll INSIDE if needed */
+}
+
+
+.reg-title{
+    font-size:24px;
+    font-weight:800;
+    color:#0f172a;
+    margin-bottom:6px;
+}
+
+.reg-subtitle{
+    font-size:13px;
+    color:#64748b;
+    margin-bottom:22px;
+}
+
+.reg-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+}
+
+.reg-group label{
+    font-size:13px;
+    font-weight:600;
+    color:#0f172a;
+    display:block;
+    margin-bottom:6px;
+}
+
+.reg-group input,
+.reg-group select,
+.reg-group textarea{
+    width:100%;
+    padding:12px 14px;
+    border-radius:10px;
+    border:1px solid #cbd5e1;
+    font-size:14px;
+    outline:none;
+}
+
+.reg-group input:focus,
+.reg-group textarea:focus,
+.reg-group select:focus{
+    border-color:#22c1c3;
+    box-shadow:0 0 0 3px rgba(34,193,195,.15);
+}
+
+.reg-group.full{
+    grid-column:1 / -1;
+}
+
+.consent-box{
+    margin-top:18px;
+    padding:14px;
+    border:1px solid #e5e7eb;
+    border-radius:10px;
+    background:#fff;
+}
+
+.consent-label{
+    display:flex;
+    gap:12px;
+    font-size:13px;
+    color:#111827;
+    line-height:1.5;
+}
+
+.consent-label input{
+    margin-top:4px;
+}
+
+.highlight{
+    color:#ef4444;
+    font-weight:700;
+}
+
+.reg-submit{
+    margin-top:18px;
+    width:100%;
+    padding:14px;
+    background:#0f766e;
+    color:#fff;
+    font-size:15px;
+    font-weight:800;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.reg-submit:hover{
+    background:#f59e0b;
+}
+
+.reg-footer{
+    margin-top:10px;
+    font-size:12px;
+    color:#64748b;
+    text-align:center;
+}
+
+/* MOBILE */
+@media(max-width:640px){
+    .reg-grid{
+        grid-template-columns:1fr;
+    }
+}
+.hero-snapshot{
+    background: linear-gradient(180deg,#eef7f6,#ffffff);
+    border-radius:18px;
+    padding:42px;
+    display:grid;
+    grid-template-columns:1.2fr .8fr;
+    gap:36px;
+}
+
+/* LEFT */
+.hero-badge{
+    display:inline-block;
+    background:#fde8d8;
+    color: #F47B1E;
+    font-size:12px;
+    font-weight:700;
+    padding:6px 10px;
+    border-radius:999px;
+    margin-bottom:14px;
+}
+
+.hero-title{
+    font-size:34px;
+    font-weight:900;
+    margin-bottom:18px;
+     color:#09515D;
+
+}
+
+.hero-pills{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-bottom:22px;
+        color:#09515D;
+
+}
+
+.hero-pills span{
+    background:#ffffff;
+    border:1px solid #e5e7eb;
+    padding:7px 12px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:600;
+        color: #09515D;
+
+}
+
+/* ACTIONS */
+.hero-actions{
+    display:flex;
+    gap:14px;
+    margin-top:22px;
+        color:#09515D;
+
+}
+
+.btn-solid{
+    background: #0f766e;
+    color:#fff;
+    padding:14px 26px;
+    font-size:14px;
+    font-weight:800;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.btn-solid:hover{ background: #F47B1E; }
+
+.btn-outline{
+    background:#fff;
+    border:2px solid #0f766e;
+    color:#09515D;
+    padding:14px 26px;
+    font-size:14px;
+    font-weight:800;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+/* RIGHT CARD */
+.snapshot-card{
+    background: #ffffff;
+    border-radius:16px;
+    padding:26px;
+    box-shadow:0 14px 36px rgba(15,23,42,.12);
+}
+
+.snapshot-card h4{
+    font-size:18px;
+    font-weight:800;
+    margin-bottom:12px;
+    color:#09515D;
+}
+
+.snapshot-price{
+    font-size:34px;
+    font-weight:900;
+    color: #09515D;
+    margin-bottom:14px;
+}
+
+.snapshot-list{
+    list-style:none;
+    padding:0;
+    margin:0 0 22px;
+}
+
+.snapshot-list li{
+    font-size:13px;
+    font-weight:600;
+    color:#334155;
+    margin-bottom:8px;
+}
+
+.snapshot-card .full{
+    width:100%;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+    .hero-snapshot{
+        grid-template-columns:1fr;
+        padding:28px;
+    }
+}
 
 
 </style>
@@ -694,30 +1087,7 @@ function downloadPDF(){
 
     html2pdf().set(opt).from(element).save();
 }
-function switchCourseLevel(select){
-    const level = select.value;
-    const currentLevel = @json($course->level);
-    const title = @json($course->title);
 
-    document.getElementById('levelMessage').innerText = '';
-
-    if (!level || level === currentLevel) return;
-
-    fetch(`{{ route('course.switch.level') }}?title=${encodeURIComponent(title)}&level=${level}`)
-        .then(res => res.json())
-        .then(data => {
-            if (data.found) {
-                window.location.href = data.url;
-            } else {
-                document.getElementById('levelMessage').innerText =
-                    data.message;
-            }
-        })
-        .catch(() => {
-            document.getElementById('levelMessage').innerText =
-                'Something went wrong';
-        });
-}
 
 
 </script>

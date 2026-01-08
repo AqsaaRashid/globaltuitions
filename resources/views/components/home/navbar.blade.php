@@ -43,36 +43,76 @@
     </div>
 </nav>
 <!-- Contact Modal -->
+<!-- CONTACT MODAL -->
 <div id="contactModal" class="modal-overlay">
     <div class="modal-box">
         <span class="close-btn" onclick="closeContactModal()">×</span>
 
-        <h3 class="modal-title">Contact Us</h3>
-        <p class="modal-subtitle">We’ll get back to you shortly</p>
+        <h3 class="modal-title" style="text-align:center">Contact Us</h3>
 
-        <form method="POST" action="{{ route('contact.store') }}">
-            @csrf
+        <div class="registration-card">
+            <h2 class="reg-title">Get in Touch</h2>
+            <p class="reg-subtitle">
+                Leave us a message and our team will respond shortly.
+            </p>
 
-            <div class="form-group">
-                <input type="text" name="name" placeholder="Full Name" required>
-            </div>
+            <form method="POST" action="{{ route('contact.store') }}">
+                @csrf
 
-            <div class="form-group">
-                <input type="email" name="email" placeholder="Email Address" required>
-            </div>
+                <div class="reg-grid">
+                    <div class="reg-group">
+                        <label>Full Name</label>
+                        <input type="text" name="name" required>
+                    </div>
 
-            <div class="form-group">
-                <input type="tel" name="phone" placeholder="Phone Number(Optional)">
-            </div>
+                    <div class="reg-group">
+                        <label>Email</label>
+                        <input type="email" name="email" required>
+                    </div>
 
-            <div class="form-group">
-                <textarea name="message" placeholder="Your Message..." rows="4" required></textarea>
-            </div>
+                    <div class="reg-group">
+                        <label>Phone (Optional)</label>
+                        <input type="tel" name="phone">
+                    </div>
 
-            <button type="submit" class="submit-btn">Send Message</button>
-        </form>
+                    <!-- empty column to preserve grid balance -->
+                    <div></div>
+
+                    <div class="reg-group full">
+                        <label>Message</label>
+                        <textarea
+                            name="message"
+                            rows="4"
+                            placeholder="Your message..."
+                            required></textarea>
+                    </div>
+                </div>
+                <div class="consent-box">
+            <label class="consent-label">
+                <input type="checkbox" required>
+                <span>
+                    <strong>Consent & Disclaimer</strong><br>
+                    I confirm that all information provided is accurate.<br>
+                    I agree that my information will be used by
+                    <span class="highlight">Softc Solutions</span>
+                    solely for educational and enrollment purposes.<br>
+                    I understand that my data will not be shared with any third-party organizations.
+                </span>
+            </label>
+        </div>
+
+                <button type="submit" class="reg-submit">
+                    Send Message
+                </button>
+
+                <p class="reg-footer">
+                    We usually respond within one business day.
+                </p>
+            </form>
+        </div>
     </div>
 </div>
+
 
 <style>
        /* ===============================
@@ -118,16 +158,34 @@
 }
 
 /* MODAL CARD */
-.modal-box {
-    background: #ffffff;
-    width: 100%;
-    max-width: 440px;
-    padding: 26px 26px 28px;
-    border-radius: 4px;                 /* matches your UI */
-    position: relative;
-    box-shadow: 0 18px 40px rgba(15,23,42,0.25);
-    animation: fadeInUp 0.25s ease;
+
+.modal-box{
+    background:#fff;
+    width:900px;
+    height:600px;
+
+    max-width:95vw;
+    max-height:90vh;
+
+    padding:0;               /* important */
+    border-radius:14px;
+    position:relative;
+
+    display:flex;
+    flex-direction:column;
+
+    overflow:hidden;         /* clean edges */
 }
+/* DESKTOP ONLY – FORCE SIZE */
+@media (min-width: 1025px) {
+    .modal-box{
+        width:900px !important;
+        height:600px !important;
+        max-width:none !important;
+        max-height:none !important;
+    }
+}
+
 
 /* CLOSE */
 .close-btn {
@@ -393,7 +451,144 @@
     }
 }
 
+/* regis */
 
+@media (max-width: 768px){
+    .modal-box{
+        width:95vw;
+        height:90vh;
+    }
+
+    .registration-card{
+        padding:20px;
+    }
+
+    .reg-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+/* registration */
+.registration-card{
+    background: linear-gradient(#fff, #fff) padding-box,
+                linear-gradient(135deg,#f59e0b,#22c1c3) border-box;
+    border:2px solid transparent;
+    border-radius:14px;
+
+    padding:28px;
+    font-family: Inter, system-ui, sans-serif;
+
+    width:100%;
+    height:100%;
+
+    overflow-y:auto;   /* 👈 scroll INSIDE if needed */
+}
+
+
+.reg-title{
+    font-size:24px;
+    font-weight:800;
+    color:#0f172a;
+    margin-bottom:6px;
+}
+
+.reg-subtitle{
+    font-size:13px;
+    color:#64748b;
+    margin-bottom:22px;
+}
+
+.reg-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+}
+
+.reg-group label{
+    font-size:13px;
+    font-weight:600;
+    color:#0f172a;
+    display:block;
+    margin-bottom:6px;
+}
+
+.reg-group input,
+.reg-group select,
+.reg-group textarea{
+    width:100%;
+    padding:12px 14px;
+    border-radius:10px;
+    border:1px solid #cbd5e1;
+    font-size:14px;
+    outline:none;
+}
+
+.reg-group input:focus,
+.reg-group textarea:focus,
+.reg-group select:focus{
+    border-color:#22c1c3;
+    box-shadow:0 0 0 3px rgba(34,193,195,.15);
+}
+
+.reg-group.full{
+    grid-column:1 / -1;
+}
+
+.consent-box{
+    margin-top:18px;
+    padding:14px;
+    border:1px solid #e5e7eb;
+    border-radius:10px;
+    background:#fff;
+}
+
+.consent-label{
+    display:flex;
+    gap:12px;
+    font-size:13px;
+    color:#111827;
+    line-height:1.5;
+}
+
+.consent-label input{
+    margin-top:4px;
+}
+
+.highlight{
+    color:#ef4444;
+    font-weight:700;
+}
+
+.reg-submit{
+    margin-top:18px;
+    width:100%;
+    padding:14px;
+    background:#0f766e;
+    color:#fff;
+    font-size:15px;
+    font-weight:800;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.reg-submit:hover{
+    background:#f59e0b;
+}
+
+.reg-footer{
+    margin-top:10px;
+    font-size:12px;
+    color:#64748b;
+    text-align:center;
+}
+
+/* MOBILE */
+@media(max-width:640px){
+    .reg-grid{
+        grid-template-columns:1fr;
+    }
+}
 </style>
 <script>
 function openContactModal() {
