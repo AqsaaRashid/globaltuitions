@@ -508,7 +508,7 @@
     line-height: 1.3;
     margin-bottom: 6px;
 
-    height: 42px;              
+    /* height: 42px;               */
     overflow: hidden;
 
     display: -webkit-box;
