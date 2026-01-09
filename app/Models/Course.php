@@ -29,9 +29,21 @@ class Course extends Model
     }
     // app/Models/Course.php
 
-public function launch()
+// ✅ FIXED: One course can have MULTIPLE launch dates
+   
+   public function launches()
 {
-    return $this->hasOne(CourseLaunch::class);
+    return $this->hasMany(CourseLaunch::class);
 }
+
+    // app/Models/Course.php
+
+public function nextLaunch()
+{
+    return $this->hasOne(CourseLaunch::class)
+        ->whereDate('launch_date', '>=', now())
+        ->orderBy('launch_date');
+}
+
 
 }

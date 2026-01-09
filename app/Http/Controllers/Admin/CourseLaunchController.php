@@ -1,7 +1,5 @@
 <?php
 
-// app/Http/Controllers/Admin/CourseLaunchController.php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -13,7 +11,10 @@ class CourseLaunchController extends Controller
 {
     public function index()
     {
-        $launches = CourseLaunch::with('course')->latest()->get();
+        $launches = CourseLaunch::with('course')
+            ->orderBy('launch_date', 'desc')
+            ->get();
+
         return view('admin.course-launches.index', compact('launches'));
     }
 
@@ -26,11 +27,14 @@ class CourseLaunchController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'course_id'   => 'required|exists:courses,id|unique:course_launches,course_id',
+            'course_id'   => 'required|exists:courses,id',
             'launch_date' => 'required|date',
         ]);
 
-        CourseLaunch::create($request->all());
+        CourseLaunch::create([
+            'course_id'   => $request->course_id,
+            'launch_date' => $request->launch_date,
+        ]);
 
         return redirect()
             ->route('admin.course-launches.index')
@@ -40,17 +44,20 @@ class CourseLaunchController extends Controller
     public function edit(CourseLaunch $courseLaunch)
     {
         $courses = Course::orderBy('title')->get();
-        return view('admin.course-launches.edit', compact('courseLaunch','courses'));
+        return view('admin.course-launches.edit', compact('courseLaunch', 'courses'));
     }
 
     public function update(Request $request, CourseLaunch $courseLaunch)
     {
         $request->validate([
-            'course_id'   => 'required|exists:courses,id|unique:course_launches,course_id,'.$courseLaunch->id,
+            'course_id'   => 'required|exists:courses,id',
             'launch_date' => 'required|date',
         ]);
 
-        $courseLaunch->update($request->all());
+        $courseLaunch->update([
+            'course_id'   => $request->course_id,
+            'launch_date' => $request->launch_date,
+        ]);
 
         return redirect()
             ->route('admin.course-launches.index')
@@ -64,4 +71,3 @@ class CourseLaunchController extends Controller
         return back()->with('success', 'Launch date deleted.');
     }
 }
-

@@ -13,47 +13,57 @@
 </div>
 
 <div class="bg-white rounded-lg overflow-hidden">
-    <table class="w-full">
-        <thead class="bg-black text-white">
-            <tr>
-                <th class="p-3 text-left">Course</th>
-                <th class="p-3">Launch Date</th>
-                <th class="p-3 text-center">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($launches as $launch)
-            <tr class="border-t">
-<td class="p-3" style="color:#000;">
-    {{ $launch->course->title }}
-    <span class="text-sm text-gray-600">
-        ({{ ucfirst($launch->course->level) }})
-    </span>
-</td>
-                <td class="p-3 text-center"style="color:#000;" >{{ $launch->launch_date }}</td>
-                <td class="p-3 text-center flex justify-center gap-3">
 
-    <a href="{{ route('admin.course-launches.edit', $launch) }}"
-       class="text-blue-600 font-semibold">
-        Edit
-    </a>
+    @forelse($launches->groupBy('course_id') as $courseLaunches)
 
-    <form method="POST"
-          action="{{ route('admin.course-launches.destroy', $launch) }}">
-        @csrf
-        @method('DELETE')
-        <button class="text-red-600 font-semibold"
-                onclick="return confirm('Delete this launch date?')">
-            Delete
-        </button>
-    </form>
+        @php $course = $courseLaunches->first()->course; @endphp
 
-</td>
+        <div class="border-b">
+            <!-- Course Header -->
+            <div class="bg-gray-100 px-4 py-3 font-semibold text-black">
+                {{ $course->title }}
+                <span class="text-sm text-gray-600">
+                    ({{ ucfirst($course->level) }})
+                </span>
+            </div>
 
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+            <!-- Launch Dates -->
+            <table class="w-full">
+                <tbody>
+                @foreach($courseLaunches as $launch)
+                    <tr class="border-t">
+                        <td class="p-3 text-center text-black">
+                            {{ \Carbon\Carbon::parse($launch->launch_date)->format('d M Y') }}
+                        </td>
+
+                        <td class="p-3 text-center flex justify-center gap-4">
+                            <a href="{{ route('admin.course-launches.edit', $launch) }}"
+                               class="text-blue-600 font-semibold">
+                                Edit
+                            </a>
+
+                            <form method="POST"
+                                  action="{{ route('admin.course-launches.destroy', $launch) }}">
+                                @csrf
+                                @method('DELETE')
+                                <button class="text-red-600 font-semibold"
+                                        onclick="return confirm('Delete this launch date?')">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+
+    @empty
+        <div class="p-6 text-center text-gray-600">
+            No launch dates added yet.
+        </div>
+    @endforelse
+
 </div>
 
 @endsection

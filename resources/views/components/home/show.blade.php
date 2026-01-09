@@ -9,12 +9,14 @@
         <span class="hero-badge">BTMG USA Professional Training</span>
 
         <h1 class="hero-title">{{ $course->title }}</h1>
-        @if($course->launch?->launch_date)
+       @if($course->nextLaunch)
     <span style="color:#09515D;">
-        <i class="bi bi-calendar-event" style="margin-right:4px; color:#09515D;"></i>
-        Starts From {{ \Carbon\Carbon::parse($course->launch->launch_date)->format('d M Y') }}
+        <i class="bi bi-calendar-event" style="margin-right:4px;"></i>
+        Starts From
+        {{ \Carbon\Carbon::parse($course->nextLaunch->launch_date)->format('d M Y') }}
     </span>
 @endif
+
 
          <div class="rich-text">
                 {!! $course->description !!}
@@ -71,12 +73,13 @@
 
                 <li>Mode: Online / Virtual</li>
 
-                @if($course->launch?->launch_date)
-                    <li>
-                        Start Date:
-                        {{ \Carbon\Carbon::parse($course->launch->launch_date)->format('d M Y') }}
-                    </li>
-                @endif
+                @if($course->nextLaunch)
+    <li>
+        Start Date:
+        {{ \Carbon\Carbon::parse($course->nextLaunch->launch_date)->format('d M Y') }}
+    </li>
+@endif
+
             </ul>
              @php
             $skills = $course->skills
