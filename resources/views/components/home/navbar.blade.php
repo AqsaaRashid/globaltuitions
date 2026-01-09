@@ -1,5 +1,5 @@
 
-<nav class="navbar-wrapper">
+<nav class="navbar-wrapper" style="overflow-x:hidden !important;">
     <div class="nav-container">
 <!-- Mobile Menu Toggle -->
 <div class="nav-toggle" onclick="toggleNav()" style="margin-right:-250px !important; color:#09515D !important;">

@@ -4,7 +4,7 @@
     </div>
 @endif
 
-<section id="courses" class="courses-wrapper">
+<section id="courses" class="courses-wrapper" style="overflow-x:hidden !important;">
 
     <h2 class="courses-title">Skill Up Fast</h2>
     <p class="courses-subtitle">
@@ -415,6 +415,11 @@
 
     .courses-grid {
         gap: 18px;
+                margin-left: 0px !important;
+
+    }
+    .course-card{
+        margin-left: 0px !important;
     }
 
     .course-content {
@@ -433,6 +438,8 @@
     .courses-grid {
         grid-template-columns: 1fr;
         max-width: 420px;
+                margin-left: 0px !important;
+
     }
 
     .courses-title {
@@ -451,10 +458,16 @@
         font-size: 12px;
         padding: 7px 16px;
     }
+    .course-card{
+        margin-left: 0px !important;
+    }
 }
 
 /* VERY SMALL PHONES */
 @media (max-width: 420px) {
+    .course-card{
+        margin-left: 0px !important;
+    }
     .courses-title {
         font-size: 22px;
     }
@@ -597,7 +610,7 @@
 @media (max-width: 992px){
     .courses-grid{
         grid-template-columns: repeat(2, 1fr);
-        margin-left: 40px !important;
+        margin-left: 0px !important;
     }
 }
 
@@ -605,7 +618,7 @@
 @media (max-width: 640px){
     .courses-grid{
         grid-template-columns: 1fr;
-                margin-left: 40px !important;
+                margin-left: 0px !important;
 
     }
 }

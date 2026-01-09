@@ -1,4 +1,4 @@
-<section class="steps-wrapper">
+<section class="steps-wrapper"style="overflow-x:hidden !important;">
     <div class="steps-container">
 
         {{-- Step 1 --}}

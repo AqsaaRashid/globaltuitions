@@ -533,6 +533,46 @@
         margin-left:0;
     }
 }
+/* ===============================
+   CTA BUTTONS – RESPONSIVE FIX
+   =============================== */
+
+/* Tablet */
+@media (max-width: 900px){
+    .cta-buttons{
+        flex-wrap: wrap;
+        gap:12px;
+    }
+
+    .cta-buttons .btn-primary{
+        white-space: nowrap;
+    }
+}
+
+/* Mobile */
+@media (max-width: 640px){
+    .cta-buttons{
+        flex-direction: column;
+        align-items: stretch;
+        gap:14px;
+    }
+
+    /* Download + Print */
+    .cta-buttons .btn-primary{
+        width:100%;
+        text-align:center;
+        padding:14px 0;
+        font-size:14px;
+    }
+
+    /* Back to Courses */
+    .cta-buttons .btn-secondary{
+        width:100%;
+        text-align:center;
+        justify-content:center;
+        margin-left:0;
+    }
+}
 
 
 /* ===== BODY ===== */
@@ -964,6 +1004,41 @@
         color: #09515D;
 
 }
+/* ===============================
+   HERO ACTION BUTTONS – RESPONSIVE
+   =============================== */
+
+/* Tablet */
+@media (max-width: 900px){
+    .hero-actions{
+        flex-wrap: wrap;
+        gap:12px;
+    }
+
+    .hero-actions .btn-solid,
+    .hero-actions .btn-outline{
+        padding:12px 22px;
+        font-size:14px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 640px){
+    .hero-actions{
+        flex-direction: column;
+        align-items: stretch;
+        gap:14px;
+    }
+
+    .hero-actions .btn-solid,
+    .hero-actions .btn-outline{
+        width:100%;
+        text-align:center;
+        padding:14px 0;
+        font-size:15px;
+    }
+}
+
 
 /* ACTIONS */
 .hero-actions{
