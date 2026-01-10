@@ -1,6 +1,16 @@
 @extends('layouts.admin')
 
 @section('content')
+@php
+    $durationValue = '';
+    $durationUnit = '';
+
+    if (!empty($course->duration)) {
+        $parts = explode(' ', trim($course->duration));
+        $durationValue = $parts[0] ?? '';
+        $durationUnit = strtolower($parts[1] ?? '');
+    }
+@endphp
 
 <div class="max-w-3xl">
 
@@ -96,17 +106,39 @@
             </div>
 
             <!-- Duration -->
-            <div>
-                <label class="block text-sm font-medium mb-1">
-                    Duration
-                </label>
-                <input
-                    type="text"
-                    name="duration"
-                    value="{{ $course->duration }}"
-                    class="w-full rounded-md border border-gray-300 px-4 py-2
-                           focus:outline-none focus:ring-2 focus:ring-yellow-500">
-            </div>
+            <!-- Duration -->
+<div>
+    <label class="block text-sm font-medium mb-1">
+        Duration
+    </label>
+
+    <div class="flex gap-3">
+        <!-- Duration Value -->
+        <input
+            type="number"
+            name="duration_value"
+            min="1"
+            required
+            value="{{ $durationValue }}"
+            placeholder="e.g. 6"
+            class="w-1/2 rounded-md border border-gray-300 px-4 py-2
+                   focus:outline-none focus:ring-2 focus:ring-yellow-500">
+
+        <!-- Duration Unit -->
+        <select
+            name="duration_unit"
+            required
+            class="w-1/2 rounded-md border border-gray-300 px-4 py-2
+                   focus:outline-none focus:ring-2 focus:ring-yellow-500">
+            <option value="">Select Unit</option>
+            <option value="hours" {{ $durationUnit === 'hours' ? 'selected' : '' }}>Hours</option>
+            <option value="days" {{ $durationUnit === 'days' ? 'selected' : '' }}>Days</option>
+            <option value="weeks" {{ $durationUnit === 'weeks' ? 'selected' : '' }}>Weeks</option>
+            <option value="months" {{ $durationUnit === 'months' ? 'selected' : '' }}>Months</option>
+        </select>
+    </div>
+</div>
+
 
             <!-- Price -->
             <div>

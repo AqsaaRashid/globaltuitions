@@ -87,18 +87,37 @@
                 </select>
             </div>
 
-            <!-- Duration -->
-            <div>
-                <label class="block text-sm font-medium mb-1">
-                    Duration
-                </label>
-                <input
-                    type="text"
-                    name="duration"
-                    placeholder="e.g. 6 Weeks / 20 Hours"
-                    class="w-full rounded-md border border-gray-300 px-4 py-2
-                           focus:outline-none focus:ring-2 focus:ring-yellow-500">
-            </div>
+           <!-- Duration -->
+<div>
+    <label class="block text-sm font-medium mb-1">
+        Duration
+    </label>
+
+    <div class="flex gap-3">
+        <!-- Duration Value -->
+        <input
+            type="number"
+            name="duration_value"
+            min="1"
+            placeholder="e.g. 6"
+            class="w-1/2 rounded-md border border-gray-300 px-4 py-2
+                   focus:outline-none focus:ring-2 focus:ring-yellow-500">
+
+        <!-- Duration Unit -->
+        <select
+    name="duration_unit"
+    required
+    class="w-1/2 rounded-md border border-gray-300 px-4 py-2
+           focus:outline-none focus:ring-2 focus:ring-yellow-500">
+    <option value="">Select Unit</option>
+    <option value="hours">Hours</option>
+    <option value="days">Days</option>
+    <option value="weeks">Weeks</option>
+    <option value="months">Months</option>
+</select>
+
+    </div>
+</div>
 
             <!-- Price -->
             <div>

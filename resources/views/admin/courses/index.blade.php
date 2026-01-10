@@ -71,8 +71,15 @@
 
                     {{-- Duration --}}
                     <td class="px-4 py-3">
-                        {{ $course->duration ?? '-' }}
-                    </td>
+    @if($course->duration)
+        {{ $course->duration }}
+    @elseif(isset($course->duration_value, $course->duration_unit))
+        {{ $course->duration_value }} {{ ucfirst($course->duration_unit) }}
+    @else
+        -
+    @endif
+</td>
+
 
                     {{-- Price --}}
                     <td class="px-4 py-3">
