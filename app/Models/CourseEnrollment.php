@@ -8,6 +8,7 @@ class CourseEnrollment extends Model
 {
     protected $fillable = [
         'course_name',
+         'launch_date',
         'name',
         'email',
         'phone',

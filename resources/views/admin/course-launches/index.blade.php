@@ -12,57 +12,69 @@
     </a>
 </div>
 
-<div class="bg-white rounded-lg overflow-hidden">
+<div class="bg-white rounded-lg overflow-hidden shadow">
 
-    @forelse($launches->groupBy('course_id') as $courseLaunches)
+    <table class="w-full border-collapse">
+        <thead class="bg-black text-white">
+            <tr>
+                <th class="px-4 py-3 text-left text-sm font-semibold">
+                    Course
+                </th>
+                <th class="px-4 py-3 text-left text-sm font-semibold">
+                    Level
+                </th>
+                <th class="px-4 py-3 text-center text-sm font-semibold">
+                    Launch Date
+                </th>
+                <th class="px-4 py-3 text-center text-sm font-semibold">
+                    Action
+                </th>
+            </tr>
+        </thead>
 
-        @php $course = $courseLaunches->first()->course; @endphp
+        <tbody class="divide-y">
+        @forelse($launches as $launch)
+            <tr class="hover:bg-gray-50 transition">
 
-        <div class="border-b">
-            <!-- Course Header -->
-            <div class="bg-gray-100 px-4 py-3 font-semibold text-black">
-                {{ $course->title }}
-                <span class="text-sm text-gray-600">
-                    ({{ ucfirst($course->level) }})
-                </span>
-            </div>
+                <td class="px-4 py-3 font-medium text-black">
+                    {{ $launch->course->title }}
+                </td>
 
-            <!-- Launch Dates -->
-            <table class="w-full">
-                <tbody>
-                @foreach($courseLaunches as $launch)
-                    <tr class="border-t">
-                        <td class="p-3 text-center text-black">
-                            {{ \Carbon\Carbon::parse($launch->launch_date)->format('d M Y') }}
-                        </td>
+                <td class="px-4 py-3 text-sm text-gray-700">
+                    {{ ucfirst($launch->course->level) }}
+                </td>
 
-                        <td class="p-3 text-center flex justify-center gap-4">
-                            <a href="{{ route('admin.course-launches.edit', $launch) }}"
-                               class="text-blue-600 font-semibold">
-                                Edit
-                            </a>
+                <td class="px-4 py-3 text-center text-black">
+                    {{ \Carbon\Carbon::parse($launch->launch_date)->format('d M Y') }}
+                </td>
 
-                            <form method="POST"
-                                  action="{{ route('admin.course-launches.destroy', $launch) }}">
-                                @csrf
-                                @method('DELETE')
-                                <button class="text-red-600 font-semibold"
-                                        onclick="return confirm('Delete this launch date?')">
-                                    Delete
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
+                <td class="px-4 py-3 text-center flex justify-center gap-4">
+                    <a href="{{ route('admin.course-launches.edit', $launch) }}"
+                       class="text-blue-600 font-semibold">
+                        Edit
+                    </a>
 
-    @empty
-        <div class="p-6 text-center text-gray-600">
-            No launch dates added yet.
-        </div>
-    @endforelse
+                    <form method="POST"
+                          action="{{ route('admin.course-launches.destroy', $launch) }}">
+                        @csrf
+                        @method('DELETE')
+                        <button class="text-red-600 font-semibold"
+                                onclick="return confirm('Delete this launch date?')">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+
+            </tr>
+        @empty
+            <tr>
+                <td colspan="4" class="p-6 text-center text-gray-600">
+                    No launch dates added yet.
+                </td>
+            </tr>
+        @endforelse
+        </tbody>
+    </table>
 
 </div>
 

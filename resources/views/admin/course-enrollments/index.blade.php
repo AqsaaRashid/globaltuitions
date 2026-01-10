@@ -17,8 +17,12 @@
                     #
                 </th>
                 <th class="px-4 py-3 text-left text-sm font-semibold">
-                    Course
+                    For Course
                 </th>
+                <th class="px-4 py-3 text-left text-sm font-semibold">
+    Launch Date
+</th>
+
                 <th class="px-4 py-3 text-left text-sm font-semibold">
     Type
 </th>
@@ -33,9 +37,9 @@
                     Phone
                 </th> -->
                 
-                <th class="px-4 py-3 text-left text-sm font-semibold">
+                <!-- <th class="px-4 py-3 text-left text-sm font-semibold">
                     Message
-                </th>
+                </th> -->
                 <th class="px-4 py-3 text-center text-sm font-semibold">
                     Submitted
                 </th>
@@ -56,6 +60,13 @@
                     <td class="px-4 py-3 font-medium">
                         {{ $enroll->course_name }}
                     </td>
+                    <td class="px-4 py-3 text-sm">
+    <i class="bi bi-calendar-event me-1 text-gray-500"></i>
+    {{ $enroll->launch_date
+        ? \Carbon\Carbon::parse($enroll->launch_date)->format('d M Y')
+        : '—' }}
+</td>
+
                     <td class="px-4 py-3 text-sm">
     <span class="px-3 py-1 rounded-full text-xs font-semibold
         {{ $enroll->registration_type === 'Corporate'
@@ -80,9 +91,9 @@
 
                     
 
-                    <td class="px-4 py-3 text-sm max-w-xs truncate">
+                    <!-- <td class="px-4 py-3 text-sm max-w-xs truncate">
                         {{ $enroll->message ?? '—' }}
-                    </td>
+                    </td> -->
 
                     <td class="px-4 py-3 text-center text-sm text-gray-600">
                         {{ $enroll->created_at->format('d M Y') }}
@@ -157,6 +168,7 @@
                  class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
                 <!-- JS injects content here -->
             </div>
+            
 
             <!-- DIVIDER -->
             <div class="border-t border-gray-700 my-4"></div>
@@ -225,43 +237,58 @@ function openEnrollmentModal(id) {
     })
     .then(data => {
         document.getElementById('enrollmentDetails').innerHTML = `
-    <div>
-        <span class="text-gray-400">Name</span>
-<p class="font-medium text-gray-100">${data.name}</p>
-    </div>
+            <div>
+                <span class="text-gray-400">Name</span>
+                <p class="font-medium text-gray-100">${data.name}</p>
+            </div>
 
-    <div>
-        <span class="text-gray-400">Email</span>
-        <p class="font-medium">${data.email}</p>
-    </div>
+            <div>
+                <span class="text-gray-400">Email</span>
+                <p class="font-medium">${data.email}</p>
+            </div>
 
-    <div>
-        <span class="text-gray-400">Phone</span>
-        <p class="font-medium">${data.phone}</p>
-    </div>
+            <div>
+                <span class="text-gray-400">Phone</span>
+                <p class="font-medium">${data.phone ?? '—'}</p>
+            </div>
 
-    <div>
-        <span class="text-gray-400">Course</span>
-        <p class="font-medium">${data.course_name}</p>
-    </div>
+            <div>
+                <span class="text-gray-400">Course</span>
+                <p class="font-medium">${data.course_name}</p>
+            </div>
 
-   
+            
+            <div>
+                <span class="text-gray-400">
+                    <i class="bi bi-calendar-event me-1"></i>
+                    Launch Date
+                </span>
+                <p class="font-medium">
+                    ${data.launch_date
+                        ? new Date(data.launch_date).toDateString()
+                        : 'Not selected'}
+                </p>
+            </div>
 
-    <div class="sm:col-span-2">
-        <span class="text-gray-400">Message</span>
-        <p class="font-medium">${data.message ?? '—'}</p>
-    </div>
+            <div class="sm:col-span-2">
+                <span class="text-gray-400">Message</span>
+                <p class="font-medium">${data.message ?? '—'}</p>
+            </div>
 
-    <div>
-        <span class="text-gray-400">Status</span>
-        <p class="font-medium capitalize">${data.status}</p>
-    </div>
-`;
+            <div>
+                <span class="text-gray-400">Status</span>
+                <p class="font-medium capitalize">${data.status}</p>
+            </div>
+        `;
 
+        document.getElementById('replyForm').action =
+            `/admin/course-enrollments/${id}/reply`;
 
-        document.getElementById('replyForm').action = `/admin/course-enrollments/${id}/reply`;
-        document.getElementById('approveBtn').formAction = `/admin/course-enrollments/${id}/approve`;
-        document.getElementById('rejectBtn').formAction = `/admin/course-enrollments/${id}/reject`;
+        document.getElementById('approveBtn').formAction =
+            `/admin/course-enrollments/${id}/approve`;
+
+        document.getElementById('rejectBtn').formAction =
+            `/admin/course-enrollments/${id}/reject`;
 
         document.getElementById('enrollmentModal').classList.remove('hidden');
     })
@@ -274,6 +301,7 @@ function openEnrollmentModal(id) {
 function closeEnrollmentModal() {
     document.getElementById('enrollmentModal').classList.add('hidden');
 }
+
 const replyBtn = document.getElementById('replyBtn');
 const approveBtn = document.getElementById('approveBtn');
 const rejectBtn = document.getElementById('rejectBtn');
@@ -293,6 +321,6 @@ approveBtn.addEventListener('click', () => {
 rejectBtn.addEventListener('click', () => {
     replyMessage.removeAttribute('required');
 });
-
 </script>
+
 @endpush

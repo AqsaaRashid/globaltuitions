@@ -9,38 +9,39 @@
         <span class="hero-badge">BTMG USA Professional Training</span>
 
         <h1 class="hero-title">{{ $course->title }}</h1>
-       @if($course->nextLaunch)
-    <span style="color:#09515D;">
-        <i class="bi bi-calendar-event" style="margin-right:4px;"></i>
-        Starts From
-        {{ \Carbon\Carbon::parse($course->nextLaunch->launch_date)->format('d M Y') }}
-    </span>
-@endif
-
+      
 
          <div class="rich-text">
                 {!! $course->description !!}
             </div>
         <div class="hero-pills">
             @if($course->level)
-                <span>🎯 Level: {{ $course->level }}</span>
+                <span>
+                                <i class="bi bi-bar-chart-steps" style="margin-right:6px;color: #F47B1E"></i>
+Level: {{ $course->level }}</span>
             @endif
 
             @if($course->duration)
-                <span>⏱ Duration: {{ $course->duration }}</span>
+                <span>
+                                <i class="bi bi-clock" style="margin-right:6px;color: #F47B1E"></i>
+ Duration: {{ $course->duration }}</span>
             @endif
 
-            <span>💻 Online / Virtual</span>
+            <span>
+                        <i class="bi bi-laptop" style="margin-right:6px;color: #F47B1E"></i>
+ 
+                Online / Virtual</span>
 
             
         </div>
 
        
         <div class="hero-actions">
-            <button class="btn-solid"
-                onclick="openEnrollModal('{{ $course->title }}')">
-                Register for the Course
-            </button>
+             <button class="btn-solid"
+        onclick="handleLaunchCheck()">
+        Check Available Dates
+    </button>
+
 
             <button class="btn-outline"
                 onclick="openInquiryModal('{{ $course->title }}')">
@@ -62,25 +63,27 @@
                 </div>
             @endif
 
-            <ul class="snapshot-list">
-                @if($course->level)
-                    <li>Level: {{ $course->level }}</li>
-                @endif
+           <ul class="snapshot-list">
+    @if($course->level)
+        <li>
+            <i class="bi bi-bar-chart-steps" style="margin-right:6px;color: #F47B1E"></i>
+            Level: {{ $course->level }}
+        </li>
+    @endif
 
-                @if($course->duration)
-                    <li>Duration: {{ $course->duration }}</li>
-                @endif
+    @if($course->duration)
+        <li>
+            <i class="bi bi-clock" style="margin-right:6px;color: #F47B1E"></i>
+            Duration: {{ $course->duration }}
+        </li>
+    @endif
 
-                <li>Mode: Online / Virtual</li>
-
-                @if($course->nextLaunch)
     <li>
-        Start Date:
-        {{ \Carbon\Carbon::parse($course->nextLaunch->launch_date)->format('d M Y') }}
+        <i class="bi bi-laptop" style="margin-right:6px;color: #F47B1E"></i>
+        Mode: Online / Virtual
     </li>
-@endif
+</ul>
 
-            </ul>
              @php
             $skills = $course->skills
                 ? array_filter(array_map('trim', explode(',', $course->skills)))
@@ -101,10 +104,10 @@
         @endif
 
 
-            <button class="btn-solid full"
+            <!-- <button class="btn-solid full"
                 onclick="openEnrollModal('{{ $course->title }}')">
                 Register Now
-            </button>
+            </button> -->
 
         </div>
     </div>
@@ -137,10 +140,62 @@
                 <p class="muted">No topics added yet.</p>
             @endif
         </div>
+        @if($course->launches->count())
+<div class="card">
+    <h3 class="sec-title">Upcoming Batches</h3>
+
+   <div class="launch-list" id="dates">
+    @foreach($course->launches as $launch)
+        <div class="launch-row">
+
+            <div class="launch-meta">
+                <span class="pill">
+                    <i class="bi bi-laptop" style="margin-right:4px;"></i>
+                    Virtual
+                </span>
+
+                @if($course->duration)
+                    <span class="pill">
+                        <i class="bi bi-clock" style="margin-right:4px;"></i>
+                        {{ $course->duration }}
+                    </span>
+                @endif
+
+                <span class="pill">
+                    <i class="bi bi-calendar-event" style="margin-right:4px;"></i>
+                    {{ \Carbon\Carbon::parse($launch->launch_date)->format('D d M Y') }}
+                </span>
+
+                @if($course->level)
+                    <span class="pill">
+                        <i class="bi bi-bar-chart-steps" style="margin-right:4px;"></i>
+                        {{ ucfirst($course->level) }}
+                    </span>
+                @endif
+            </div>
+
+           <button class="btn-solid small"
+    onclick="openEnrollModal('{{ $course->title }}', '{{ $launch->launch_date }}')">
+    Register Now
+</button>
+
+
+        </div>
+    @endforeach
+</div>
+
+</div>
+@endif
+
 
         <div class="card">
            <!-- CTA BUTTONS -->
-            
+            <div id="launchMessage"
+     style="display:none; margin-top:12px; color: #09515D; font-weight:600;">
+    <i class="bi bi-info-circle-fill" style="margin-right:6px;"></i>
+    This course has not been launched yet. Upcoming dates will be announced soon.
+</div>
+
 
             <div class="cta-buttons">
                  <button class="btn-primary"style="color: #fff;"
@@ -182,6 +237,8 @@
     <form method="POST" action="{{ route('course.enroll') }}">
         @csrf
         <input type="hidden" name="course_name" id="courseName">
+        <input type="hidden" name="launch_date" id="selectedLaunchDate">
+
 
         <div class="reg-grid">
             <div class="reg-group">
@@ -1102,10 +1159,11 @@
     list-style:none;
     padding:0;
     margin:0 0 22px;
+
 }
 
 .snapshot-list li{
-    font-size:13px;
+    font-size:18px;
     font-weight:600;
     color:#334155;
     margin-bottom:8px;
@@ -1122,17 +1180,75 @@
         padding:28px;
     }
 }
+/* lastt */
+/* ===== LAUNCH LIST ===== */
+.launch-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
 
+.launch-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#09515D;
+    border-radius:8px;
+    padding:12px 16px;
+    gap:14px;
+}
+
+.launch-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.launch-meta .pill{
+    background:#ffffff;
+    color:#09515D;
+    font-size:12px;
+    font-weight:700;
+    padding:6px 12px;
+    border-radius:6px;
+    border:1px solid #e5e7eb;
+}
+
+/* CTA inside launch row */
+.btn-solid.small{
+    padding:8px 18px;
+    font-size:12px;
+    border-radius:4px;
+    white-space:nowrap;
+}
+
+/* Mobile */
+@media(max-width:640px){
+    .launch-row{
+        flex-direction:column;
+        align-items:flex-start;
+        border-radius:16px;
+    }
+
+    .btn-solid.small{
+        width:100%;
+        text-align:center;
+    }
+}
 
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
-function openEnrollModal(courseTitle){
+function openEnrollModal(courseTitle, launchDate = null){
     document.body.style.overflow = 'hidden';
-    document.getElementById('enrollModal').style.display='flex';
+    document.getElementById('enrollModal').style.display = 'flex';
     document.getElementById('courseName').value = courseTitle;
     document.getElementById('selectedCourse').innerText = 'Enroll in ' + courseTitle;
+
+    if (launchDate) {
+        document.getElementById('selectedLaunchDate').value = launchDate;
+    }
 }
 
 function closeEnrollModal(){
@@ -1178,5 +1294,21 @@ function openInquiryModal(courseTitle){
 function closeInquiryModal(){
     document.body.style.overflow = '';
     document.getElementById('inquiryModal').style.display = 'none';
+}
+</script>
+<script>
+function handleLaunchCheck() {
+    const datesSection = document.getElementById('dates');
+    const messageBox = document.getElementById('launchMessage');
+
+    if (datesSection && datesSection.children.length > 0) {
+        datesSection.scrollIntoView({ behavior: 'smooth' });
+        if (messageBox) messageBox.style.display = 'none';
+    } else {
+        if (messageBox) {
+            messageBox.style.display = 'block';
+            messageBox.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
 }
 </script>
