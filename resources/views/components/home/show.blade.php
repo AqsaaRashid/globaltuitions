@@ -227,7 +227,28 @@ Level: {{ $course->level }}</span>
     <div class="modal-box">
         <span class="close-btn" onclick="closeEnrollModal()">×</span>
 
-        <h3 id="selectedCourse" class="modal-title" style="text-align:center !important;">Enroll</h3>
+<div class="enroll-header">
+    <h3 id="selectedCourse" class="modal-title">
+        Enroll
+    </h3>
+
+    <div class="enroll-info" id="enrollInfo" style="display:none;">
+        <span class="info-pill">
+            <i class="bi bi-clock"></i>
+            <span id="enrollDuration"></span>
+        </span>
+           
+        
+    <span class="info-pill" id="enrollLevelWrap" style="display:none;">
+        <i class="bi bi-bar-chart-steps"></i>
+        <span id="enrollLevel"></span>
+    </span>
+        <span class="info-pill" id="enrollDateWrap" style="display:none;">
+            <i class="bi bi-calendar-event"></i>
+            <span id="enrollDate"></span>
+        </span>
+    </div>
+</div>
 <div class="registration-card">
     <h2 class="reg-title">Student Registration</h2>
     <p class="reg-subtitle">
@@ -1235,6 +1256,39 @@ Level: {{ $course->level }}</span>
         text-align:center;
     }
 }
+/* ===== ENROLL HEADER (MODAL) ===== */
+.enroll-header{
+    padding:18px 24px;
+    border-bottom:1px solid #e5e7eb;
+    text-align:center;
+}
+
+.enroll-header .modal-title{
+    font-size:22px;
+    font-weight:900;
+    color:#09515D;
+    margin-bottom:10px;
+}
+
+.enroll-info{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.info-pill{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    background:#eef7f6;
+    color:#09515D;
+    font-size:12px;
+    font-weight:700;
+    padding:6px 14px;
+    border-radius:999px;
+    border:1px solid #cbd5e1;
+}
 
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -1243,11 +1297,41 @@ Level: {{ $course->level }}</span>
 function openEnrollModal(courseTitle, launchDate = null){
     document.body.style.overflow = 'hidden';
     document.getElementById('enrollModal').style.display = 'flex';
-    document.getElementById('courseName').value = courseTitle;
-    document.getElementById('selectedCourse').innerText = 'Enroll in ' + courseTitle;
 
+    // Title
+    document.getElementById('selectedCourse').innerText =
+        'Enroll in ' + courseTitle;
+
+    document.getElementById('courseName').value = courseTitle;
+
+    document.getElementById('enrollInfo').style.display = 'flex';
+
+    // Duration
+    const duration = @json($course->duration);
+    if (duration) {
+        document.getElementById('enrollDuration').innerText = duration;
+    }
+
+    // Level
+    const level = @json($course->level);
+    if (level) {
+        document.getElementById('enrollLevel').innerText =
+            level.charAt(0).toUpperCase() + level.slice(1);
+
+        document.getElementById('enrollLevelWrap').style.display = 'flex';
+    } else {
+        document.getElementById('enrollLevelWrap').style.display = 'none';
+    }
+
+    // Launch Date
     if (launchDate) {
+        document.getElementById('enrollDate').innerText =
+            'Starts: ' + launchDate;
+
+        document.getElementById('enrollDateWrap').style.display = 'flex';
         document.getElementById('selectedLaunchDate').value = launchDate;
+    } else {
+        document.getElementById('enrollDateWrap').style.display = 'none';
     }
 }
 

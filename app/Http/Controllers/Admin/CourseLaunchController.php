@@ -12,7 +12,7 @@ class CourseLaunchController extends Controller
     public function index()
     {
         $launches = CourseLaunch::with('course')
-            ->orderBy('launch_date', 'desc')
+            ->orderBy('launch_date', 'asc')
             ->get();
 
         return view('admin.course-launches.index', compact('launches'));
