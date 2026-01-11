@@ -14,6 +14,9 @@ use App\Http\Controllers\CourseInquiryController;
 
 use App\Http\Controllers\SubscriberController;
 // routes/web.php
+Route::delete('/admin/course-enrollments/{enrollment}', 
+    [CourseEnrollmentController::class, 'destroy']
+)->name('admin.course-enrollments.destroy');
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('course-launches', \App\Http\Controllers\Admin\CourseLaunchController::class);

@@ -19,9 +19,9 @@
                 <th class="px-4 py-3 text-left text-sm font-semibold">
                     For Course
                 </th>
-                <th class="px-4 py-3 text-left text-sm font-semibold">
+                <!-- <th class="px-4 py-3 text-left text-sm font-semibold">
     Launch Date
-</th>
+</th> -->
 
                 <th class="px-4 py-3 text-left text-sm font-semibold">
     Type
@@ -30,9 +30,9 @@
                 <th class="px-4 py-3 text-left text-sm font-semibold">
                     Name
                 </th>
-                <th class="px-4 py-3 text-left text-sm font-semibold">
+                <!-- <th class="px-4 py-3 text-left text-sm font-semibold">
                     Email
-                </th>
+                </th> -->
                 <!-- <th class="px-4 py-3 text-left text-sm font-semibold">
                     Phone
                 </th> -->
@@ -60,12 +60,12 @@
                     <td class="px-4 py-3 font-medium">
                         {{ $enroll->course_name }}
                     </td>
-                    <td class="px-4 py-3 text-sm">
+                    <!-- <td class="px-4 py-3 text-sm">
     <i class="bi bi-calendar-event me-1 text-gray-500"></i>
     {{ $enroll->launch_date
         ? \Carbon\Carbon::parse($enroll->launch_date)->format('d M Y')
         : '—' }}
-</td>
+</td> -->
 
                     <td class="px-4 py-3 text-sm">
     <span class="px-3 py-1 rounded-full text-xs font-semibold
@@ -80,10 +80,10 @@
                     <td class="px-4 py-3">
                         {{ $enroll->name }}
                     </td>
-
+<!-- 
                     <td class="px-4 py-3">
                         {{ $enroll->email }}
-                    </td>
+                    </td> -->
 
                     <!-- <td class="px-4 py-3">
                         {{ $enroll->phone }}
@@ -113,13 +113,29 @@
         </span>
     @endif
 </td>
-<td class="px-4 py-3 text-center">
+<td class="px-4 py-3 text-center flex items-center justify-center gap-3">
+
+    <!-- VIEW -->
     <button type="button"onclick="openEnrollmentModal({{ $enroll->id }})"
-    class="text-blue-600 hover:underline text-sm">
-    View
-</button>
+        class="text-blue-600 hover:underline text-sm">
+        View Details
+    </button>
+
+    <!-- DELETE -->
+    <form method="POST"
+          action="{{ route('admin.course-enrollments.destroy', $enroll->id) }}"
+          onsubmit="return confirm('Are you sure you want to delete this enrollment?');">
+        @csrf
+        @method('DELETE')
+
+        <button type="submit"
+            class="text-red-600 hover:underline text-sm">
+            Delete
+        </button>
+    </form>
 
 </td>
+
 
 
                 </tr>
@@ -256,6 +272,11 @@ function openEnrollmentModal(id) {
                 <span class="text-gray-400">Course</span>
                 <p class="font-medium">${data.course_name}</p>
             </div>
+            <div>
+    <span class="text-gray-400">Level</span>
+    <p class="font-medium">${data.level ?? '—'}</p>
+</div>
+
 
             
             <div>

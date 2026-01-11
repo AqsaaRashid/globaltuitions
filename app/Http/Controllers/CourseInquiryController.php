@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CourseInquiry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Carbon\Carbon;
 
 class CourseInquiryController extends Controller
 {
@@ -27,12 +28,14 @@ class CourseInquiryController extends Controller
         }
 
         return response()->json([
-            'id' => $courseInquiry->id,
-            'course_title' => $courseInquiry->course_title,
-            'name' => $courseInquiry->name,
-            'email' => $courseInquiry->email,
-            'phone' => $courseInquiry->phone,
-            'message' => $courseInquiry->message,
+            'id'          => $courseInquiry->id,
+            'course_title'=> $courseInquiry->course_title,
+            'name'        => $courseInquiry->name,
+            'email'       => $courseInquiry->email,
+            'phone'       => $courseInquiry->phone,
+            'message'     => $courseInquiry->message,
+            'level'       => $courseInquiry->level,
+            'launch_date' => $courseInquiry->launch_date,
         ]);
     }
 
@@ -45,10 +48,19 @@ class CourseInquiryController extends Controller
             'reply_message' => 'required|string',
         ]);
 
-        Mail::raw($request->reply_message, function ($mail) use ($courseInquiry) {
-            $mail->to($courseInquiry->email)
-                 ->subject('Reply regarding ' . $courseInquiry->course_title);
-        });
+        Mail::raw(
+            "Dear {$courseInquiry->name},\n\n" .
+            $request->reply_message . "\n\n" .
+            "Kind regards,\n" .
+            "BTMG USA Training Team",
+            function ($mail) use ($courseInquiry) {
+                $mail->to($courseInquiry->email)
+                     ->subject(
+                         'BTMG USA Training – Inquiry Response: ' .
+                         $courseInquiry->course_title
+                     );
+            }
+        );
 
         $courseInquiry->update([
             'reply_status' => 'replied',
@@ -58,17 +70,54 @@ class CourseInquiryController extends Controller
             ->route('admin.course-inquiries.index')
             ->with('success', 'Reply sent successfully.');
     }
-     public function store(Request $request)
+
+    /* =========================
+       FRONTEND: STORE + EMAIL
+    ========================== */
+    public function store(Request $request)
     {
         $request->validate([
             'course_title' => 'required|string',
             'name'         => 'required|string|max:255',
             'email'        => 'required|email',
             'message'      => 'required|string',
+            'level'        => 'nullable|string|max:50',
+            'launch_date'  => 'nullable|date',
         ]);
 
-        CourseInquiry::create($request->all());
+        $inquiry = CourseInquiry::create([
+            'course_title' => $request->course_title,
+            'name'         => $request->name,
+            'email'        => $request->email,
+            'phone'        => $request->phone,
+            'message'      => $request->message,
+            'level'        => $request->level,
+            'launch_date'  => $request->launch_date,
+        ]);
 
-        return back()->with('success', 'Your inquiry has been submitted. We will contact you soon.');
+        /* ===== SEND CONFIRMATION EMAIL (LIKE ENROLL) ===== */
+        Mail::raw(
+            "Dear {$inquiry->name},\n\n" .
+            "Thank you for your interest in BTMG USA Training.\n\n" .
+            "We have received your inquiry regarding the following training:\n\n" .
+            "Course: {$inquiry->course_title}\n" .
+            ($inquiry->level ? "Level: {$inquiry->level}\n" : "") .
+            ($inquiry->launch_date
+                ? "Start Date: " . Carbon::parse($inquiry->launch_date)->format('d M Y') . "\n\n"
+                : "\n"
+            ) .
+            "Our training team will review your request and contact you shortly with further details.\n\n" .
+            "Warm regards,\n" .
+            "BTMG USA Training Team",
+            function ($mail) use ($inquiry) {
+                $mail->to($inquiry->email)
+                     ->subject('BTMG USA Training – Inquiry Received');
+            }
+        );
+
+        return back()->with(
+            'success',
+            'Thank you for your inquiry. Our BTMG USA training team will contact you shortly.'
+        );
     }
 }

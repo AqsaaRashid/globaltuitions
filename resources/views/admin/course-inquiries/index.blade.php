@@ -17,8 +17,11 @@
             <th class="px-4 py-3 text-left text-sm font-semibold">Name</th>
             <th class="px-4 py-3 text-left text-sm font-semibold">Email</th>
             <!-- <th class="px-4 py-3 text-left text-sm font-semibold">Phone</th> -->
-            <th class="px-4 py-3 text-left text-sm font-semibold">Message</th>
-            <th class="px-4 py-3 text-center text-sm font-semibold">Date</th>
+            <!-- <th class="px-4 py-3 text-left text-sm font-semibold">Message</th> -->
+             <!-- <th class="px-4 py-3 text-left text-sm font-semibold">Level</th>
+             <th class="px-4 py-3 text-center text-sm font-semibold">Launch Date</th> -->
+
+            <th class="px-4 py-3 text-center text-sm font-semibold"> Submitted Date</th>
             <th class="px-4 py-3 text-center text-sm font-semibold">Replied</th>
             <th class="px-4 py-3 text-center text-sm font-semibold">Viewed</th>
             <th class="px-4 py-3 text-center text-sm font-semibold">Action</th>
@@ -41,14 +44,24 @@
                 <td class="px-4 py-3">
                     {{ $inquiry->email }}
                 </td>
+                <!-- <td class="px-4 py-3 text-sm">
+    {{ $inquiry->level ?? '—' }}
+</td>
+
+<td class="px-4 py-3 text-center text-sm">
+    {{ $inquiry->launch_date
+        ? \Carbon\Carbon::parse($inquiry->launch_date)->format('d M Y')
+        : '—' }}
+</td>
+ -->
 
                 <!-- <td class="px-4 py-3">
                     {{ $inquiry->phone }}
                 </td> -->
-
+<!-- 
                 <td class="px-4 py-3 text-sm text-gray-700">
                     {{ \Illuminate\Support\Str::limit($inquiry->message, 60) }}
-                </td>
+                </td> -->
 
                 <td class="px-4 py-3 text-center text-sm">
                     {{ $inquiry->created_at->format('d M Y') }}
@@ -73,7 +86,7 @@
     <button
         onclick="openInquiryModal({{ $inquiry->id }})"
         class="text-blue-600 hover:underline text-sm">
-        View
+        View Details
     </button>
 </td>
 
@@ -140,15 +153,46 @@ function openInquiryModal(id) {
     .then(res => res.json())
     .then(data => {
         document.getElementById('inquiryDetails').innerHTML = `
-            <div><span class="text-gray-400">Course</span><p>${data.course_title}</p></div>
-            <div><span class="text-gray-400">Name</span><p>${data.name}</p></div>
-            <div><span class="text-gray-400">Email</span><p>${data.email}</p></div>
-            <div><span class="text-gray-400">Phone</span><p>${data.phone}</p></div>
-            <div class="sm:col-span-2">
-                <span class="text-gray-400">Message</span>
-                <p>${data.message}</p>
-            </div>
-        `;
+    <div>
+        <span class="text-gray-400">Course</span>
+        <p class="font-medium">${data.course_title}</p>
+    </div>
+
+    <div>
+        <span class="text-gray-400">Level</span>
+        <p class="font-medium">${data.level ?? '—'}</p>
+    </div>
+
+    <div>
+        <span class="text-gray-400">Launch Date</span>
+        <p class="font-medium">
+            ${data.launch_date
+                ? new Date(data.launch_date).toDateString()
+                : '—'}
+        </p>
+    </div>
+
+    <div>
+        <span class="text-gray-400">Name</span>
+        <p class="font-medium">${data.name}</p>
+    </div>
+
+    <div>
+        <span class="text-gray-400">Email</span>
+        <p class="font-medium">${data.email}</p>
+    </div>
+
+    <div>
+        <span class="text-gray-400">Phone</span>
+        <p class="font-medium">${data.phone ?? '—'}</p>
+    </div>
+
+    <div class="sm:col-span-2">
+        <span class="text-gray-400">Message</span>
+        <p class="font-medium">${data.message}</p>
+    </div>
+`;
+
 
         document.getElementById('inquiryReplyForm').action =
             `/admin/course-inquiries/${id}/reply`;

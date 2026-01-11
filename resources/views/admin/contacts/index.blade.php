@@ -56,7 +56,7 @@
                 <button
                     onclick="openContactModal({{ $contact->id }})"
                     class="text-blue-600 hover:underline text-sm">
-                    View
+                    View Details
                 </button>
             </td>
 

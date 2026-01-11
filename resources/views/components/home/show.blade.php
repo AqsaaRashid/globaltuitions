@@ -43,10 +43,10 @@ Level: {{ $course->level }}</span>
     </button>
 
 
-            <button class="btn-outline"
+            <!-- <button class="btn-outline"
                 onclick="openInquiryModal('{{ $course->title }}')">
                 Inquiry about the Course
-            </button>
+            </button> -->
         </div>
 
     </div>
@@ -142,45 +142,64 @@ Level: {{ $course->level }}</span>
         </div>
         @if($course->launches->count())
 <div class="card">
-    <h3 class="sec-title">Upcoming Batches</h3>
+    <h3 class="sec-title">Upcoming Trainings</h3>
 
    <div class="launch-list" id="dates">
     @foreach($course->launches as $launch)
-        <div class="launch-row">
+       <div class="launch-row pro">
+
+    <!-- LEFT: DETAILS -->
+    <div class="launch-left">
+        <div class="launch-date">
+            <span class="day">
+                {{ \Carbon\Carbon::parse($launch->launch_date)->format('d') }}
+            </span>
+            <span class="month">
+                {{ \Carbon\Carbon::parse($launch->launch_date)->format('M Y') }}
+            </span>
+        </div>
+
+        <div class="launch-details">
+            <h4 class="launch-title">
+                {{ $course->title }}
+            </h4>
 
             <div class="launch-meta">
-                <span class="pill">
-                    <i class="bi bi-laptop" style="margin-right:4px;"></i>
-                    Virtual
+                <span>
+                    <i class="bi bi-laptop" style="color: #F47B1E;"></i> Virtual
                 </span>
 
                 @if($course->duration)
-                    <span class="pill">
-                        <i class="bi bi-clock" style="margin-right:4px;"></i>
-                        {{ $course->duration }}
+                    <span>
+                        <i class="bi bi-clock" style="color: #F47B1E;"></i> {{ $course->duration }}
                     </span>
                 @endif
 
-                <span class="pill">
-                    <i class="bi bi-calendar-event" style="margin-right:4px;"></i>
-                    {{ \Carbon\Carbon::parse($launch->launch_date)->format('D d M Y') }}
-                </span>
-
                 @if($course->level)
-                    <span class="pill">
-                        <i class="bi bi-bar-chart-steps" style="margin-right:4px;"></i>
+                    <span>
+                        <i class="bi bi-bar-chart-steps" style="color: #F47B1E;"></i>
                         {{ ucfirst($course->level) }}
                     </span>
                 @endif
             </div>
-
-           <button class="btn-solid small"
-    onclick="openEnrollModal('{{ $course->title }}', '{{ $launch->launch_date }}')">
-    Register Now
-</button>
-
-
         </div>
+    </div>
+
+    <!-- RIGHT: ACTIONS -->
+    <div class="launch-actions">
+        <button class="btn-outline small"
+            onclick="openInquiryModal('{{ $course->title }}','{{ $launch->launch_date }}')">
+            Have Questions?
+        </button>
+
+        <button class="btn-solid small"
+            onclick="openEnrollModal('{{ $course->title }}','{{ $launch->launch_date }}')">
+            Register Now
+        </button>
+    </div>
+
+</div>
+
     @endforeach
 </div>
 
@@ -259,6 +278,8 @@ Level: {{ $course->level }}</span>
         @csrf
         <input type="hidden" name="course_name" id="courseName">
         <input type="hidden" name="launch_date" id="selectedLaunchDate">
+        <input type="hidden" name="level" id="selectedLevel">
+
 
 
         <div class="reg-grid">
@@ -325,8 +346,29 @@ Level: {{ $course->level }}</span>
 <div id="inquiryModal" class="modal-overlay">
     <div class="modal-box">
         <span class="close-btn" onclick="closeInquiryModal()">×</span>
+        <div class="enroll-header">
 
-        <h3 class="modal-title" style="text-align:center">Inquiry</h3>
+ <h3 id="inquiryTitle" class="modal-title">
+    Inquiry
+</h3>
+
+<div class="enroll-info" id="inquiryInfo" style="display:none; justify-content:center;">
+    <span class="info-pill">
+        <i class="bi bi-clock"></i>
+        <span id="inquiryDuration"></span>
+    </span>
+
+    <span class="info-pill">
+        <i class="bi bi-bar-chart-steps"></i>
+        <span id="inquiryLevelText"></span>
+    </span>
+
+    <span class="info-pill">
+        <i class="bi bi-calendar-event"></i>
+        <span id="inquiryDateText"></span>
+    </span>
+</div>
+        </div>
 
         <div class="registration-card">
             <h2 class="reg-title">Course Inquiry</h2>
@@ -338,7 +380,10 @@ Level: {{ $course->level }}</span>
                 @csrf
 
                 <!-- KEEP THIS EXACT -->
-                <input type="hidden" name="course_title" value="{{ $course->title }}">
+<input type="hidden" name="course_title" id="inquiryCourseTitle">
+<input type="hidden" name="launch_date" id="inquiryLaunchDate">
+<input type="hidden" name="level" id="inquiryLevel">
+
 
                 <div class="reg-grid">
                     <div class="reg-group">
@@ -1289,6 +1334,93 @@ Level: {{ $course->level }}</span>
     border-radius:999px;
     border:1px solid #cbd5e1;
 }
+   /* upcom */
+   /* ===== UPCOMING TRAININGS – PRO VERSION ===== */
+.launch-row.pro{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    padding:18px 22px;
+    background:#ffffff;
+    border:1px solid #e5e7eb;
+    border-radius:14px;
+    box-shadow:0 10px 24px rgba(15,23,42,.06);
+}
+
+.launch-left{
+    display:flex;
+    gap:18px;
+    align-items:center;
+}
+
+/* DATE BLOCK */
+.launch-date{
+    min-width:70px;
+    text-align:center;
+    background:#eef7f6;
+    border-radius:12px;
+    padding:10px 8px;
+}
+
+.launch-date .day{
+    display:block;
+    font-size:28px;
+    font-weight:900;
+    color:#09515D;
+    line-height:1;
+}
+
+.launch-date .month{
+    font-size:14px;
+    font-weight:700;
+    color:#64748b;
+}
+
+/* DETAILS */
+.launch-title{
+    font-size:18px;
+    font-weight:800;
+    margin-bottom:6px;
+    color:#0f172a;
+}
+
+.launch-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    font-size:16px;
+    color:#475569;
+}
+
+.launch-meta span{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+/* ACTIONS */
+.launch-actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+/* MOBILE */
+@media(max-width:640px){
+    .launch-row.pro{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .launch-actions{
+        width:100%;
+    }
+
+    .launch-actions button{
+        width:100%;
+    }
+}
 
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -1313,15 +1445,18 @@ function openEnrollModal(courseTitle, launchDate = null){
     }
 
     // Level
-    const level = @json($course->level);
-    if (level) {
-        document.getElementById('enrollLevel').innerText =
-            level.charAt(0).toUpperCase() + level.slice(1);
+   // Level
+const level = @json($course->level);
+if (level) {
+    document.getElementById('enrollLevel').innerText =
+        level.charAt(0).toUpperCase() + level.slice(1);
 
-        document.getElementById('enrollLevelWrap').style.display = 'flex';
-    } else {
-        document.getElementById('enrollLevelWrap').style.display = 'none';
-    }
+    document.getElementById('enrollLevelWrap').style.display = 'flex';
+
+    // 👇 THIS LINE WAS MISSING
+    document.getElementById('selectedLevel').value = level;
+}
+
 
     // Launch Date
     if (launchDate) {
@@ -1370,9 +1505,42 @@ function downloadPDF(){
 
 </script>
 <script>
-function openInquiryModal(courseTitle){
+function openInquiryModal(courseTitle, launchDate = null){
     document.body.style.overflow = 'hidden';
     document.getElementById('inquiryModal').style.display = 'flex';
+
+    // ✅ Set header title like Enroll
+    document.getElementById('inquiryTitle').innerText =
+        'Inquiry about ' + courseTitle;
+
+    // Hidden inputs
+    document.getElementById('inquiryCourseTitle').value = courseTitle;
+
+    // Show info pills
+    document.getElementById('inquiryInfo').style.display = 'flex';
+
+    // Duration
+    const duration = @json($course->duration);
+    if (duration) {
+        document.getElementById('inquiryDuration').innerText = duration;
+    }
+
+    // Level
+    const level = @json($course->level);
+    if (level) {
+        document.getElementById('inquiryLevelText').innerText =
+            level.charAt(0).toUpperCase() + level.slice(1);
+
+        document.getElementById('inquiryLevel').value = level;
+    }
+
+    // Launch Date
+    if (launchDate) {
+        document.getElementById('inquiryDateText').innerText =
+            'Starts: ' + launchDate;
+
+        document.getElementById('inquiryLaunchDate').value = launchDate;
+    }
 }
 
 function closeInquiryModal(){
