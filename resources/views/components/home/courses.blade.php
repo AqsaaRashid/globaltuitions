@@ -88,8 +88,16 @@
     <div class="courses-grid">
   @foreach($courses as $course)
 @php
-    $launchDate = optional($course->launch)->launch_date;
+    $launchDate = '';
+
+    if ($course->nextLaunch && $course->nextLaunch->launch_date) {
+        $launchDate = \Carbon\Carbon::parse(
+            $course->nextLaunch->launch_date
+        )->toDateString();
+    }
 @endphp
+
+
 
 <div class="course-card"
      data-category="{{ $course->training_category_id ?? 'none' }}"
@@ -845,9 +853,17 @@ if (freeOnly) {
     }
 
     // must have launch date AND must be today or future
-    if (!launchDate || launchDate < today) {
+    if (!launchDate) {
+    show = false;
+} else {
+    const launch = new Date(launchDate);
+    const now = new Date(today);
+
+    if (launch < now) {
         show = false;
     }
+}
+
 }
 
 

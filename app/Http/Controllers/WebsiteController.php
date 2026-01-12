@@ -15,9 +15,11 @@ class WebsiteController extends Controller
 {
     // Fetch only active courses
     $courses = Course::where('is_active', true)
-        ->orderBy('sort_order')
-        ->orderBy('id')
-        ->get();
+    ->with('nextLaunch')   // 🔥 THIS WAS MISSING
+    ->orderBy('sort_order')
+    ->orderBy('id')
+    ->get();
+
 
     // Fetch categories in custom order
    $categories = TrainingCategory::with('images')
