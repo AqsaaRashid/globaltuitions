@@ -389,9 +389,10 @@
 .courses-grid {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 22px;
     box-sizing: border-box;
+    
 }
 
 /* ===============================
@@ -406,7 +407,7 @@
     overflow: hidden;
     box-shadow: 0 10px 25px rgba(0,0,0,0.10);
     background: #fff;
-
+    max-width: 250px !important;
     display: flex;
     flex-direction: column;
     height: 100%;

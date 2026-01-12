@@ -1127,7 +1127,7 @@ Level: {{ $course->level }}</span>
     border-radius:999px;
     font-size:12px;
     font-weight:600;
-        color: #09515D;
+     color: #09515D;
 
 }
 /* ===============================
@@ -1204,6 +1204,7 @@ Level: {{ $course->level }}</span>
     background: #ffffff;
     border-radius:16px;
     padding:26px;
+    margin-top:55px;
     box-shadow:0 14px 36px rgba(15,23,42,.12);
 }
 
@@ -1244,6 +1245,10 @@ Level: {{ $course->level }}</span>
     .hero-snapshot{
         grid-template-columns:1fr;
         padding:28px;
+    }
+    .snapshot-card{
+      margin-top:0px !important;
+
     }
 }
 /* lastt */

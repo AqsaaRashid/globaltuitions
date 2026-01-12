@@ -14,7 +14,10 @@
     <div class="courses-layout">
 
     <div class="filters-sidebar" >
-    <h4>Categories</h4>
+<h4 style="margin-top:20px;font-style:italic;font-weight:800;letter-spacing:0.6px;">
+    <i class="bi bi-grid-3x3-gap-fill" style="margin-right:8px;color: #09515D;"></i>
+    Categories
+</h4>
 
     <label class="check-item">
         <input type="radio" name="category" value="all" checked onchange="setCategory('all')">
@@ -28,8 +31,11 @@
         <span>{{ $category->name }}</span>
     </label>
     @endforeach
+<h4 style="margin-top:20px;font-style:italic;font-weight:800;letter-spacing:0.6px;">
+    <i class="bi bi-stack" style="margin-right:3px;color:#09515D;font-size:15px;"></i>
+    Levels
+</h4>
 
-    <h4 style="margin-top:20px">Levels</h4>
 
 <label class="check-item">
     <input type="radio" name="level" value="all" checked onchange="setLevel('all')">
@@ -622,6 +628,124 @@
 
     }
 }
+/* ===============================
+   SIDEBAR – PRODUCT-GRADE UI (COMPACT HEIGHT)
+   =============================== */
+
+.filters-sidebar{
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 18px 20px;                 /* compact */
+    border: 1px solid #e5e7eb;
+    box-shadow:
+        0 1px 2px rgba(15,23,42,0.04),
+        0 12px 32px rgba(15,23,42,0.08);
+    position: sticky;
+    top: 90px;
+}
+
+/* SECTION HEADINGS */
+.filters-sidebar h4{
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .6px;
+    color: #0f172a;
+    text-transform: uppercase;
+    margin-bottom: 10px;                /* reduced */
+}
+
+/* SPACE BETWEEN SECTIONS */
+.filters-sidebar h4:not(:first-child){
+    margin-top: 20px;                   /* reduced */
+}
+
+/* RADIO ROW */
+.check-item{
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    padding: 8px 12px;                  /* reduced height */
+    border-radius: 8px;
+    margin-bottom: 6px;                 /* reduced */
+    transition: all .18s ease;
+}
+
+/* HOVER */
+.check-item:hover{
+    background: #f1f5f9;
+    border-color: #09515D;
+    transform: translateX(2px);
+}
+
+/* RADIO */
+.check-item input{
+    accent-color: #09515D;
+}
+
+/* TEXT */
+.check-item span{
+    font-size: 14px;
+    font-weight: 500;
+    color: #1f2937;
+}
+
+/* CHECKED STATE */
+.check-item input:checked + span{
+    color: #09515D;
+    font-weight: 700;
+}
+
+/* FREE COURSE TOGGLE */
+.free-checkbox{
+    margin-top: 16px;                   /* reduced */
+    padding: 10px 14px;                 /* reduced */
+    border-radius: 10px;
+    background: linear-gradient(135deg, #0f172a, #09515D);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 10px 24px rgba(15,23,42,0.25);
+    transition: all .2s ease;
+}
+
+/* FREE HOVER */
+.free-checkbox:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(15,23,42,0.35);
+}
+
+/* FREE ACTIVE */
+.free-checkbox.active{
+    background: linear-gradient(135deg, #F47B1E, #ff9f45);
+    box-shadow: 0 12px 26px rgba(244,123,30,0.45);
+}
+
+/* MOBILE RESET */
+@media(max-width:992px){
+    .filters-sidebar{
+        border-radius: 10px;
+        box-shadow: none;
+        padding: 16px 18px;
+    }
+}
+/* ===============================
+   FIX SIDEBAR HEIGHT (IMPORTANT)
+   =============================== */
+
+/* STOP flex stretching */
+.courses-layout{
+    align-items: flex-start;
+}
+
+/* FORCE sidebar to its content height only */
+.filters-sidebar{
+    height: fit-content;
+    align-self: flex-start;
+}
+
 </style>
 <script>
 function openEnrollModal(courseTitle) {

@@ -4,12 +4,12 @@
         {{-- Top Text Block --}}
         <div class="hero-text-block">
             <h1 class="hero-title">
-                Learn New Skills Completely Free and<br>
+                Learn New Skills  and<br>
                 Accelerate Your Personal Growth.
             </h1>
 
             <p class="hero-subtitle">
-                Learn from high-quality courses without paying a single rupee.
+                Learn from high-quality courses 
                 Upgrade your skills at your own pace, anytime, anywhere.
                 Start learning today and move closer to your goals.
             </p>

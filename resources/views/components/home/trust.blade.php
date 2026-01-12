@@ -19,24 +19,27 @@
             <div class="icon">
     <i class="bi bi-stars"></i>
 </div>
-                <h4>100% Free Learning</h4>
-                <p>
-                    Enjoy access to all courses without any hidden charges,
-                    subscriptions, or limitations—giving everyone an equal
-                    chance to learn and grow.
-                </p>
+               <h4>Career-Driven Courses</h4>
+<p>
+    Our courses are designed to support career growth with structured learning
+    paths and industry-relevant content, emphasizing practical skills and
+    real-world applications to help learners progress with confidence.
+</p>
+
+
             </div>
 
             <div class="trust-card">
             <div class="icon">
     <i class="bi bi-stars"></i>
 </div>
-                <h4>Beginner Friendly</h4>
-                <p>
-                    Our courses are designed with simplicity in mind, making it
-                    easy for learners of all levels to understand concepts and
-                    start improving from day one.
-                </p>
+               <h4>Guided Learning Experience</h4>
+<p>
+    Each course is carefully structured to guide learners step by step,
+    ensuring clarity, steady progress, and a strong understanding of key
+    concepts throughout the learning journey.
+</p>
+
             </div>
 
             <div class="trust-card">
@@ -55,12 +58,12 @@
             <div class="icon">
     <i class="bi bi-stars"></i>
 </div>
-                <h4>Learn at Your Own Pace</h4>
-                <p>
-                    Study on your own schedule from any device, allowing you
-                    to stay flexible and learn at your pace—no deadlines,
-                    no pressure.
-                </p>
+                <h4>Learn Smarter, Not Harder</h4>
+<p>
+    Well-structured content and flexible access help you focus on what matters
+    most—building skills efficiently and confidently.
+</p>
+
             </div>
         </div>
     </div>
