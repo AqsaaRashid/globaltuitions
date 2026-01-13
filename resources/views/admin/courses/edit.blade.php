@@ -143,7 +143,7 @@
             <!-- Price -->
             <div>
                 <label class="block text-sm font-medium mb-1">
-                    Price ($)
+                    Price ($) "set 0 if you offer a free course"
                 </label>
                 <input
                     type="number"
