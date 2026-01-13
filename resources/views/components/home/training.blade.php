@@ -120,7 +120,7 @@
         height: auto;
         position: static;
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(1, 1fr) !important;
         gap: 14px;
     }
 
@@ -179,9 +179,64 @@
     display: flex !important;   /* ✅ show ONLY active */
 }
 
+@media (max-width: 1024px) {
+
+    .image-carousel {
+        position: relative;
+        height: auto;
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .image-carousel .img {
+        position: absolute;
+        width: 90%;
+        max-width: 420px;
+        transform: none !important;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .3s ease;
+    }
+
+    .image-carousel .img.active-img {
+        opacity: 1;
+        pointer-events: auto;
+        position: relative;
+    }
+}
+/* media */
+/* ===============================
+   MOBILE: SINGLE IMAGE CAROUSEL
+   =============================== */
+@media (max-width: 1024px) {
+
+    .image-carousel {
+        position: relative;
+        height: auto;
+        display: block;
+    }
+
+    /* Hide ALL images by default */
+    .image-carousel .img {
+        display: none;
+        position: relative;
+        width: 100%;
+        max-width: 100%;
+        transform: none !important;
+        opacity: 1 !important;
+        box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+    }
+
+    /* Show ONLY active image */
+    .image-carousel .img.active-img {
+        display: block;
+    }
+}
 
 
 </style>
+
 <script>
 (() => {
     const tabs = document.querySelectorAll('.tab');
@@ -191,7 +246,11 @@
 
     let activeCarousel = document.querySelector('.image-carousel.active');
 
-    // ---------- TAB SWITCH ----------
+    function isMobile() {
+        return window.innerWidth <= 768;
+    }
+
+    /* ---------------- TAB SWITCH ---------------- */
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
             tabs.forEach(t => t.classList.remove('active'));
@@ -202,7 +261,7 @@
             carousels.forEach(c => {
                 c.classList.remove('active');
 
-                // 🔑 RESET image positions so they stay centered
+                // 🔑 Reset positions ALWAYS
                 c.querySelectorAll('.img').forEach((img, i) => {
                     img.className = `img img-${i + 1}`;
                 });
@@ -215,8 +274,9 @@
         });
     });
 
-    // ---------- ROTATION ----------
+    /* ---------------- ROTATION (DESKTOP ONLY) ---------------- */
     function rotate(direction) {
+        if (isMobile()) return; // ❌ disable on mobile
         if (!activeCarousel) return;
 
         const images = [...activeCarousel.querySelectorAll('.img')];
@@ -224,6 +284,8 @@
 
         images.forEach(img => {
             const cls = [...img.classList].find(c => c.startsWith('img-'));
+            if (!cls) return;
+
             const pos = parseInt(cls.split('-')[1]);
             img.classList.remove(cls);
 
@@ -240,9 +302,121 @@
 
     nextBtn?.addEventListener('click', () => rotate('next'));
     prevBtn?.addEventListener('click', () => rotate('prev'));
+
+    /* ---------------- ON RESIZE ---------------- */
+    window.addEventListener('resize', () => {
+        if (isMobile() && activeCarousel) {
+            // 🔥 force clean layout on mobile
+            activeCarousel.querySelectorAll('.img').forEach((img, i) => {
+                img.className = `img img-${i + 1}`;
+            });
+        }
+    });
 })();
 </script>
 
+<script>
+(() => {
+
+    const tabs = document.querySelectorAll('.tab');
+    const carousels = document.querySelectorAll('.image-carousel');
+    const nextBtn = document.querySelector('.carousel-btn.next');
+    const prevBtn = document.querySelector('.carousel-btn.prev');
+
+    let activeCarousel = document.querySelector('.image-carousel.active');
+    let currentIndex = 0;
+
+    function isMobileOrTablet() {
+        return window.innerWidth <= 1024;
+    }
+
+    function showSingleImage(carousel, index) {
+        const images = carousel.querySelectorAll('.img');
+        images.forEach((img, i) => {
+            img.classList.remove('active-img');
+            if (i === index) img.classList.add('active-img');
+        });
+    }
+
+    // ---------- TAB SWITCH ----------
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            const target = tab.dataset.tab;
+
+            carousels.forEach(c => {
+                c.classList.remove('active');
+                c.querySelectorAll('.img').forEach(img => {
+                    img.classList.remove('active-img');
+                });
+
+                if (c.dataset.tab === target) {
+                    c.classList.add('active');
+                    activeCarousel = c;
+                    currentIndex = 0;
+
+                    if (isMobileOrTablet()) {
+                        showSingleImage(activeCarousel, currentIndex);
+                    }
+                }
+            });
+        });
+    });
+
+    // ---------- NEXT / PREV ----------
+    function navigate(direction) {
+        if (!activeCarousel) return;
+
+        const images = activeCarousel.querySelectorAll('.img');
+        if (!images.length) return;
+
+        if (isMobileOrTablet()) {
+            currentIndex =
+                direction === 'next'
+                    ? (currentIndex + 1) % images.length
+                    : (currentIndex - 1 + images.length) % images.length;
+
+            showSingleImage(activeCarousel, currentIndex);
+        }
+        else {
+            // 🖥 Desktop: keep your existing stack behavior
+            images.forEach(img => {
+                const cls = [...img.classList].find(c => c.startsWith('img-'));
+                if (!cls) return;
+
+                const pos = parseInt(cls.split('-')[1]);
+                img.classList.remove(cls);
+
+                let next =
+                    direction === 'next'
+                        ? (pos === images.length ? 1 : pos + 1)
+                        : (pos === 1 ? images.length : pos - 1);
+
+                img.classList.add(`img-${next}`);
+            });
+        }
+    }
+
+    nextBtn.addEventListener('click', () => navigate('next'));
+    prevBtn.addEventListener('click', () => navigate('prev'));
+
+    // ---------- INITIAL LOAD ----------
+    if (isMobileOrTablet() && activeCarousel) {
+        showSingleImage(activeCarousel, currentIndex);
+    }
+
+    window.addEventListener('resize', () => {
+        currentIndex = 0;
+        if (isMobileOrTablet() && activeCarousel) {
+            showSingleImage(activeCarousel, currentIndex);
+        }
+    });
+
+})();
+</script>
 
 <script>
 (() => {
