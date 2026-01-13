@@ -885,7 +885,7 @@
 
 /* SECTION */
 .trust-section {
-    max-width: 1200px;
+    max-width: 1600px !important;
     margin: 80px auto;
     padding: 0 20px;
 }
@@ -1253,6 +1253,7 @@
     font-size: 14px;
     cursor: pointer;
 }
+
 /* training */
 .training-section {
     max-width: 1200px;
@@ -1299,6 +1300,13 @@
 .tab.arrow {
     width: 34px;
     padding: 8px 0;
+}
+.image-carousel {
+    display: none;
+}
+
+.image-carousel.active {
+    display: flex;
 }
 
 /* Carousel */

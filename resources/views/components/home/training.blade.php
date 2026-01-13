@@ -18,8 +18,8 @@
 
     <!-- Image Stack -->
     @foreach($categories as $index => $category)
-        <div class="image-carousel"
-             data-tab="{{ $category->slug }}"style="{{ $index === 0 ? '' : 'display:none' }}">
+        <div class="image-carousel {{ $index === 0 ? 'active' : '' }}"
+     data-tab="{{ $category->slug }}">
 
             @foreach($category->images as $i => $img)
                 <img src="{{ asset('images/' . $img->image) }}"
@@ -171,65 +171,78 @@
     gap: 8px;
     flex-wrap: nowrap;
 }
+.image-carousel {
+    display: none !important;   /* ❌ hide ALL by default */
+}
+
+.image-carousel.active {
+    display: flex !important;   /* ✅ show ONLY active */
+}
+
 
 
 </style>
 <script>
-document.querySelectorAll('.tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-
-        const target = tab.dataset.tab;
-
-        document.querySelectorAll('.image-carousel').forEach(carousel => {
-            carousel.style.display =
-                carousel.dataset.tab === target ? 'block' : 'none';
-        });
-    });
-});
-</script>
-
-
-<script>
 (() => {
+    const tabs = document.querySelectorAll('.tab');
+    const carousels = document.querySelectorAll('.image-carousel');
     const nextBtn = document.querySelector('.carousel-btn.next');
     const prevBtn = document.querySelector('.carousel-btn.prev');
 
-    if (!nextBtn || !prevBtn) return;
+    let activeCarousel = document.querySelector('.image-carousel.active');
 
-    function rotate(direction = 'next') {
-        const activeCarousel = document.querySelector(
-            '.image-carousel:not([style*="display:none"])'
-        );
+    // ---------- TAB SWITCH ----------
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            const target = tab.dataset.tab;
+
+            carousels.forEach(c => {
+                c.classList.remove('active');
+
+                // 🔑 RESET image positions so they stay centered
+                c.querySelectorAll('.img').forEach((img, i) => {
+                    img.className = `img img-${i + 1}`;
+                });
+
+                if (c.dataset.tab === target) {
+                    c.classList.add('active');
+                    activeCarousel = c;
+                }
+            });
+        });
+    });
+
+    // ---------- ROTATION ----------
+    function rotate(direction) {
         if (!activeCarousel) return;
 
-        const images = Array.from(activeCarousel.querySelectorAll('.img'));
-        if (images.length <= 1) return;
+        const images = [...activeCarousel.querySelectorAll('.img')];
+        const total = images.length;
 
         images.forEach(img => {
             const cls = [...img.classList].find(c => c.startsWith('img-'));
-            if (!cls) return;
-
-            const num = parseInt(cls.split('-')[1]);
+            const pos = parseInt(cls.split('-')[1]);
             img.classList.remove(cls);
 
             let next;
             if (direction === 'next') {
-                next = num === images.length ? 1 : num + 1;
+                next = pos === total ? 1 : pos + 1;
             } else {
-                next = num === 1 ? images.length : num - 1;
+                next = pos === 1 ? total : pos - 1;
             }
 
             img.classList.add(`img-${next}`);
         });
     }
 
-    nextBtn.addEventListener('click', () => rotate('next'));
-    prevBtn.addEventListener('click', () => rotate('prev'));
+    nextBtn?.addEventListener('click', () => rotate('next'));
+    prevBtn?.addEventListener('click', () => rotate('prev'));
 })();
 </script>
+
 
 <script>
 (() => {

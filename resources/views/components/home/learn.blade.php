@@ -54,13 +54,30 @@
             Subscribe <i class="bi bi-arrow-right"></i>
         </button>
     </form>
-    <p id="subscribeMsg"></p>
 </div>
 
 
         </div>
 
     </div>
+    <!-- SUBSCRIBE SUCCESS MODAL -->
+<div id="subscribeSuccessModal" class="modal-overlay">
+    <div class="success-box">
+        <h3 class="success-title">
+            Subscription Successful 
+        </h3>
+
+        <p class="success-text">
+            Thank you for subscribing to <strong>BTMG USA</strong>.<br>
+            Please check your email for updates and announcements.
+        </p>
+
+        <button class="success-btn" onclick="closeSubscribeSuccess()">
+            OK
+        </button>
+    </div>
+</div>
+
 </section>
 <style>
     /* ===============================
@@ -106,11 +123,22 @@ document.getElementById('subscribeForm').addEventListener('submit', function(e) 
     })
     .then(res => res.json())
     .then(data => {
-        document.getElementById('subscribeMsg').innerText = data.message;
-        document.getElementById('subscribeForm').reset();
+        if(data.success){
+            document.getElementById('subscribeForm').reset();
+
+            // 🔥 SHOW SUCCESS POPUP
+            document.body.style.overflow = 'hidden';
+            document.getElementById('subscribeSuccessModal').style.display = 'flex';
+        }
     })
     .catch(() => {
-        document.getElementById('subscribeMsg').innerText = "Something went wrong";
+        alert("Something went wrong. Please try again.");
     });
 });
+</script>
+<script>
+function closeSubscribeSuccess(){
+    document.getElementById('subscribeSuccessModal').style.display = 'none';
+    document.body.style.overflow = '';
+}
 </script>
