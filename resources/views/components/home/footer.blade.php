@@ -12,17 +12,18 @@
             <div class="footer-social">
     <span>Follow Us:</span>
 
-    <a href="#" class="social-icon fb">
-        <i class="fa-brands fa-facebook-f"></i>
-    </a>
+   <a href="https://www.facebook.com/yourpage" class="social-icon facebook" target="_blank" aria-label="Facebook">
+    <i class="fa-brands fa-facebook-f"></i>
+</a>
 
-    <a href="#" class="social-icon ig">
-        <i class="fa-brands fa-instagram"></i>
-    </a>
+<a href="https://www.instagram.com/yourpage" class="social-icon instagram" target="_blank" aria-label="Instagram">
+    <i class="fa-brands fa-instagram"></i>
+</a>
 
-    <a href="#" class="social-icon li">
-        <i class="fa-brands fa-linkedin-in"></i>
-    </a>
+<a href="https://www.linkedin.com/company/yourpage" class="social-icon linkedin" target="_blank" aria-label="LinkedIn">
+    <i class="fa-brands fa-linkedin-in"></i>
+</a>
+
 </div>
 
         </div>
@@ -58,6 +59,47 @@
     /* ===============================
    RESPONSIVE – FOOTER
    =============================== */
+.social-icon {
+    width: 35px;
+    height: 35px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 18px;
+    text-decoration: none;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    margin-right: 2px;
+}
+
+/* Facebook official */
+.social-icon.facebook {
+    background-color: #1877F2;
+}
+
+/* Instagram official gradient */
+.social-icon.instagram {
+    background: radial-gradient(
+        circle at 30% 107%,
+        #fdf497 0%,
+        #fdf497 5%,
+        #fd5949 45%,
+        #d6249f 60%,
+        #285AEB 90%
+    );
+}
+
+/* LinkedIn official */
+.social-icon.linkedin {
+    background-color: #0A66C2;
+}
+
+/* Hover effect (clean & professional) */
+.social-icon:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
 
 /* LARGE TABLET */
 /* Desktop only offset */

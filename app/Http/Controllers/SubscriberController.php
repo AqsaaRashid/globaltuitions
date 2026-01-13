@@ -7,26 +7,35 @@ namespace App\Http\Controllers;
 use App\Models\Subscriber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+ use App\Mail\SubscriberWelcomeMail;
+
 use App\Mail\SubscriberBroadcastMail;
 
 
 class SubscriberController extends Controller
 {
-    public function store(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email|unique:subscribers,email'
-        ]);
 
-        Subscriber::create([
-            'email' => $request->email
-        ]);
+public function store(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email|unique:subscribers,email'
+    ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Subscribed successfully'
-        ]);
-    }
+    $subscriber = Subscriber::create([
+        'email' => $request->email
+    ]);
+
+    // Send welcome email
+    Mail::to($subscriber->email)->send(
+        new SubscriberWelcomeMail($subscriber->email)
+    );
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Subscribed successfully. Please check your email.'
+    ]);
+}
+
 
     public function index()
     {
