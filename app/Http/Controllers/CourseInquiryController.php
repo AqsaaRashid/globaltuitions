@@ -115,9 +115,11 @@ class CourseInquiryController extends Controller
             }
         );
 
-        return back()->with(
-            'success',
-            'Thank you for your inquiry. Our BTMG USA training team will contact you shortly.'
-        );
+       return back()->with([
+    'popup_success' => true,
+    'popup_title'   => 'Inquiry Sent',
+    'popup_message' => 'Your inquiry has been received. Our team will respond within 24 hours.'
+]);
+
     }
 }

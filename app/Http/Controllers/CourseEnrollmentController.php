@@ -27,7 +27,11 @@ class CourseEnrollmentController extends Controller
     Mail::to($enrollment->email)
         ->send(new CourseEnrollmentConfirmation($enrollment));
 
-    return back()->with('success', 'Enrollment submitted successfully!');
+return back()->with([
+    'popup_success' => true,
+    'popup_title'   => 'Enrollment Submitted',
+    'popup_message' => 'Thank you for enrolling. A BTMG USA coordinator will contact you shortly.'
+]);
 }
 
 

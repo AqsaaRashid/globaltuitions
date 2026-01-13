@@ -189,7 +189,7 @@ Level: {{ $course->level }}</span>
     <div class="launch-actions">
         <button class="btn-outline small"
             onclick="openInquiryModal('{{ $course->title }}','{{ $launch->launch_date }}')">
-            Have Questions?
+            Inquiry
         </button>
 
         <button class="btn-solid small"
@@ -322,7 +322,7 @@ Level: {{ $course->level }}</span>
                     <strong>Consent & Disclaimer</strong><br>
                     I confirm that all information provided is accurate.<br>
                     I agree that my information will be used by
-                    <span class="highlight">Softc Solutions</span>
+                    <span class="highlight">BTMG</span>
                     solely for educational and enrollment purposes.<br>
                     I understand that my data will not be shared with any third-party organizations.
                 </span>
@@ -420,7 +420,7 @@ Level: {{ $course->level }}</span>
                     <strong>Consent & Disclaimer</strong><br>
                     I confirm that all information provided is accurate.<br>
                     I agree that my information will be used by
-                    <span class="highlight">Softc Solutions</span>
+                    <span class="highlight">BTMG</span>
                     solely for educational and enrollment purposes.<br>
                     I understand that my data will not be shared with any third-party organizations.
                 </span>
@@ -438,8 +438,78 @@ Level: {{ $course->level }}</span>
         </div>
     </div>
 </div>
+<!-- SUCCESS MODAL -->
+<div id="successModal" class="modal-overlay">
+    <div class="success-box">
+        <h3 class="success-title">Message Sent Successfully</h3>
+
+        <p class="success-text">
+            Thank you for reaching out to <strong>BTMG</strong>.<br>
+            Our team will contact you shortly.
+        </p>
+
+        <button class="success-btn" onclick="closeSuccessModal()">OK</button>
+    </div>
+</div>
 
 <style>
+/* ===============================
+   SUCCESS POPUP – COMPACT & CLEAN
+   =============================== */
+
+#successModal{
+    z-index:10000;
+}
+
+.success-box{
+    background:#ffffff;
+    width:380px;
+    max-width:92vw;
+    padding:28px 26px 26px;
+    border-radius:16px;
+    text-align:center;
+
+    box-shadow:
+        0 30px 60px rgba(15,23,42,.25);
+
+    animation: fadeInUp .35s ease;
+
+    border-top:6px solid #0f766e;
+}
+
+/* TITLE */
+.success-title{
+    font-size:18px;
+    font-weight:800;
+    color:#0f172a;
+    margin-bottom:8px;
+}
+
+/* TEXT */
+.success-text{
+    font-size:14px;
+    color:#475569;
+    line-height:1.6;
+    margin-bottom:20px;
+}
+
+/* BUTTON */
+.success-btn{
+    width:100%;
+    padding:12px;
+    background:#0f766e;
+    color:#fff;
+    font-size:14px;
+    font-weight:700;
+    border:none;
+    border-radius:999px;
+    cursor:pointer;
+    transition:.2s ease;
+}
+
+.success-btn:hover{
+    background:#f59e0b;
+}
 
 /* ===== LAYOUT ===== */
 .course-detail-wrapper{
@@ -1568,4 +1638,31 @@ function handleLaunchCheck() {
         }
     }
 }
+</script>
+<script>
+function closeSuccessModal(){
+    document.getElementById('successModal').style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+@if(session('popup_success'))
+document.addEventListener('DOMContentLoaded', function () {
+
+    // Close any open modals
+    ['contactModal','enrollModal','inquiryModal'].forEach(id => {
+        const modal = document.getElementById(id);
+        if(modal) modal.style.display = 'none';
+    });
+
+    // Inject dynamic text
+    document.querySelector('.success-title').innerText =
+        @json(session('popup_title'));
+
+    document.querySelector('.success-text').innerText =
+        @json(session('popup_message'));
+
+    // Show success popup
+    document.getElementById('successModal').style.display = 'flex';
+});
+@endif
 </script>

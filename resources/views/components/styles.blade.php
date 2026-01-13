@@ -372,6 +372,8 @@
     padding: 20px 0;
     text-align: center;
     font-family: Inter, sans-serif;
+     margin-right:40px ;
+
 }
 
 .courses-title {
@@ -392,6 +394,7 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 22px;
     box-sizing: border-box;
+    
     
 }
 
@@ -414,7 +417,7 @@
 }
 
 
-/* TOP IMAGE ONLY */
+/* TOP IMAGE ONLY 40px'*/
 .course-image {
     height: 140px;
     background-size: cover;
@@ -479,7 +482,62 @@
 /* ===============================
    HARD FIX: ALIGN "VIEW COURSE DETAILS"
    =============================== */
+/* media */
+/* ===============================
+   RESPONSIVE COURSES GRID FIX
+   =============================== */
 
+/* Large screens (default stays 4) */
+@media (min-width: 1200px){
+    .courses-grid{
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+/* Laptops */
+@media (max-width: 1199px){
+    .courses-grid{
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .courses-wrapper{
+        margin-right: 0; /* override */
+    }
+}
+
+/* Tablets */
+@media (max-width: 900px){
+    .courses-grid{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .courses-wrapper{
+        padding-left: 16px;
+        padding-right: 16px;
+        margin-right: 0;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px){
+    .courses-grid{
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .course-card{
+        max-width: 100% !important;
+    }
+
+    .courses-wrapper{
+        padding-left: 14px;
+        padding-right: 14px;
+        margin-right: 0;
+    }
+}
+
+/*  */
 .course-card{
     display: flex;
     flex-direction: column;

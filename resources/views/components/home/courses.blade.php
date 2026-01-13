@@ -653,14 +653,14 @@
 }
 
 /* SECTION HEADINGS */
+/* FORCE LEFT ALIGN FOR SIDEBAR HEADINGS */
 .filters-sidebar h4{
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: .6px;
-    color: #0f172a;
-    text-transform: uppercase;
-    margin-bottom: 10px;                /* reduced */
+    text-align: left !important;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
+
 
 /* SPACE BETWEEN SECTIONS */
 .filters-sidebar h4:not(:first-child){

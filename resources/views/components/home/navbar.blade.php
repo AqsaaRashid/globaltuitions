@@ -94,7 +94,7 @@
                     <strong>Consent & Disclaimer</strong><br>
                     I confirm that all information provided is accurate.<br>
                     I agree that my information will be used by
-                    <span class="highlight">Softc Solutions</span>
+                    <span class="highlight">BTMG</span>
                     solely for educational and enrollment purposes.<br>
                     I understand that my data will not be shared with any third-party organizations.
                 </span>
@@ -113,8 +113,82 @@
     </div>
 </div>
 
+<!-- SUCCESS MODAL -->
+<div id="successModal" class="modal-overlay">
+    <div class="success-box">
+        <h3 class="success-title">Message Sent Successfully</h3>
+
+        <p class="success-text">
+            Thank you for reaching out to <strong>BTMG</strong>.<br>
+            Our team will contact you shortly.
+        </p>
+
+        <button class="success-btn" onclick="closeSuccessModal()">OK</button>
+    </div>
+</div>
 
 <style>
+    /* ===============================
+   SUCCESS MODAL – THEME MATCH
+   =============================== */
+/* ===============================
+   SUCCESS POPUP – COMPACT & CLEAN
+   =============================== */
+
+#successModal{
+    z-index:10000;
+}
+
+.success-box{
+    background:#ffffff;
+    width:380px;
+    max-width:92vw;
+    padding:28px 26px 26px;
+    border-radius:16px;
+    text-align:center;
+
+    box-shadow:
+        0 30px 60px rgba(15,23,42,.25);
+
+    animation: fadeInUp .35s ease;
+
+    border-top:6px solid #0f766e;
+}
+
+/* TITLE */
+.success-title{
+    font-size:18px;
+    font-weight:800;
+    color:#0f172a;
+    margin-bottom:8px;
+}
+
+/* TEXT */
+.success-text{
+    font-size:14px;
+    color:#475569;
+    line-height:1.6;
+    margin-bottom:20px;
+}
+
+/* BUTTON */
+.success-btn{
+    width:100%;
+    padding:12px;
+    background:#0f766e;
+    color:#fff;
+    font-size:14px;
+    font-weight:700;
+    border:none;
+    border-radius:999px;
+    cursor:pointer;
+    transition:.2s ease;
+}
+
+.success-btn:hover{
+    background:#f59e0b;
+}
+
        /* ===============================
    ENROLL MODAL – BRAND ALIGNED
    =============================== */
@@ -621,4 +695,15 @@ document.querySelectorAll('.nav-links a').forEach(link => {
         document.body.classList.remove('nav-open');
     });
 });
+</script>
+<script>
+function closeSuccessModal(){
+    document.getElementById('successModal').style.display = 'none';
+}
+
+@if(session('contact_success'))
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('successModal').style.display = 'flex';
+    });
+@endif
 </script>

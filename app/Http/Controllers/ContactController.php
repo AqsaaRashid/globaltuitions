@@ -44,9 +44,10 @@ class ContactController extends Controller
     );
 
     return back()->with(
-        'success',
-        'Thank you for contacting us. We will reach out to you shortly.'
-    );
+    'contact_success',
+    'Thank you for contacting us. We will reach out to you shortly.'
+);
+
 }
 
 
