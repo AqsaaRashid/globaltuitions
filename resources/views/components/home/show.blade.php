@@ -1496,6 +1496,35 @@ Level: {{ $course->level }}</span>
         width:100%;
     }
 }
+/* ===== PDF MODE FIX ===== */
+body.pdf-mode *{
+    animation: none !important;
+    transition: none !important;
+}
+
+body.pdf-mode .modal-overlay,
+body.pdf-mode .btn-solid,
+body.pdf-mode .btn-outline,
+body.pdf-mode .cta-buttons{
+    display:none !important;
+}
+
+body.pdf-mode{
+    overflow: visible !important;
+}
+
+body.pdf-mode .course-hero,
+body.pdf-mode .card,
+body.pdf-mode .snapshot-card,
+body.pdf-mode .launch-row{
+    box-shadow:none !important;
+    background:#fff !important;
+}
+
+body.pdf-mode .hero-snapshot{
+    background:#fff !important;
+}
+
 
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -1554,28 +1583,40 @@ function closeEnrollModal(){
 function printCourse(){
     window.print();
 }
-
 function downloadPDF(){
     const element = document.getElementById('courseContent');
 
+    // ✅ ENABLE PDF MODE
+    document.body.classList.add('pdf-mode');
+    document.body.style.overflow = 'visible';
+
     const opt = {
-        margin:       0.5,
-        filename:     '{{ Str::slug($course->title) }}.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  {
+        margin: [0.5, 0.5, 0.7, 0.5],
+        filename: '{{ Str::slug($course->title) }}.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: {
             scale: 2,
-            useCORS: true
+            useCORS: true,
+            scrollY: 0,
+            windowWidth: document.body.scrollWidth
         },
-        jsPDF:        {
+        jsPDF: {
             unit: 'in',
             format: 'a4',
             orientation: 'portrait'
-        }
+        },
+        pagebreak: { mode: ['avoid-all','css','legacy'] }
     };
 
-    html2pdf().set(opt).from(element).save();
+    html2pdf()
+        .set(opt)
+        .from(element)
+        .save()
+        .then(() => {
+            // 🔁 RESTORE PAGE
+            document.body.classList.remove('pdf-mode');
+        });
 }
-
 
 
 </script>
