@@ -47,23 +47,66 @@
                 <td class="px-4 py-3 text-center text-black">
                     {{ \Carbon\Carbon::parse($launch->launch_date)->format('d M Y') }}
                 </td>
+<td class="px-4 py-3 text-center">
+    <div class="flex items-center justify-center gap-4 text-sm">
 
-                <td class="px-4 py-3 text-center flex justify-center gap-4">
-                    <a href="{{ route('admin.course-launches.edit', $launch) }}"
-                       class="text-blue-600 font-semibold">
-                        Edit
-                    </a>
+        <!-- EDIT -->
+        <a href="{{ route('admin.course-launches.edit', $launch) }}"
+           class="text-blue-600 hover:text-blue-800 font-semibold">
+            Edit
+        </a>
 
-                    <form method="POST"
-                          action="{{ route('admin.course-launches.destroy', $launch) }}">
-                        @csrf
-                        @method('DELETE')
-                        <button class="text-red-600 font-semibold"
-                                onclick="return confirm('Delete this launch date?')">
-                            Delete
-                        </button>
-                    </form>
-                </td>
+        <!-- ENROLLMENTS -->
+        <a href="{{ route('admin.course-enrollments.byLaunch', $launch->id) }}"
+           class="flex items-center gap-2
+                  bg-gray-100 text-gray-800
+                  px-3 py-1.5 rounded-full
+                  font-semibold
+                  hover:bg-gray-200 transition">
+
+            <span>Enrollments</span>
+
+            <span class="min-w-[22px] h-[22px]
+                         flex items-center justify-center
+                         bg-black text-white
+                         rounded-full text-[11px] font-bold">
+                {{ $launch->enrollments_count ?? 0 }}
+            </span>
+        </a>
+
+        <!-- INQUIRIES -->
+        <a href="{{ route('admin.course-inquiries.byLaunch', $launch->id) }}"
+           class="flex items-center gap-2
+                  bg-gray-100 text-gray-800
+                  px-3 py-1.5 rounded-full
+                  font-semibold
+                  hover:bg-gray-200 transition">
+
+            <span>Inquiries</span>
+
+            <span class="min-w-[22px] h-[22px]
+                         flex items-center justify-center
+                         bg-yellow-500 text-black
+                         rounded-full text-[11px] font-bold">
+                {{ $launch->inquiries_count ?? 0 }}
+            </span>
+        </a>
+
+        <!-- DELETE -->
+        <form method="POST"
+              action="{{ route('admin.course-launches.destroy', $launch) }}"
+              onsubmit="return confirm('Delete this launch date?')">
+            @csrf
+            @method('DELETE')
+
+            <button class="text-red-600 hover:text-red-800 font-semibold">
+                Delete
+            </button>
+        </form>
+
+    </div>
+</td>
+
 
             </tr>
         @empty

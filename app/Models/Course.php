@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\CourseEnrollment;
+use App\Models\CourseInquiry;
+
 
 class Course extends Model
 {
@@ -36,6 +39,11 @@ class Course extends Model
     return $this->hasMany(CourseLaunch::class);
 }
 
+public function enrollments()
+{
+    return $this->hasMany(CourseEnrollment::class, 'course_id');
+}
+
     // app/Models/Course.php
 
 public function nextLaunch()
@@ -43,6 +51,10 @@ public function nextLaunch()
     return $this->hasOne(CourseLaunch::class)
         ->whereDate('launch_date', '>=', now())
         ->orderBy('launch_date');
+}
+public function inquiries()
+{
+    return $this->hasMany(CourseInquiry::class);
 }
 
 

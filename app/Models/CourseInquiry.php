@@ -9,6 +9,8 @@ class CourseInquiry extends Model
 {
     protected $fillable = [
         'course_title',
+         'course_id',
+    'launch_id',
         'name',
         'email',
         'phone',
@@ -18,5 +20,9 @@ class CourseInquiry extends Model
         'is_viewed',
         'reply_status',
     ];
+     public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
 }
 

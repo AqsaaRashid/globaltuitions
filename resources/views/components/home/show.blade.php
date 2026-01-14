@@ -187,15 +187,30 @@ Level: {{ $course->level }}</span>
 
     <!-- RIGHT: ACTIONS -->
     <div class="launch-actions">
-        <button class="btn-outline small"
-            onclick="openInquiryModal('{{ $course->title }}','{{ $launch->launch_date }}')">
-            Inquiry
-        </button>
+       <button class="btn-outline small"
+onclick="openInquiryModal(
+    '{{ $course->title }}',
+    '{{ $launch->launch_date }}',
+    {{ $course->id }},
+    {{ $launch->id }},
+    '{{ $course->level ?? '' }}',
+    '{{ $course->duration ?? '' }}'
+)">
+Inquiry
+</button>
+
+
 
         <button class="btn-solid small"
-            onclick="openEnrollModal('{{ $course->title }}','{{ $launch->launch_date }}')">
-            Register Now
-        </button>
+onclick="openEnrollModal(
+    '{{ $course->title }}',
+    '{{ $launch->launch_date }}',
+    {{ $course->id }},
+    {{ $launch->id }}
+)">
+Register Now
+</button>
+
     </div>
 
 </div>
@@ -278,6 +293,9 @@ Level: {{ $course->level }}</span>
         @csrf
         <input type="hidden" name="course_name" id="courseName">
         <input type="hidden" name="launch_date" id="selectedLaunchDate">
+        <input type="hidden" name="course_id" id="courseId">
+        <input type="hidden" name="launch_id" id="launchId">
+
         <input type="hidden" name="level" id="selectedLevel">
 
 
@@ -379,10 +397,13 @@ Level: {{ $course->level }}</span>
             <form method="POST" action="{{ route('course.inquiry') }}">
                 @csrf
 
-                <!-- KEEP THIS EXACT -->
+       <!-- KEEP THIS EXACT -->
 <input type="hidden" name="course_title" id="inquiryCourseTitle">
+<input type="hidden" name="course_id" id="inquiryCourseId"> <!-- NEW -->
 <input type="hidden" name="launch_date" id="inquiryLaunchDate">
+<input type="hidden" name="launch_id" id="inquiryLaunchId"> <!-- NEW -->
 <input type="hidden" name="level" id="inquiryLevel">
+
 
 
                 <div class="reg-grid">
@@ -1530,7 +1551,12 @@ body.pdf-mode .hero-snapshot{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
-function openEnrollModal(courseTitle, launchDate = null){
+function openEnrollModal(
+    courseTitle,
+    launchDate = null,
+    courseId = null,
+    launchId = null
+){
     document.body.style.overflow = 'hidden';
     document.getElementById('enrollModal').style.display = 'flex';
 
@@ -1538,7 +1564,10 @@ function openEnrollModal(courseTitle, launchDate = null){
     document.getElementById('selectedCourse').innerText =
         'Enroll in ' + courseTitle;
 
+    // Hidden fields
     document.getElementById('courseName').value = courseTitle;
+    document.getElementById('courseId').value = courseId;
+    document.getElementById('launchId').value = launchId;
 
     document.getElementById('enrollInfo').style.display = 'flex';
 
@@ -1549,18 +1578,14 @@ function openEnrollModal(courseTitle, launchDate = null){
     }
 
     // Level
-   // Level
-const level = @json($course->level);
-if (level) {
-    document.getElementById('enrollLevel').innerText =
-        level.charAt(0).toUpperCase() + level.slice(1);
+    const level = @json($course->level);
+    if (level) {
+        document.getElementById('enrollLevel').innerText =
+            level.charAt(0).toUpperCase() + level.slice(1);
 
-    document.getElementById('enrollLevelWrap').style.display = 'flex';
-
-    // 👇 THIS LINE WAS MISSING
-    document.getElementById('selectedLevel').value = level;
-}
-
+        document.getElementById('enrollLevelWrap').style.display = 'flex';
+        document.getElementById('selectedLevel').value = level;
+    }
 
     // Launch Date
     if (launchDate) {
@@ -1573,6 +1598,7 @@ if (level) {
         document.getElementById('enrollDateWrap').style.display = 'none';
     }
 }
+
 
 function closeEnrollModal(){
     document.body.style.overflow = '';
@@ -1621,40 +1647,45 @@ function downloadPDF(){
 
 </script>
 <script>
-function openInquiryModal(courseTitle, launchDate = null){
+function openInquiryModal(
+    courseTitle,
+    launchDate = null,
+    courseId = null,
+    launchId = null,
+    level = '',
+    duration = ''
+){
     document.body.style.overflow = 'hidden';
     document.getElementById('inquiryModal').style.display = 'flex';
 
-    // ✅ Set header title like Enroll
+    // Header title
     document.getElementById('inquiryTitle').innerText =
         'Inquiry about ' + courseTitle;
 
     // Hidden inputs
     document.getElementById('inquiryCourseTitle').value = courseTitle;
+    document.getElementById('inquiryCourseId').value = courseId;
+    document.getElementById('inquiryLaunchId').value = launchId;
 
     // Show info pills
     document.getElementById('inquiryInfo').style.display = 'flex';
 
     // Duration
-    const duration = @json($course->duration);
-    if (duration) {
+    if(duration){
         document.getElementById('inquiryDuration').innerText = duration;
     }
 
     // Level
-    const level = @json($course->level);
-    if (level) {
+    if(level){
         document.getElementById('inquiryLevelText').innerText =
             level.charAt(0).toUpperCase() + level.slice(1);
-
         document.getElementById('inquiryLevel').value = level;
     }
 
     // Launch Date
-    if (launchDate) {
+    if(launchDate){
         document.getElementById('inquiryDateText').innerText =
             'Starts: ' + launchDate;
-
         document.getElementById('inquiryLaunchDate').value = launchDate;
     }
 }

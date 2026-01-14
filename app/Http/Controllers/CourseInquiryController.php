@@ -70,6 +70,16 @@ class CourseInquiryController extends Controller
             ->route('admin.course-inquiries.index')
             ->with('success', 'Reply sent successfully.');
     }
+public function byLaunch($launchId)
+{
+    $inquiries = CourseInquiry::where('launch_id', $launchId)
+        ->latest()
+        ->get();
+
+    return view('admin.course-inquiries.index', compact('inquiries'));
+}
+
+
 
     /* =========================
        FRONTEND: STORE + EMAIL
@@ -77,6 +87,9 @@ class CourseInquiryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'course_id'   => 'required|exists:courses,id',
+        'launch_id'   => 'nullable|exists:course_launches,id',
+
             'course_title' => 'required|string',
             'name'         => 'required|string|max:255',
             'email'        => 'required|email',
@@ -86,6 +99,9 @@ class CourseInquiryController extends Controller
         ]);
 
         $inquiry = CourseInquiry::create([
+            'course_id'   => $request->course_id,
+        'launch_id'   => $request->launch_id,
+
             'course_title' => $request->course_title,
             'name'         => $request->name,
             'email'        => $request->email,

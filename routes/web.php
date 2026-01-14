@@ -13,6 +13,17 @@ use App\Http\Controllers\CourseInquiryController;
 // routes/web.php
 
 use App\Http\Controllers\SubscriberController;
+
+Route::get(
+    '/admin/course-enrollments/launch/{launch}',
+    [CourseEnrollmentController::class, 'byLaunch']
+)->name('admin.course-enrollments.byLaunch');
+
+Route::get(
+    '/admin/course-inquiries/launch/{launch}',
+    [CourseInquiryController::class, 'byLaunch']
+)->name('admin.course-inquiries.byLaunch');
+
 // routes/web.php
 Route::delete('/admin/course-enrollments/{enrollment}', 
     [CourseEnrollmentController::class, 'destroy']

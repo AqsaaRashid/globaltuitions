@@ -17,4 +17,22 @@ class CourseLaunch extends Model
     {
         return $this->belongsTo(Course::class);
     }
+    // app/Models/CourseLaunch.php
+public function enrollments()
+{
+    return $this->hasMany(
+        \App\Models\CourseEnrollment::class,
+        'launch_id'
+    );
+}
+
+public function inquiries()
+{
+    return $this->hasMany(
+        \App\Models\CourseInquiry::class,
+        'launch_id'
+    );
+}
+
+
 }

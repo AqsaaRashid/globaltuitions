@@ -12,6 +12,9 @@ class CourseEnrollmentController extends Controller
    public function store(Request $request)
 {
     $request->validate([
+        'course_id'   => 'required|exists:courses,id',
+        'launch_id'   => 'nullable|exists:course_launches,id',
+
         'course_name' => 'required|string',
         'name'        => 'required|string|max:255',
         'email'       => 'required|email',
@@ -21,18 +24,40 @@ class CourseEnrollmentController extends Controller
         'level'       => 'nullable|string|max:50',
     ]);
 
-    $enrollment = CourseEnrollment::create($request->all());
+    $enrollment = CourseEnrollment::create([
+        'course_id'   => $request->course_id,
+        'launch_id'   => $request->launch_id,
 
-    // ✅ SEND CONFIRMATION EMAIL
+        'course_name' => $request->course_name,
+        'name'        => $request->name,
+        'email'       => $request->email,
+        'phone'       => $request->phone,
+        'message'     => $request->message,
+        'launch_date' => $request->launch_date,
+        'level'       => $request->level,
+    ]);
+
+    // SEND EMAIL
     Mail::to($enrollment->email)
         ->send(new CourseEnrollmentConfirmation($enrollment));
 
-return back()->with([
-    'popup_success' => true,
-    'popup_title'   => 'Enrollment Submitted',
-    'popup_message' => 'Thank you for enrolling. A BTMG USA coordinator will contact you shortly.'
-]);
+    return back()->with([
+        'popup_success' => true,
+        'popup_title'   => 'Enrollment Submitted',
+        'popup_message' => 'Thank you for enrolling. A BTMG USA coordinator will contact you shortly.'
+    ]);
 }
+
+public function byLaunch($launchId)
+{
+    $enrollments = CourseEnrollment::where('launch_id', $launchId)
+        ->latest()
+        ->get();
+
+    return view('admin.course-enrollments.index', compact('enrollments'));
+}
+
+
 
 
     public function index()

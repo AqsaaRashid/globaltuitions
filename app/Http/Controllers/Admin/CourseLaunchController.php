@@ -9,14 +9,27 @@ use Illuminate\Http\Request;
 
 class CourseLaunchController extends Controller
 {
-    public function index()
-    {
-        $launches = CourseLaunch::with('course')
-            ->orderBy('launch_date', 'asc')
-            ->get();
+  public function index()
+{
+    $launches = CourseLaunch::with('course')
+        ->withCount([
+            'enrollments as enrollments_count' => function ($q) {
+                $q->where('status', 'pending');
+            },
+            'inquiries as inquiries_count' => function ($q) {
+                $q->whereNull('reply_status')
+                  ->orWhere('reply_status', '!=', 'replied');
+            }
+        ])
+        ->orderBy('launch_date')
+        ->get();
 
-        return view('admin.course-launches.index', compact('launches'));
-    }
+    return view('admin.course-launches.index', compact('launches'));
+}
+
+
+
+
 
     public function create()
     {

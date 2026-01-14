@@ -9,6 +9,8 @@ class CourseEnrollment extends Model
     protected $fillable = [
         'course_name',
          'launch_date',
+         'course_id',
+    'launch_id',
         'name',
         'email',
         'phone',
@@ -19,4 +21,9 @@ class CourseEnrollment extends Model
         'message',
         'status',
     ];
+    public function course()
+{
+    return $this->belongsTo(Course::class);
+}
+
 }
