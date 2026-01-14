@@ -1,4 +1,4 @@
-<section class="course-detail-wrapper" id="courseContent">
+<section class="course-detail-wrapper pdf-wrapper" id="courseContent">
 
    <!-- HERO -->
 <div class="course-hero hero-snapshot">
@@ -1545,7 +1545,165 @@ body.pdf-mode .launch-row{
 body.pdf-mode .hero-snapshot{
     background:#fff !important;
 }
+/* ===============================
+   PDF SAFE LAYOUT (CRITICAL)
+   =============================== */
 
+body.pdf-mode .pdf-wrapper{
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 20px !important;
+    margin: 0 !important;
+    overflow: visible !important;
+}
+
+body.pdf-mode{
+    width: 100% !important;
+    overflow: visible !important;
+}
+
+/* force single column */
+body.pdf-mode .course-hero,
+body.pdf-mode .hero-snapshot{
+    display: block !important;
+}
+
+/* prevent cutting */
+body.pdf-mode *{
+    box-sizing: border-box !important;
+}
+
+/* keep cards intact */
+body.pdf-mode .card,
+body.pdf-mode .launch-row,
+body.pdf-mode .launch-row.pro,
+body.pdf-mode .topic-item{
+    page-break-inside: avoid !important;
+}
+
+/* remove visuals that break PDF */
+body.pdf-mode .hero-actions,
+body.pdf-mode .cta-buttons,
+body.pdf-mode button,
+body.pdf-mode .modal-overlay{
+    display: none !important;
+}
+
+/* neutralize shadows & gradients */
+body.pdf-mode *{
+    box-shadow: none !important;
+    background-image: none !important;
+}
+
+
+/* ===============================
+   HARD PDF OVERRIDES
+   =============================== */
+body.pdf-mode {
+    background:#fff !important;
+}
+
+body.pdf-mode * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    animation: none !important;
+    transition: none !important;
+}
+
+/* remove hero gradient */
+body.pdf-mode .course-hero,
+body.pdf-mode .hero-snapshot {
+    background: #fff !important;
+    color: #000 !important;
+}
+
+/* convert grid → block */
+body.pdf-mode .course-hero,
+body.pdf-mode .hero-snapshot {
+    display: block !important;
+}
+
+/* snapshot card */
+body.pdf-mode .snapshot-card {
+    margin-top: 20px !important;
+    border: 1px solid #e5e7eb !important;
+}
+
+/* cards */
+body.pdf-mode .card {
+    border: 1px solid #e5e7eb !important;
+    page-break-inside: avoid;
+}
+
+/* launch rows */
+body.pdf-mode .launch-row,
+body.pdf-mode .launch-row.pro {
+    border: 1px solid #e5e7eb !important;
+    page-break-inside: avoid;
+}
+
+/* hide ALL buttons */
+body.pdf-mode button,
+body.pdf-mode .btn-solid,
+body.pdf-mode .btn-outline,
+body.pdf-mode .cta-buttons,
+body.pdf-mode .hero-actions {
+    display: none !important;
+}
+
+/* remove modals completely */
+body.pdf-mode .modal-overlay {
+    display: none !important;
+}
+/* ===============================
+   PDF SAFE LAYOUT (CRITICAL)
+   =============================== */
+
+body.pdf-mode .pdf-wrapper{
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 20px !important;
+    margin: 0 !important;
+    overflow: visible !important;
+}
+
+body.pdf-mode{
+    width: 100% !important;
+    overflow: visible !important;
+}
+
+/* force single column */
+body.pdf-mode .course-hero,
+body.pdf-mode .hero-snapshot{
+    display: block !important;
+}
+
+/* prevent cutting */
+body.pdf-mode *{
+    box-sizing: border-box !important;
+}
+
+/* keep cards intact */
+body.pdf-mode .card,
+body.pdf-mode .launch-row,
+body.pdf-mode .launch-row.pro,
+body.pdf-mode .topic-item{
+    page-break-inside: avoid !important;
+}
+
+/* remove visuals that break PDF */
+body.pdf-mode .hero-actions,
+body.pdf-mode .cta-buttons,
+body.pdf-mode button,
+body.pdf-mode .modal-overlay{
+    display: none !important;
+}
+
+/* neutralize shadows & gradients */
+body.pdf-mode *{
+    box-shadow: none !important;
+    background-image: none !important;
+}
 
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -1609,29 +1767,36 @@ function closeEnrollModal(){
 function printCourse(){
     window.print();
 }
+
+// pdf
 function downloadPDF(){
     const element = document.getElementById('courseContent');
 
-    // ✅ ENABLE PDF MODE
     document.body.classList.add('pdf-mode');
-    document.body.style.overflow = 'visible';
 
     const opt = {
-        margin: [0.5, 0.5, 0.7, 0.5],
+        margin: [0.5, 0.4, 0.6, 0.4], // top right bottom left
         filename: '{{ Str::slug($course->title) }}.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
+        image: {
+            type: 'jpeg',
+            quality: 0.98
+        },
         html2canvas: {
-            scale: 2,
+            scale: 1.2,              // 🔥 DO NOT increase
             useCORS: true,
+            backgroundColor: '#ffffff',
+            scrollX: 0,
             scrollY: 0,
-            windowWidth: document.body.scrollWidth
+            windowWidth: element.scrollWidth
         },
         jsPDF: {
             unit: 'in',
             format: 'a4',
             orientation: 'portrait'
         },
-        pagebreak: { mode: ['avoid-all','css','legacy'] }
+        pagebreak: {
+            mode: ['css', 'legacy']
+        }
     };
 
     html2pdf()
@@ -1639,7 +1804,6 @@ function downloadPDF(){
         .from(element)
         .save()
         .then(() => {
-            // 🔁 RESTORE PAGE
             document.body.classList.remove('pdf-mode');
         });
 }
