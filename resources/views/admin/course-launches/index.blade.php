@@ -36,9 +36,10 @@
         @forelse($launches as $launch)
             <tr class="hover:bg-gray-50 transition">
 
-                <td class="px-4 py-3 font-medium text-black">
-                    {{ $launch->course->title }}
-                </td>
+                <td class="px-4 py-3 font-medium text-black max-w-[420px] truncate">
+    {{ $launch->course->title }}
+</td>
+
 
                 <td class="px-4 py-3 text-sm text-gray-700">
                     {{ ucfirst($launch->course->level) }}
@@ -47,18 +48,18 @@
                 <td class="px-4 py-3 text-center text-black">
                     {{ \Carbon\Carbon::parse($launch->launch_date)->format('d M Y') }}
                 </td>
-<td class="px-4 py-3 text-center">
-    <div class="flex items-center justify-center gap-4 text-sm">
+<td class="px-4 py-3 text-center w-[420px] min-w-[420px]">
+<div class="flex items-center justify-center gap-3 text-sm flex-nowrap whitespace-nowrap">
 
         <!-- EDIT -->
         <a href="{{ route('admin.course-launches.edit', $launch) }}"
-           class="text-blue-600 hover:text-blue-800 font-semibold">
+           class=" shrink-0 text-blue-600 hover:text-blue-800 font-semibold">
             Edit
         </a>
 
         <!-- ENROLLMENTS -->
         <a href="{{ route('admin.course-enrollments.byLaunch', $launch->id) }}"
-           class="flex items-center gap-2
+           class=" shrink-0 flex items-center gap-2
                   bg-gray-100 text-gray-800
                   px-3 py-1.5 rounded-full
                   font-semibold
@@ -89,7 +90,7 @@
         </form>
          <!-- INQUIRIES -->
         <a href="{{ route('admin.course-inquiries.byLaunch', $launch->id) }}"
-           class="flex items-center gap-2
+           class=" shrink-0 flex items-center gap-2
                   bg-gray-100 text-gray-800
                   px-3 py-1.5 rounded-full
                   font-semibold

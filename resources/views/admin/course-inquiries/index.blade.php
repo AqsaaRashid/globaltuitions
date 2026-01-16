@@ -83,12 +83,33 @@
 </td>
 
 <td class="px-4 py-3 text-center">
-    <button
-        onclick="openInquiryModal({{ $inquiry->id }})"
-        class="text-blue-600 hover:underline text-sm">
-        View Details
-    </button>
+    <div class="flex items-center justify-center gap-4 flex-nowrap">
+
+        <!-- VIEW -->
+        <button
+            onclick="openInquiryModal({{ $inquiry->id }})"
+            class="text-blue-600 hover:underline text-sm shrink-0">
+            View
+        </button>
+
+        <!-- DELETE -->
+        <form method="POST"
+              action="{{ route('admin.course-inquiries.destroy', $inquiry) }}"
+              onsubmit="return confirm('Are you sure you want to delete this inquiry?')"
+              class="shrink-0">
+            @csrf
+            @method('DELETE')
+
+            <button
+                type="submit"
+                class="text-red-600 hover:underline text-sm font-semibold">
+                Delete
+            </button>
+        </form>
+
+    </div>
 </td>
+
 
 
             </tr>

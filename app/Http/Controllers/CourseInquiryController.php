@@ -124,4 +124,13 @@ public function byLaunch($launchId)
 return back()->with([ 'popup_success' => true, 'popup_title' => 'Inquiry Sent', 'popup_message' => 'Your inquiry has been received. Our team will respond within 24 hours.' ]);
 
     }
+    public function destroy(CourseInquiry $courseInquiry)
+{
+    $courseInquiry->delete();
+
+    return redirect()
+        ->back()
+        ->with('success', 'Inquiry deleted successfully.');
+}
+
 }
