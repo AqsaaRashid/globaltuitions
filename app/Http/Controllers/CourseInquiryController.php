@@ -74,10 +74,11 @@ public function byLaunch($launchId)
 {
     $inquiries = CourseInquiry::where('launch_id', $launchId)
         ->latest()
-        ->get();
+        ->paginate(20);
 
     return view('admin.course-inquiries.index', compact('inquiries'));
 }
+
 
 
 

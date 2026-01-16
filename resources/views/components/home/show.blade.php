@@ -43,10 +43,10 @@ Level: {{ $course->level }}</span>
     </button>
 
 
-            <!-- <button class="btn-outline"
+            <button class="btn-outline"
                 onclick="openInquiryModal('{{ $course->title }}')">
                 Inquiry about the Course
-            </button> -->
+            </button>
         </div>
 
     </div>
@@ -145,7 +145,7 @@ Level: {{ $course->level }}</span>
     <h3 class="sec-title">Upcoming Trainings</h3>
 
    <div class="launch-list" id="dates">
-    @foreach($course->launches as $launch)
+@foreach($course->launches->sortBy('launch_date') as $launch)
        <div class="launch-row pro">
 
     <!-- LEFT: DETAILS -->
@@ -1193,6 +1193,10 @@ Register Now
     border-radius:999px;
     margin-bottom:14px;
 }
+.snapshot-card {
+    pointer-events: none;
+}
+
 
 .hero-title{
     font-size:34px;
@@ -1859,6 +1863,44 @@ function closeInquiryModal(){
     document.getElementById('inquiryModal').style.display = 'none';
 }
 </script>
+<script>
+(function () {
+
+    const COURSE_ID   = {{ $course->id }};
+    const COURSE_LEVEL = @json($course->level ?? '');
+    const COURSE_DURATION = @json($course->duration ?? '');
+
+    // PATCH openInquiryModal safely
+    const originalOpenInquiryModal = window.openInquiryModal;
+
+    window.openInquiryModal = function (
+        courseTitle,
+        launchDate = null,
+        courseId = null,
+        launchId = null,
+        level = '',
+        duration = ''
+    ) {
+        // Inject missing values (HERO inquiry case)
+        if (!courseId) {
+            courseId = COURSE_ID;
+            level = COURSE_LEVEL;
+            duration = COURSE_DURATION;
+        }
+
+        originalOpenInquiryModal(
+            courseTitle,
+            launchDate,
+            courseId,
+            launchId,
+            level,
+            duration
+        );
+    };
+
+})();
+</script>
+
 <script>
 function handleLaunchCheck() {
     const datesSection = document.getElementById('dates');
