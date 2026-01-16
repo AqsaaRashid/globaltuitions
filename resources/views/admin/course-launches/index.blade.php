@@ -74,7 +74,20 @@
             </span>
         </a>
 
-        <!-- INQUIRIES -->
+       
+
+        <!-- DELETE -->
+        <form method="POST"
+              action="{{ route('admin.course-launches.destroy', $launch) }}"
+              onsubmit="return confirm('Delete this launch date?')">
+            @csrf
+            @method('DELETE')
+
+            <button class="text-red-600 hover:text-red-800 font-semibold">
+                Delete
+            </button>
+        </form>
+         <!-- INQUIRIES -->
         <a href="{{ route('admin.course-inquiries.byLaunch', $launch->id) }}"
            class="flex items-center gap-2
                   bg-gray-100 text-gray-800
@@ -91,18 +104,6 @@
                 {{ $launch->inquiries_count ?? 0 }}
             </span>
         </a>
-
-        <!-- DELETE -->
-        <form method="POST"
-              action="{{ route('admin.course-launches.destroy', $launch) }}"
-              onsubmit="return confirm('Delete this launch date?')">
-            @csrf
-            @method('DELETE')
-
-            <button class="text-red-600 hover:text-red-800 font-semibold">
-                Delete
-            </button>
-        </form>
 
     </div>
 </td>
