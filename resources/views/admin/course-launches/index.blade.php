@@ -67,7 +67,7 @@
 
             <span>Enrollments</span>
 
-            <span class="min-w-[22px] h-[22px]
+            <span class="min-w-[35px] h-[35px]
                          flex items-center justify-center
                          bg-black text-white
                          rounded-full text-[11px] font-bold">
@@ -98,7 +98,7 @@
 
             <span>Inquiries</span>
 
-            <span class="min-w-[22px] h-[22px]
+            <span class="min-w-[35px] h-[35px]
                          flex items-center justify-center
                          bg-yellow-500 text-black
                          rounded-full text-[11px] font-bold">
