@@ -121,7 +121,7 @@ public function byLaunch($launchId)
              ->subject('BTMG USA Training – Inquiry Received');
     }
 );
-
+return back()->with([ 'popup_success' => true, 'popup_title' => 'Inquiry Sent', 'popup_message' => 'Your inquiry has been received. Our team will respond within 24 hours.' ]);
 
     }
 }
