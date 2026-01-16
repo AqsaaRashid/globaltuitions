@@ -17,13 +17,13 @@
     <table class="w-full border-collapse">
         <thead class="bg-black text-white">
             <tr>
-                <th class="px-4 py-3 text-left text-sm font-semibold">
+                <th class="px-2 py-1 text-left text-sm font-semibold">
                     Course
                 </th>
-                <th class="px-4 py-3 text-left text-sm font-semibold">
+                <th class="px-2 py-1 text-left text-sm font-semibold">
                     Level
                 </th>
-                <th class="px-4 py-3 text-center text-sm font-semibold">
+                <th class="px-2 py-1 text-center text-sm font-semibold">
                     Launch Date
                 </th>
                 <th class="px-4 py-3 text-center text-sm font-semibold">
@@ -36,16 +36,16 @@
         @forelse($launches as $launch)
             <tr class="hover:bg-gray-50 transition">
 
-                <td class="px-4 py-3 font-medium text-black max-w-[420px] truncate">
+                <td class="px-2 py-1 font-medium text-black max-w-[420px] truncate">
     {{ $launch->course->title }}
 </td>
 
 
-                <td class="px-4 py-3 text-sm text-gray-700">
+                <td class="px-2 py-1 text-sm text-gray-700">
                     {{ ucfirst($launch->course->level) }}
                 </td>
 
-                <td class="px-4 py-3 text-center text-black">
+                <td class="px-2 py-1 text-center text-black">
                     {{ \Carbon\Carbon::parse($launch->launch_date)->format('d M Y') }}
                 </td>
 <td class="px-4 py-3 text-center w-[420px] min-w-[420px]">
