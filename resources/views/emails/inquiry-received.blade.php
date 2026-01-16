@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Inquiry Received</title>
+</head>
+<body style="font-family: Arial, sans-serif; background:#f9fafb; padding:20px;">
+
+<div style="max-width:600px; margin:0 auto; background:#ffffff; padding:30px; border-radius:8px; border:1px solid #e5e7eb;">
+
+    <h2 style="color:#09515D; margin-bottom:10px;">
+        Inquiry Received
+    </h2>
+
+    <p style="font-size:14px; color:#374151;">
+        Dear {{ $inquiry->name }},
+    </p>
+
+    <p style="font-size:14px; color:#374151;">
+        Thank you for your interest in the following professional training program with
+        <strong>BTMG USA</strong>.
+    </p>
+
+    <ul style="font-size:14px; color:#374151; line-height:1.6;">
+        <li><strong>Course:</strong> {{ $inquiry->course_title }}</li>
+
+        @if($inquiry->level)
+            <li><strong>Level:</strong> {{ ucfirst($inquiry->level) }}</li>
+        @endif
+
+        @if($inquiry->launch_date)
+            <li>
+                <strong>Proposed Start Date:</strong>
+                {{ \Carbon\Carbon::parse($inquiry->launch_date)->format('d M Y') }}
+            </li>
+        @endif
+    </ul>
+
+    <p style="font-size:14px; color:#374151;">
+        Our training coordinator will review your inquiry and contact you shortly
+        to confirm availability, schedule, and next steps.
+    </p>
+
+    <p style="margin-top:20px; font-size:14px; color:#374151;">
+        Kind regards,<br>
+        <strong>BTMG USA Training Team</strong><br>
+        <span style="color:#6b7280;">Professional & Corporate Training</span>
+    </p>
+
+</div>
+
+</body>
+</html>

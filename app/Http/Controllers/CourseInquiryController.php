@@ -113,30 +113,15 @@ public function byLaunch($launchId)
         ]);
 
         /* ===== SEND CONFIRMATION EMAIL (LIKE ENROLL) ===== */
-        Mail::raw(
-            "Dear {$inquiry->name},\n\n" .
-            "Thank you for your interest in BTMG USA Training.\n\n" .
-            "We have received your inquiry regarding the following training:\n\n" .
-            "Course: {$inquiry->course_title}\n" .
-            ($inquiry->level ? "Level: {$inquiry->level}\n" : "") .
-            ($inquiry->launch_date
-                ? "Start Date: " . Carbon::parse($inquiry->launch_date)->format('d M Y') . "\n\n"
-                : "\n"
-            ) .
-            "Our training team will review your request and contact you shortly with further details.\n\n" .
-            "Warm regards,\n" .
-            "BTMG USA Training Team",
-            function ($mail) use ($inquiry) {
-                $mail->to($inquiry->email)
-                     ->subject('BTMG USA Training – Inquiry Received');
-            }
-        );
+       Mail::send(
+    'emails.inquiry-received',
+    ['inquiry' => $inquiry],
+    function ($mail) use ($inquiry) {
+        $mail->to($inquiry->email)
+             ->subject('BTMG USA Training – Inquiry Received');
+    }
+);
 
-       return back()->with([
-    'popup_success' => true,
-    'popup_title'   => 'Inquiry Sent',
-    'popup_message' => 'Your inquiry has been received. Our team will respond within 24 hours.'
-]);
 
     }
 }
