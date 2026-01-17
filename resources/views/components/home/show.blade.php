@@ -37,16 +37,20 @@ Level: {{ $course->level }}</span>
 
        
         <div class="hero-actions">
-             <button class="btn-solid"
-        onclick="handleLaunchCheck()">
-        Check Available Dates
-    </button>
+            <button class="btn-solid"
+    onclick="handleLaunchCheck()">
+    <i class="bi bi-calendar-check-fill" style="margin-right:2px;"></i>
+    Check Available Dates
+</button>
 
 
-            <button class="btn-outline"
-                onclick="openInquiryModal('{{ $course->title }}')">
-                Inquiry about the Course
-            </button>
+
+            <button class="btn-inquiry"
+    onclick="openInquiryModal('{{ $course->title }}')">
+    <i class="bi bi-chat-dots-fill"></i>
+    Inquiry
+</button>
+
         </div>
 
     </div>
@@ -1271,17 +1275,32 @@ Register Now
 }
 
 .btn-solid{
-    background: #0f766e;
+    background: #09515D;
     color:#fff;
     padding:14px 26px;
-    font-size:14px;
+    font-size:16px;
     font-weight:800;
     border:none;
     border-radius:8px;
     cursor:pointer;
 }
+.btn-solid i{
+    color:#F47B1E;
+}
 
-.btn-solid:hover{ background: #F47B1E; }
+.btn-solid:hover{ 
+ background:#09515D;
+    color:#ffffff;
+
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 12px 30px rgba(9,81,93,.25);
+}
+.btn-solid:hover i{ 
+color :#fff !important;
+}
+
 
 .btn-outline{
     background:#fff;
@@ -1708,6 +1727,68 @@ body.pdf-mode *{
     box-shadow: none !important;
     background-image: none !important;
 }
+/* ===============================
+   PROFESSIONAL INQUIRY BUTTON
+   =============================== */
+
+.btn-inquiry{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+
+    padding:14px 26px;
+    font-size:18px;
+    font-weight:800;
+
+    color: #fff;
+    background: #09515D;
+
+    border:2px solid #09515D;
+    border-radius:10px;
+
+    cursor:pointer;
+    transition:all .25s ease;
+
+    box-shadow:
+        0 6px 18px rgba(9,81,93,.12);
+}
+
+/* icon */
+.btn-inquiry i{
+    font-size:16px;
+    color:#F47B1E;
+}
+
+/* hover */
+.btn-inquiry:hover{
+    background:#09515D;
+    color:#ffffff;
+
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 12px 30px rgba(9,81,93,.25);
+}
+
+.btn-inquiry:hover i{
+    color:#ffffff;
+}
+
+/* active click */
+.btn-inquiry:active{
+    transform:translateY(0);
+    box-shadow:
+        0 6px 16px rgba(9,81,93,.18);
+}
+@media (max-width: 640px){
+    .btn-inquiry{
+        width:100%;
+        justify-content:center;
+        padding:16px 0;
+        font-size:15px;
+    }
+}
+
 
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
