@@ -191,7 +191,7 @@ Level: {{ $course->level }}</span>
 
     <!-- RIGHT: ACTIONS -->
     <div class="launch-actions">
-       <button class="btn-outline small"
+       <button class="btn-solid small"
 onclick="openInquiryModal(
     '{{ $course->title }}',
     '{{ $launch->launch_date }}',
@@ -200,19 +200,22 @@ onclick="openInquiryModal(
     '{{ $course->level ?? '' }}',
     '{{ $course->duration ?? '' }}'
 )">
-Inquiry
+    <i class="bi bi-chat-dots-fill"></i>
+    Inquiry
 </button>
 
 
 
-        <button class="btn-solid small"
+
+       <button class="btn-solid small"
 onclick="openEnrollModal(
     '{{ $course->title }}',
     '{{ $launch->launch_date }}',
     {{ $course->id }},
     {{ $launch->id }}
 )">
-Register Now
+    <i class="bi bi-pencil-square"></i>
+    Register Now
 </button>
 
     </div>

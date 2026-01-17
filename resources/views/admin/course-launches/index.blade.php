@@ -51,11 +51,7 @@
 <td class="px-4 py-3 text-center w-[420px] min-w-[420px]">
 <div class="flex items-center justify-center gap-3 text-sm flex-nowrap whitespace-nowrap">
 
-        <!-- EDIT -->
-        <a href="{{ route('admin.course-launches.edit', $launch) }}"
-           class=" shrink-0 text-blue-600 hover:text-blue-800 font-semibold">
-            Edit
-        </a>
+       
 
         <!-- ENROLLMENTS -->
         <a href="{{ route('admin.course-enrollments.byLaunch', $launch->id) }}"
@@ -67,15 +63,32 @@
 
             <span>Enrollments</span>
 
-            <span class="min-w-[35px] h-[35px]
-                         flex items-center justify-center
-                         bg-black text-white
-                         rounded-full text-[11px] font-bold">
-                {{ $launch->enrollments_count ?? 0 }}
-            </span>
+           <span class="admin-metric admin-count admin-count-dark">
+    {{ $launch->enrollments_count ?? 0 }}
+</span>
+
+        </a>
+          <!-- INQUIRIES -->
+        <a href="{{ route('admin.course-inquiries.byLaunch', $launch->id) }}"
+           class=" shrink-0 flex items-center gap-2
+                  bg-gray-100 text-gray-800
+                  px-3 py-1.5 rounded-full
+                  font-semibold
+                  hover:bg-gray-200 transition">
+
+            <span>Inquiries</span>
+
+           <span class="admin-metric admin-count admin-count-yellow">
+    {{ $launch->inquiries_count ?? 0 }}
+</span>
+
         </a>
 
-       
+        <!-- EDIT -->
+        <a href="{{ route('admin.course-launches.edit', $launch) }}"
+           class=" shrink-0 text-blue-600 hover:text-blue-800 font-semibold">
+            Edit
+        </a>
 
         <!-- DELETE -->
         <form method="POST"
@@ -88,23 +101,7 @@
                 Delete
             </button>
         </form>
-         <!-- INQUIRIES -->
-        <a href="{{ route('admin.course-inquiries.byLaunch', $launch->id) }}"
-           class=" shrink-0 flex items-center gap-2
-                  bg-gray-100 text-gray-800
-                  px-3 py-1.5 rounded-full
-                  font-semibold
-                  hover:bg-gray-200 transition">
-
-            <span>Inquiries</span>
-
-            <span class="min-w-[35px] h-[35px]
-                         flex items-center justify-center
-                         bg-yellow-500 text-black
-                         rounded-full text-[11px] font-bold">
-                {{ $launch->inquiries_count ?? 0 }}
-            </span>
-        </a>
+       
 
     </div>
 </td>
@@ -124,3 +121,41 @@
 </div>
 
 @endsection
+<style>
+    /* ===============================
+   FIX SQUEEZED COUNT BADGES
+   =============================== */
+
+/* prevent flex from squeezing badges */
+.admin-metric{
+    flex-shrink: 0;
+}
+
+/* clean count circle */
+.admin-count{
+    width: 22px;
+    height: 22px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    border-radius: 9999px;
+    line-height: 1;
+}
+
+/* colors */
+.admin-count-dark{
+    background:#111827;
+    color:#fff;
+}
+
+.admin-count-yellow{
+    background:#facc15;
+    color:#111827;
+}
+
+</style>
