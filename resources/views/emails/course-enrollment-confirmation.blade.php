@@ -29,12 +29,7 @@
                 <li><strong>Level:</strong> {{ ucfirst($enrollment->level) }}</li>
             @endif
 
-            @if($enrollment->launch_date)
-                <li>
-                    <strong>Start Date:</strong>
-                    {{ \Carbon\Carbon::parse($enrollment->launch_date)->format('d M Y') }}
-                </li>
-            @endif
+           
         </ul>
 
         <p style="font-size:14px; color:#374151;">
@@ -47,7 +42,7 @@ to confirm availability, schedule, and payment details.
 
         <p style="margin-top:20px; font-size:14px; color:#374151;">
             Kind regards,<br>
-            <strong>BTMG USA Training Team</strong><br>
+            <strong>GLOBAL TUITIONS Training Team</strong><br>
             <span style="color:#6b7280;">Professional & Corporate Training</span>
         </p>
 

@@ -6,7 +6,7 @@
     <!-- LEFT SIDE -->
     <div class="hero-left">
 
-        <span class="hero-badge">BTMG USA Professional Training</span>
+        <span class="hero-badge">GLOBAL TUITIONS Trainings</span>
 
         <h1 class="hero-title">{{ $course->title }}</h1>
       
@@ -37,20 +37,32 @@ Level: {{ $course->level }}</span>
 
        
         <div class="hero-actions">
-            <button class="btn-solid"
+            <!-- <button class="btn-solid"
     onclick="handleLaunchCheck()">
     <i class="bi bi-calendar-check-fill" style="margin-right:2px;"></i>
     Check Available Dates
-</button>
+</button> -->
+
+ <button class="btn-solid "
+onclick="openEnrollModal('{{ $course->title }}', {{ $course->id }})">
+                    <i class="bi bi-pencil-square"></i>
+
+                Register Now
+            </button> 
 
 
 
-            <button class="btn-inquiry"
-    onclick="openInquiryModal('{{ $course->title }}')">
-    <i class="bi bi-chat-dots-fill"></i>
+       <button class="btn-inquiry"
+    onclick="openInquiryModal(
+        '{{ $course->title }}',
+        {{ $course->id }},
+        '{{ $course->level ?? '' }}',
+        '{{ $course->duration ?? '' }}'
+        
+    )">
+
+ <i class="bi bi-chat-dots-fill"></i>
     Inquiry
-</button>
-
         </div>
 
     </div>
@@ -144,16 +156,17 @@ Level: {{ $course->level }}</span>
                 <p class="muted">No topics added yet.</p>
             @endif
         </div>
-        @if($course->launches->count())
+        <!-- @if($course->launches->count())
+        
 <div class="card">
     <h3 class="sec-title">Upcoming Trainings</h3>
 
    <div class="launch-list" id="dates">
 @foreach($course->launches->sortBy('launch_date') as $launch)
-       <div class="launch-row pro">
+       <div class="launch-row pro"> -->
 
     <!-- LEFT: DETAILS -->
-    <div class="launch-left">
+    <!-- <div class="launch-left">
         <div class="launch-date">
             <span class="day">
                 {{ \Carbon\Carbon::parse($launch->launch_date)->format('d') }}
@@ -187,10 +200,10 @@ Level: {{ $course->level }}</span>
                 @endif
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- RIGHT: ACTIONS -->
-    <div class="launch-actions">
+    <!-- <div class="launch-actions">
        <button class="btn-solid small"
 onclick="openInquiryModal(
     '{{ $course->title }}',
@@ -202,12 +215,12 @@ onclick="openInquiryModal(
 )">
     <i class="bi bi-chat-dots-fill"></i>
     Inquiry
-</button>
+</button> -->
 
 
 
 
-       <button class="btn-solid small"
+       <!-- <button class="btn-solid small"
 onclick="openEnrollModal(
     '{{ $course->title }}',
     '{{ $launch->launch_date }}',
@@ -218,7 +231,7 @@ onclick="openEnrollModal(
     Register Now
 </button>
 
-    </div>
+    </div> -->
 
 </div>
 
@@ -231,11 +244,11 @@ onclick="openEnrollModal(
 
         <div class="card">
            <!-- CTA BUTTONS -->
-            <div id="launchMessage"
+            <!-- <div id="launchMessage"
      style="display:none; margin-top:12px; color: #09515D; font-weight:600;">
     <i class="bi bi-info-circle-fill" style="margin-right:6px;"></i>
     This course has not been launched yet. Upcoming dates will be announced soon.
-</div>
+</div> -->
 
 
             <div class="cta-buttons">
@@ -293,15 +306,15 @@ onclick="openEnrollModal(
 <div class="registration-card">
     <h2 class="reg-title">Student Registration</h2>
     <p class="reg-subtitle">
-        Fill the form below. A BTMG USA coordinator will confirm schedule and payment details.
+        Fill the form below. A GLOBAL TUITIONS coordinator will confirm schedule and payment details.
     </p>
 
     <form method="POST" action="{{ route('course.enroll') }}">
         @csrf
         <input type="hidden" name="course_name" id="courseName">
-        <input type="hidden" name="launch_date" id="selectedLaunchDate">
+        <!-- <input type="hidden" name="launch_date" id="selectedLaunchDate"> -->
         <input type="hidden" name="course_id" id="courseId">
-        <input type="hidden" name="launch_id" id="launchId">
+        <!-- <input type="hidden" name="launch_id" id="launchId"> -->
 
         <input type="hidden" name="level" id="selectedLevel">
 
@@ -330,6 +343,16 @@ onclick="openEnrollModal(
                     <option>Corporate</option>
                 </select>
             </div>
+            <div class="reg-group">
+    <label>Preferred Date</label>
+    <input type="date" name="preferred_date">
+</div>
+
+<div class="reg-group">
+    <label>Preferred Time</label>
+    <input type="time" name="preferred_time">
+</div>
+
 
             <div class="reg-group full">
                 <label>Message (Optional)</label>
@@ -347,7 +370,7 @@ onclick="openEnrollModal(
                     <strong>Consent & Disclaimer</strong><br>
                     I confirm that all information provided is accurate.<br>
                     I agree that my information will be used by
-                    <span class="highlight">BTMG</span>
+                    <span class="highlight">GLOBAL TUITIONS</span>
                     solely for educational and enrollment purposes.<br>
                     I understand that my data will not be shared with any third-party organizations.
                 </span>
@@ -359,7 +382,7 @@ onclick="openEnrollModal(
         </button>
 
         <p class="reg-footer">
-            By submitting, you agree to be contacted by BTMG USA for scheduling and payment coordination.
+            By submitting, you agree to be contacted by GLOBAL TUITIONS for scheduling and payment coordination.
         </p>
     </form>
 </div>
@@ -388,17 +411,14 @@ onclick="openEnrollModal(
         <span id="inquiryLevelText"></span>
     </span>
 
-    <span class="info-pill">
-        <i class="bi bi-calendar-event"></i>
-        <span id="inquiryDateText"></span>
-    </span>
+    
 </div>
         </div>
 
         <div class="registration-card">
             <h2 class="reg-title">Course Inquiry</h2>
             <p class="reg-subtitle">
-                Share your questions and our BTMG USA team will get back to you.
+                Share your questions and our GLOBAL TUITIONS team will get back to you.
             </p>
 
             <form method="POST" action="{{ route('course.inquiry') }}">
@@ -407,8 +427,8 @@ onclick="openEnrollModal(
        <!-- KEEP THIS EXACT -->
 <input type="hidden" name="course_title" id="inquiryCourseTitle">
 <input type="hidden" name="course_id" id="inquiryCourseId"> <!-- NEW -->
-<input type="hidden" name="launch_date" id="inquiryLaunchDate">
-<input type="hidden" name="launch_id" id="inquiryLaunchId"> <!-- NEW -->
+<!-- <input type="hidden" name="launch_date" id="inquiryLaunchDate">
+<input type="hidden" name="launch_id" id="inquiryLaunchId">  -->
 <input type="hidden" name="level" id="inquiryLevel">
 
 
@@ -448,7 +468,7 @@ onclick="openEnrollModal(
                     <strong>Consent & Disclaimer</strong><br>
                     I confirm that all information provided is accurate.<br>
                     I agree that my information will be used by
-                    <span class="highlight">BTMG</span>
+                    <span class="highlight">GLOBAL TUITIONS</span>
                     solely for educational and enrollment purposes.<br>
                     I understand that my data will not be shared with any third-party organizations.
                 </span>
@@ -472,7 +492,7 @@ onclick="openEnrollModal(
         <h3 class="success-title">Message Sent Successfully</h3>
 
         <p class="success-text">
-            Thank you for reaching out to <strong>BTMG</strong>.<br>
+            Thank you for reaching out to <strong>GLOBAL TUITIONS</strong>.<br>
             Our team will contact you shortly.
         </p>
 
@@ -1796,13 +1816,8 @@ body.pdf-mode *{
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-<script>
-function openEnrollModal(
-    courseTitle,
-    launchDate = null,
-    courseId = null,
-    launchId = null
-){
+ <script>
+function openEnrollModal(courseTitle, courseId = null){
     document.body.style.overflow = 'hidden';
     document.getElementById('enrollModal').style.display = 'flex';
 
@@ -1813,7 +1828,6 @@ function openEnrollModal(
     // Hidden fields
     document.getElementById('courseName').value = courseTitle;
     document.getElementById('courseId').value = courseId;
-    document.getElementById('launchId').value = launchId;
 
     document.getElementById('enrollInfo').style.display = 'flex';
 
@@ -1832,20 +1846,10 @@ function openEnrollModal(
         document.getElementById('enrollLevelWrap').style.display = 'flex';
         document.getElementById('selectedLevel').value = level;
     }
-
-    // Launch Date
-    if (launchDate) {
-        document.getElementById('enrollDate').innerText =
-            'Starts: ' + launchDate;
-
-        document.getElementById('enrollDateWrap').style.display = 'flex';
-        document.getElementById('selectedLaunchDate').value = launchDate;
-    } else {
-        document.getElementById('enrollDateWrap').style.display = 'none';
-    }
 }
+</script>
 
-
+<script>
 function closeEnrollModal(){
     document.body.style.overflow = '';
     document.getElementById('enrollModal').style.display='none';
@@ -1898,92 +1902,41 @@ function downloadPDF(){
 
 
 </script>
+
+
 <script>
-function openInquiryModal(
-    courseTitle,
-    launchDate = null,
-    courseId = null,
-    launchId = null,
-    level = '',
-    duration = ''
-){
+function openInquiryModal(courseTitle, courseId = null, level = '', duration = ''){
     document.body.style.overflow = 'hidden';
     document.getElementById('inquiryModal').style.display = 'flex';
 
-    // Header title
     document.getElementById('inquiryTitle').innerText =
         'Inquiry about ' + courseTitle;
 
-    // Hidden inputs
     document.getElementById('inquiryCourseTitle').value = courseTitle;
     document.getElementById('inquiryCourseId').value = courseId;
-    document.getElementById('inquiryLaunchId').value = launchId;
 
-    // Show info pills
     document.getElementById('inquiryInfo').style.display = 'flex';
 
-    // Duration
     if(duration){
         document.getElementById('inquiryDuration').innerText = duration;
     }
 
-    // Level
     if(level){
         document.getElementById('inquiryLevelText').innerText =
             level.charAt(0).toUpperCase() + level.slice(1);
         document.getElementById('inquiryLevel').value = level;
     }
-
-    // Launch Date
-    if(launchDate){
-        document.getElementById('inquiryDateText').innerText =
-            'Starts: ' + launchDate;
-        document.getElementById('inquiryLaunchDate').value = launchDate;
-    }
 }
+</script>
+<script>
+
 
 function closeInquiryModal(){
     document.body.style.overflow = '';
     document.getElementById('inquiryModal').style.display = 'none';
 }
 </script>
-<script>
-(function () {
 
-    const COURSE_ID   = {{ $course->id }};
-    const COURSE_LEVEL = @json($course->level ?? '');
-    const COURSE_DURATION = @json($course->duration ?? '');
-
-    // PATCH openInquiryModal safely
-    const originalOpenInquiryModal = window.openInquiryModal;
-
-    window.openInquiryModal = function (
-        courseTitle,
-        launchDate = null,
-        courseId = null,
-        launchId = null,
-        level = '',
-        duration = ''
-    ) {
-        // Inject missing values (HERO inquiry case)
-        if (!courseId) {
-            courseId = COURSE_ID;
-            level = COURSE_LEVEL;
-            duration = COURSE_DURATION;
-        }
-
-        originalOpenInquiryModal(
-            courseTitle,
-            launchDate,
-            courseId,
-            launchId,
-            level,
-            duration
-        );
-    };
-
-})();
-</script>
 
 <script>
 function handleLaunchCheck() {

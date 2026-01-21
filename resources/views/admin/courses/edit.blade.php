@@ -206,7 +206,7 @@
                 </label>
                 <div class="flex items-center gap-4">
                     <img
-                        src="{{ asset('images/'.$course->image) }}"
+                        src="{{ asset('storage/'.$course->image) }}"
                         class="w-28 rounded border">
                     <span class="text-sm text-gray-600">
                         Upload a new image to replace this

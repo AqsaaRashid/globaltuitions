@@ -54,7 +54,7 @@
        
 
         <!-- ENROLLMENTS -->
-        <a href="{{ route('admin.course-enrollments.byLaunch', $launch->id) }}"
+        <!-- <a href="{{ route('admin.course-enrollments.byLaunch', $launch->id) }}"
            class=" shrink-0 flex items-center gap-2
                   bg-gray-100 text-gray-800
                   px-3 py-1.5 rounded-full
@@ -67,9 +67,9 @@
     {{ $launch->enrollments_count ?? 0 }}
 </span>
 
-        </a>
+        </a> -->
           <!-- INQUIRIES -->
-        <a href="{{ route('admin.course-inquiries.byLaunch', $launch->id) }}"
+        <!-- <a href="{{ route('admin.course-inquiries.byLaunch', $launch->id) }}"
            class=" shrink-0 flex items-center gap-2
                   bg-gray-100 text-gray-800
                   px-3 py-1.5 rounded-full
@@ -82,7 +82,7 @@
     {{ $launch->inquiries_count ?? 0 }}
 </span>
 
-        </a>
+        </a> -->
 
         <!-- EDIT -->
         <a href="{{ route('admin.course-launches.edit', $launch) }}"

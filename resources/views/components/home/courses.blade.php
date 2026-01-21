@@ -106,8 +106,10 @@
      data-launch="{{ $launchDate }}">
 
 
-    <div class="course-image"style="background-image:url('{{ asset('images/'.$course->image) }}')">
-    </div>
+ <div class="course-image"
+     style="background-image:url('{{ asset('storage/' . $course->image) }}')">
+</div>
+
 
     <div class="course-content">
         <div>

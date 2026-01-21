@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\TrainingCategory;
 use App\Models\TrainingImage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class TrainingController extends Controller
 {
@@ -83,24 +84,30 @@ class TrainingController extends Controller
     }
 
     public function storeImage(Request $request)
-    {
-        $request->validate([
-            'category_id' => 'required|exists:training_categories,id',
-            'image'       => 'required|image|mimes:png,jpg,jpeg',
-        ]);
+{
+    $request->validate([
+        'category_id' => 'required|exists:training_categories,id',
+        'image'       => 'required|image|mimes:png,jpg,jpeg,webp',
+    ]);
 
-        $imageName = time() . '.' . $request->image->extension();
-        $request->image->move(public_path('images'), $imageName);
+    $imageName = time() . '_' . uniqid() . '.' . $request->image->extension();
 
-        TrainingImage::create([
-            'training_category_id' => $request->category_id,
-            'image'                => $imageName,
-        ]);
+    $path = $request->file('image')->storeAs(
+        'training',
+        $imageName,
+        'public'
+    );
 
-        return redirect()
-            ->route('training.index')
-            ->with('success', 'Image added');
-    }
+    TrainingImage::create([
+        'training_category_id' => $request->category_id,
+        'image' => $path, // ✅ save path, not filename
+    ]);
+
+    return redirect()
+        ->route('training.index')
+        ->with('success', 'Image added');
+}
+
 
     public function editImage(TrainingImage $image)
     {
@@ -109,46 +116,51 @@ class TrainingController extends Controller
         return view('admin.training.images.edit', compact('image', 'categories'));
     }
 
-    public function updateImage(Request $request, TrainingImage $image)
-    {
-        $request->validate([
-            'category_id' => 'required|exists:training_categories,id',
-            'image'       => 'nullable|image|mimes:png,jpg,jpeg',
-        ]);
+   public function updateImage(Request $request, TrainingImage $image)
+{
+    $request->validate([
+        'category_id' => 'required|exists:training_categories,id',
+        'image'       => 'nullable|image|mimes:png,jpg,jpeg,webp',
+    ]);
 
-        $imageName = $image->image;
+    $path = $image->image;
 
-        if ($request->hasFile('image')) {
-            $oldPath = public_path('images/' . $image->image);
-            if (file_exists($oldPath)) {
-                unlink($oldPath);
-            }
-
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
+    if ($request->hasFile('image')) {
+        if ($image->image) {
+            Storage::disk('public')->delete($image->image);
         }
 
-        $image->update([
-            'training_category_id' => $request->category_id,
-            'image'                => $imageName,
-        ]);
+        $imageName = time() . '_' . uniqid() . '.' . $request->image->extension();
 
-        return redirect()
-            ->route('training.index')
-            ->with('success', 'Image updated');
+        $path = $request->file('image')->storeAs(
+            'training',
+            $imageName,
+            'public'
+        );
     }
+
+    $image->update([
+        'training_category_id' => $request->category_id,
+        'image' => $path,
+    ]);
+
+    return redirect()
+        ->route('training.index')
+        ->with('success', 'Image updated');
+}
+
 
     public function destroyImage(TrainingImage $image)
-    {
-        $imagePath = public_path('images/' . $image->image);
-        if (file_exists($imagePath)) {
-            unlink($imagePath);
-        }
-
-        $image->delete();
-
-        return back()->with('success', 'Image deleted');
+{
+    if ($image->image) {
+        Storage::disk('public')->delete($image->image);
     }
+
+    $image->delete();
+
+    return back()->with('success', 'Image deleted');
+}
+
 
     public function categoriesIndex()
     {

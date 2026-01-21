@@ -9,7 +9,7 @@
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
                     <x-application-logo class="block h-8 w-auto fill-current text-yellow-400" />
                     <span class="text-white font-semibold tracking-wide hidden sm:block">
-                        BTMG TRAININGS
+                        GLOBAL TUITIONS
                     </span>
                 </a>
 
@@ -20,7 +20,7 @@
                        {{ request()->routeIs('dashboard')
                             ? 'border-yellow-400 text-yellow-400'
                             : 'border-transparent text-gray-300 hover:text-yellow-400 hover:border-yellow-400' }}">
-                        Dashboard
+                        
                     </a>
                 </div>
             </div>

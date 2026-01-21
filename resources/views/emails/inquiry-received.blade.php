@@ -18,7 +18,7 @@
 
     <p style="font-size:14px; color:#374151;">
         Thank you for your interest in the following professional training program with
-        <strong>BTMG USA</strong>.
+        <strong>GLOBAL TUITIONS</strong>.
     </p>
 
     <ul style="font-size:14px; color:#374151; line-height:1.6;">
@@ -28,12 +28,7 @@
             <li><strong>Level:</strong> {{ ucfirst($inquiry->level) }}</li>
         @endif
 
-        @if($inquiry->launch_date)
-            <li>
-                <strong>Proposed Start Date:</strong>
-                {{ \Carbon\Carbon::parse($inquiry->launch_date)->format('d M Y') }}
-            </li>
-        @endif
+      
     </ul>
 
     <p style="font-size:14px; color:#374151;">
@@ -43,7 +38,7 @@
 
     <p style="margin-top:20px; font-size:14px; color:#374151;">
         Kind regards,<br>
-        <strong>BTMG USA Training Team</strong><br>
+        <strong>GLOBAL TUITIONS Training Team</strong><br>
         <span style="color:#6b7280;">Professional & Corporate Training</span>
     </p>
 

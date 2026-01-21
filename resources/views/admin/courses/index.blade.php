@@ -41,11 +41,13 @@
 
                     {{-- Image --}}
                     <td class="px-4 py-3">
+                       
                         <img
-                            src="{{ asset('images/'.$course->image) }}"
-                            alt="Course Image"
-                            class="w-16 h-auto rounded border"
-                        >
+    src="{{ asset('storage/' . $course->image) }}"
+    alt="Course Image"
+    class="w-16 h-auto rounded border"
+>
+
                     </td>
 
                     {{-- Title + Skills --}}

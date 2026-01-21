@@ -9,9 +9,14 @@ use Illuminate\Http\Request;
 
 class CourseLaunchController extends Controller
 {
-  public function index()
+
+
+ public function index()
 {
-    $launches = CourseLaunch::with('course')
+    $launches = CourseLaunch::whereHas('course', function ($q) {
+            $q->where('price', 0);
+        })
+        ->with('course')
         ->withCount([
             'enrollments as enrollments_count' => function ($q) {
                 $q->where('status', 'pending');
@@ -31,18 +36,30 @@ class CourseLaunchController extends Controller
 
 
 
-    public function create()
-    {
-        $courses = Course::orderBy('title')->get();
-        return view('admin.course-launches.create', compact('courses'));
-    }
+
+   public function create()
+{
+    $courses = Course::where('price', 0)
+        ->orderBy('title')
+        ->get();
+
+    return view('admin.course-launches.create', compact('courses'));
+}
 
     public function store(Request $request)
     {
         $request->validate([
-            'course_id'   => 'required|exists:courses,id',
-            'launch_date' => 'required|date',
-        ]);
+    'course_id' => [
+        'required',
+        'exists:courses,id',
+        function ($attr, $value, $fail) {
+            if (!Course::where('id', $value)->where('price', 0)->exists()) {
+                $fail('Only free courses can be launched.');
+            }
+        }
+    ],
+    'launch_date' => 'required|date',
+]);
 
         CourseLaunch::create([
             'course_id'   => $request->course_id,
@@ -55,10 +72,14 @@ class CourseLaunchController extends Controller
     }
 
     public function edit(CourseLaunch $courseLaunch)
-    {
-        $courses = Course::orderBy('title')->get();
-        return view('admin.course-launches.edit', compact('courseLaunch', 'courses'));
-    }
+{
+    $courses = Course::where('price', 0)
+        ->orderBy('title')
+        ->get();
+
+    return view('admin.course-launches.edit', compact('courseLaunch', 'courses'));
+}
+
 
     public function update(Request $request, CourseLaunch $courseLaunch)
     {

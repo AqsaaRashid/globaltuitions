@@ -30,13 +30,13 @@
     </optgroup>
 
     {{-- PAID COURSES --}}
-    <optgroup label="Paid Courses">
+    <!-- <optgroup label="Paid Courses">
         @foreach($courses->where('price', '>', 0) as $course)
             <option value="{{ $course->id }}" data-type="paid">
                 {{ $course->title }} ({{ ucfirst($course->level) }})
             </option>
         @endforeach
-    </optgroup>
+    </optgroup> -->
 
 </select>
 

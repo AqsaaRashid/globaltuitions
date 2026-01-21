@@ -272,22 +272,25 @@ function openEnrollmentModal(id) {
                 <span class="text-gray-400">Course</span>
                 <p class="font-medium">${data.course_name}</p>
             </div>
-            <div>
-    <span class="text-gray-400">Level</span>
-    <p class="font-medium">${data.level ?? '—'}</p>
-</div>
 
-
-            
             <div>
-                <span class="text-gray-400">
-                    <i class="bi bi-calendar-event me-1"></i>
-                    Launch Date
-                </span>
+                <span class="text-gray-400">Level</span>
+                <p class="font-medium">${data.level ?? '—'}</p>
+            </div>
+
+            <!-- ✅ NEW -->
+            <div>
+                <span class="text-gray-400">Preferred Date</span>
                 <p class="font-medium">
-                    ${data.launch_date
-                        ? new Date(data.launch_date).toDateString()
-                        : 'Not selected'}
+                    ${data.preferred_date ?? '—'}
+                </p>
+            </div>
+
+            <!-- ✅ NEW -->
+            <div>
+                <span class="text-gray-400">Preferred Time</span>
+                <p class="font-medium">
+                    ${data.preferred_time ?? '—'}
                 </p>
             </div>
 

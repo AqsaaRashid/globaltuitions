@@ -184,14 +184,7 @@ function openInquiryModal(id) {
         <p class="font-medium">${data.level ?? '—'}</p>
     </div>
 
-    <div>
-        <span class="text-gray-400">Launch Date</span>
-        <p class="font-medium">
-            ${data.launch_date
-                ? new Date(data.launch_date).toDateString()
-                : '—'}
-        </p>
-    </div>
+   
 
     <div>
         <span class="text-gray-400">Name</span>

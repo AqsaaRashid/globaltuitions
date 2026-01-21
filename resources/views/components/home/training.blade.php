@@ -22,7 +22,7 @@
      data-tab="{{ $category->slug }}">
 
             @foreach($category->images as $i => $img)
-                <img src="{{ asset('images/' . $img->image) }}"
+                <img src="{{ asset('storage/' . $img->image) }}"
                      class="img img-{{ $i + 1 }}">
             @endforeach
 

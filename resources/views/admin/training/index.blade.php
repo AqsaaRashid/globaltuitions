@@ -60,7 +60,7 @@
                             @foreach($category->images as $img)
                                 <div class="relative group">
                                     <img
-                                        src="{{ asset('images/' . $img->image) }}"
+                                        src="{{ asset('storage/' . $img->image) }}"
                                         class="w-20 h-16 object-cover rounded border"
                                         alt="Training Image"
                                     >

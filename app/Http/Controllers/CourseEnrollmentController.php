@@ -13,29 +13,36 @@ class CourseEnrollmentController extends Controller
 {
     $request->validate([
         'course_id'   => 'required|exists:courses,id',
-        'launch_id'   => 'nullable|exists:course_launches,id',
+        // 'launch_id'   => 'nullable|exists:course_launches,id',
 
         'course_name' => 'required|string',
         'name'        => 'required|string|max:255',
         'email'       => 'required|email',
         'phone'       => 'nullable|string|max:20',
         'message'     => 'nullable|string',
-        'launch_date' => 'nullable|date',
+        // 'launch_date' => 'nullable|date',
         'level'       => 'nullable|string|max:50',
+            // ✅ NEW
+    'preferred_date' => 'nullable|date',
+    'preferred_time' => 'nullable|date_format:H:i',
     ]);
 
-    $enrollment = CourseEnrollment::create([
-        'course_id'   => $request->course_id,
-        'launch_id'   => $request->launch_id,
+  $enrollment = CourseEnrollment::create([
+    'course_id'   => $request->course_id,
+    'course_name' => $request->course_name,
 
-        'course_name' => $request->course_name,
-        'name'        => $request->name,
-        'email'       => $request->email,
-        'phone'       => $request->phone,
-        'message'     => $request->message,
-        'launch_date' => $request->launch_date,
-        'level'       => $request->level,
-    ]);
+    'name'        => $request->name,
+    'email'       => $request->email,
+    'phone'       => $request->phone,
+    'message'     => $request->message,
+
+    'level'       => $request->level,
+
+    // ✅ NEW
+    'preferred_date' => $request->preferred_date,
+    'preferred_time' => $request->preferred_time,
+]);
+
 
     // SEND EMAIL
     Mail::to($enrollment->email)
@@ -44,7 +51,7 @@ class CourseEnrollmentController extends Controller
     return back()->with([
         'popup_success' => true,
         'popup_title'   => 'Enrollment Submitted',
-        'popup_message' => 'Thank you for enrolling. A BTMG USA coordinator will contact you shortly.'
+        'popup_message' => 'Thank you for enrolling. A GLOBAL TUITIONS coordinator will contact you shortly.'
     ]);
 }
 
@@ -85,10 +92,10 @@ public function approve(CourseEnrollment $enrollment)
     "\nOur team will contact you shortly with further information regarding schedule, access, and payment.\n\n" .
     "If you have any questions in the meantime, feel free to reply to this email.\n\n" .
     "Warm regards,\n" .
-    "BTMG USA Training Team",
+    "GLOBAL TUITIONS Training Team",
     function ($mail) use ($enrollment) {
         $mail->to($enrollment->email)
-             ->subject('Enrollment Approved – BTMG USA Training');
+             ->subject('Enrollment Approved – GLOBAL TUITIONS Training');
     }
 );
 
@@ -109,13 +116,13 @@ public function reject(CourseEnrollment $enrollment)
         : ""
     ) .
     "This decision may be due to limited seat availability, scheduling constraints, or eligibility requirements for the selected batch.\n\n" .
-    "We truly appreciate your interest in BTMG USA Training and encourage you to explore upcoming sessions or reach out to us if you would like guidance on alternative training options.\n\n" .
+    "We truly appreciate your interest in GLOBAL TUITIONS Training and encourage you to explore upcoming sessions or reach out to us if you would like guidance on alternative training options.\n\n" .
     "If you have any questions or would like further clarification, please feel free to reply to this email.\n\n" .
     "Kind regards,\n" .
-    "BTMG USA Training Team",
+    "GLOBAL TUITIONS Training Team",
     function ($mail) use ($enrollment) {
         $mail->to($enrollment->email)
-             ->subject('Enrollment Update – BTMG USA Training');
+             ->subject('Enrollment Update – GLOBAL TUITIONS Training');
     }
 );
 
@@ -135,10 +142,10 @@ public function reply(Request $request, CourseEnrollment $enrollment)
     "If you need any further assistance regarding your enrollment for " .
     "{$enrollment->course_name}, please feel free to reply to this email.\n\n" .
     "Kind regards,\n" .
-    "BTMG USA Training Team",
+    "GLOBAL TUITIONS Training Team",
     function ($mail) use ($enrollment) {
         $mail->to($enrollment->email)
-             ->subject('BTMG USA Training – Enrollment Update');
+             ->subject('GLOBAL TUITIONS Training – Enrollment Update');
     }
 );
 
@@ -148,18 +155,23 @@ public function reply(Request $request, CourseEnrollment $enrollment)
 // show
 public function show(CourseEnrollment $enrollment)
 {
-    return response()->json([
-        'id' => $enrollment->id,
-        'course_name' => $enrollment->course_name,
-        'name' => $enrollment->name,
-        'email' => $enrollment->email,
-        'phone' => $enrollment->phone,
-        'message' => $enrollment->message,
-        'status' => $enrollment->status,
-        'launch_date' => $enrollment->launch_date,
-        'level' => $enrollment->level,
-        'created_at' => $enrollment->created_at->format('d M Y'),
-    ]);
+   return response()->json([
+    'id' => $enrollment->id,
+    'course_name' => $enrollment->course_name,
+    'name' => $enrollment->name,
+    'email' => $enrollment->email,
+    'phone' => $enrollment->phone,
+    'message' => $enrollment->message,
+    'status' => $enrollment->status,
+    'level' => $enrollment->level,
+
+    // ✅ NEW
+    'preferred_date' => $enrollment->preferred_date,
+    'preferred_time' => $enrollment->preferred_time,
+
+    'created_at' => $enrollment->created_at->format('d M Y'),
+]);
+
 }
 public function destroy(CourseEnrollment $enrollment)
 {

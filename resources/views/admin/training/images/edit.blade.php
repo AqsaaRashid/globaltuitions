@@ -44,7 +44,7 @@
                     Current Image
                 </label>
                 <img
-                    src="{{ asset('images/' . $image->image) }}"
+                    src="{{ asset('storage/' . $image->image) }}"
                     class="w-32 h-auto rounded-md border"
                     alt="Training Image"
                 >

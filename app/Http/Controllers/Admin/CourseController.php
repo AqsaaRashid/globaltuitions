@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\TrainingCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class CourseController extends Controller
 {
@@ -35,42 +37,47 @@ class CourseController extends Controller
     /* ==============================
      | STORE
      ============================== */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'title'                 => 'required|string|max:255',
-            'description'           => 'nullable|string',
-            'image'                 => 'required|image|mimes:png,jpg,jpeg,webp',
-            'level'                 => 'nullable|string|max:100',
-            'duration_value' => 'required|integer|min:1',
-            'duration_unit'  => 'required|string|in:hours,days,weeks,months',
-            'price'                 => 'nullable|numeric',
-            'skills'                => 'nullable|string',
-            'sort_order'            => 'required|integer',
-            'training_category_id'  => 'nullable|exists:training_categories,id',
-        ]);
+  public function store(Request $request)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'image' => 'required|image|mimes:png,jpg,jpeg,webp',
+        'level' => 'nullable|string|max:100',
+        'duration_value' => 'required|integer|min:1',
+        'duration_unit' => 'required|string|in:hours,days,weeks,months',
+        'price' => 'nullable|numeric',
+        'skills' => 'nullable|string',
+        'sort_order' => 'required|integer',
+        'training_category_id' => 'nullable|exists:training_categories,id',
+    ]);
 
-        // Upload image
-        $imageName = time() . '.' . $request->image->extension();
-        $request->image->move(public_path('images'), $imageName);
+    $imageName = time() . '_' . uniqid() . '.' . $request->image->extension();
 
-        Course::create([
-            'title'                => $request->title,
-            'description'          => $request->description,
-            'image'                => $imageName,
-            'level'                => $request->level,
-            'duration' => $request->duration_value . ' ' . ucfirst($request->duration_unit),
-            'price'                => $request->price,
-            'skills'               => $request->skills,
-            'sort_order'           => $request->sort_order,
-            'is_active'            => $request->has('is_active'),
-            'training_category_id' => $request->training_category_id, // ✅ CATEGORY
-        ]);
+    $path = $request->file('image')->storeAs(
+        'courses',
+        $imageName,
+        'public'
+    );
 
-        return redirect()
-            ->route('admin.courses.index')
-            ->with('success', 'Course added successfully');
-    }
+    Course::create([
+        'title' => $request->title,
+        'description' => $request->description,
+        'image' => $path, // ✅ SAVE PATH
+        'level' => $request->level,
+        'duration' => $request->duration_value . ' ' . ucfirst($request->duration_unit),
+        'price' => $request->price,
+        'skills' => $request->skills,
+        'sort_order' => $request->sort_order,
+        'is_active' => $request->has('is_active'),
+        'training_category_id' => $request->training_category_id,
+    ]);
+
+    return redirect()
+        ->route('admin.courses.index')
+        ->with('success', 'Course added successfully');
+}
+
 
     /* ==============================
      | EDIT
@@ -85,66 +92,69 @@ class CourseController extends Controller
     /* ==============================
      | UPDATE
      ============================== */
-    public function update(Request $request, Course $course)
-    {
-        $request->validate([
-            'title'                 => 'required|string|max:255',
-            'description'           => 'nullable|string',
-            'image'                 => 'nullable|image|mimes:png,jpg,jpeg,webp',
-            'level'                 => 'nullable|string|max:100',
-            'duration_value' => 'required|integer|min:1',
-            'duration_unit'  => 'required|string|in:hours,days,weeks,months',
-            'price'                 => 'nullable|numeric',
-            'skills'                => 'nullable|string',
-            'sort_order'            => 'required|integer',
-            'training_category_id'  => 'nullable|exists:training_categories,id',
-        ]);
+   public function update(Request $request, Course $course)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'image' => 'nullable|image|mimes:png,jpg,jpeg,webp',
+        'level' => 'nullable|string|max:100',
+        'duration_value' => 'required|integer|min:1',
+        'duration_unit' => 'required|string|in:hours,days,weeks,months',
+        'price' => 'nullable|numeric',
+        'skills' => 'nullable|string',
+        'sort_order' => 'required|integer',
+        'training_category_id' => 'nullable|exists:training_categories,id',
+    ]);
 
-        $imageName = $course->image;
+    $path = $course->image;
 
-        if ($request->hasFile('image')) {
-            $oldPath = public_path('images/' . $course->image);
-            if ($course->image && file_exists($oldPath)) {
-                unlink($oldPath);
-            }
-
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
+    if ($request->hasFile('image')) {
+        if ($course->image) {
+            Storage::disk('public')->delete($course->image);
         }
 
-        $course->update([
-            'title'                => $request->title,
-            'description'          => $request->description,
-            'image'                => $imageName,
-            'level'                => $request->level,
-            'duration' => $request->duration_value . ' ' . ucfirst($request->duration_unit),
-            'price'                => $request->price,
-            'skills'               => $request->skills,
-            'sort_order'           => $request->sort_order,
-            'is_active'            => $request->has('is_active'),
-            'training_category_id' => $request->training_category_id, // ✅ CATEGORY
-        ]);
+        $imageName = time() . '_' . uniqid() . '.' . $request->image->extension();
 
-        return redirect()
-            ->route('admin.courses.index')
-            ->with('success', 'Course updated successfully');
+        $path = $request->file('image')->storeAs(
+            'courses',
+            $imageName,
+            'public'
+        );
     }
+
+    $course->update([
+        'title' => $request->title,
+        'description' => $request->description,
+        'image' => $path,
+        'level' => $request->level,
+        'duration' => $request->duration_value . ' ' . ucfirst($request->duration_unit),
+        'price' => $request->price,
+        'skills' => $request->skills,
+        'sort_order' => $request->sort_order,
+        'is_active' => $request->has('is_active'),
+        'training_category_id' => $request->training_category_id,
+    ]);
+
+    return redirect()
+        ->route('admin.courses.index')
+        ->with('success', 'Course updated successfully');
+}
+
 
     /* ==============================
      | DELETE
      ============================== */
     public function destroy(Course $course)
-    {
-        $imagePath = public_path('images/' . $course->image);
-
-        if ($course->image && file_exists($imagePath)) {
-            unlink($imagePath);
-        }
-
-        $course->delete();
-
-        return back()->with('success', 'Course deleted successfully');
+{
+    if ($course->image) {
+        Storage::disk('public')->delete($course->image);
     }
+
+    $course->delete();
+
+    return back()->with('success', 'Course deleted successfully');
+}
 
     /* ==============================
      | SEARCH (FRONTEND)

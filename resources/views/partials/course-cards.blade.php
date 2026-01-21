@@ -1,8 +1,9 @@
 @foreach($courses as $course)
 <div class="course-card">
     
-    <div class="course-image"style="background-image:url('{{ asset('images/'.$course->image) }}')">
-    </div>
+     <div class="course-image"
+     style="background-image:url('{{ asset('storage/' . $course->image) }}')">
+</div>
 
     <div class="course-content">
         <div>

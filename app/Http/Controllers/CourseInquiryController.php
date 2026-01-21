@@ -52,11 +52,11 @@ class CourseInquiryController extends Controller
             "Dear {$courseInquiry->name},\n\n" .
             $request->reply_message . "\n\n" .
             "Kind regards,\n" .
-            "BTMG USA Training Team",
+            "GLOBAL TUITIONS Training Team",
             function ($mail) use ($courseInquiry) {
                 $mail->to($courseInquiry->email)
                      ->subject(
-                         'BTMG USA Training – Inquiry Response: ' .
+                         'GLOBAL TUITIONS Training – Inquiry Response: ' .
                          $courseInquiry->course_title
                      );
             }

@@ -12,8 +12,8 @@
             <!-- Brand -->
             <div class="px-6 py-5 border-b border-gray-800">
                 <h1 class="text-xl font-bold tracking-wide">
-                    <span class="text-white">BTMG</span>
-                    <span class="text-yellow-500">Trainings</span>
+                    <span class="text-white">GLOBAL</span>
+                    <span class="text-yellow-500">TUITIONS</span>
                 </h1>
             </div>
 
@@ -45,7 +45,7 @@
    {{ request()->routeIs('admin.course-launches.*')
         ? 'bg-yellow-500 text-black font-semibold'
         : 'text-white hover:bg-white hover:text-black transition' }}">
-    Course Launch Dates
+     Launch Free Courses
 </a>
 
                 <a href="{{ route('training.categories.index') }}"
@@ -138,7 +138,7 @@
 
             <!-- Footer -->
             <div class="px-6 py-4 border-t border-gray-800 text-sm text-gray-500">
-                © {{ date('Y') }} BTMG TRAININGS
+                © {{ date('Y') }} Global TUITIONS
             </div>
         </aside>
 

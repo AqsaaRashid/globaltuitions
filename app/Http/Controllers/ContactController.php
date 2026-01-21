@@ -31,15 +31,15 @@ class ContactController extends Controller
     // ✅ AUTO-REPLY EMAIL TO USER
     Mail::raw(
         "Dear {$contact->name},\n\n" .
-        "Thank you for contacting BTMG USA Training.\n\n" .
+        "Thank you for contacting GLOBAL TUITIONS Training.\n\n" .
         "We’ve received your message and one of our training coordinators will reach out to you shortly to understand how we can best assist you — including course details, levels, schedules, and delivery options.\n\n" .
         "If your inquiry is related to a specific course, feel free to reply to this email with the course name and any additional information.\n\n" .
         "Best regards,\n" .
-        "BTMG USA Training Team\n" .
+        "GLOBAL TUITIONS Training Team\n" .
         "Professional IT & Business Training",
         function ($mail) use ($contact) {
             $mail->to($contact->email)
-                 ->subject('Thanks for contacting BTMG USA');
+                 ->subject('Thanks for contacting GLOBAL TUITIONS');
         }
     );
 
