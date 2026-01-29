@@ -6,8 +6,11 @@
     <!-- LEFT SIDE -->
     <div class="hero-left">
 
-        <span class="hero-badge">GLOBAL TUITIONS Trainings</span>
-
+<a href="https://phplaravel-1208793-6158387.cloudwaysapps.com/"
+   class="hero-badge pdf-link"
+   target="_blank">
+   GLOBAL TUITIONS Trainings
+</a>
         <h1 class="hero-title">{{ $course->title }}</h1>
       
 <div class="hero-description">
@@ -1779,7 +1782,19 @@ body.pdf-mode *{
 }
 /* ===============================
    PROFESSIONAL INQUIRY BUTTON
+  
    =============================== */
+   /* Normal view – looks like text */
+.pdf-link{
+    text-decoration: none;
+    color: inherit;
+    cursor: default;
+}
+
+/* ONLY PDF MODE – clickable */
+body.pdf-mode .pdf-link{
+    cursor: pointer;
+}
 
 .btn-inquiry{
     display:inline-flex;
