@@ -1785,16 +1785,22 @@ body.pdf-mode *{
   
    =============================== */
    /* Normal view – looks like text */
-.pdf-link{
-    text-decoration: none;
-    color: inherit;
+/* NORMAL VIEW – 100% SAME LOOK */
+.pdf-link,
+.pdf-link:visited,
+.pdf-link:hover,
+.pdf-link:active{
+    color: inherit !important;
+    background-color:#F47B1E !important;      /* 👈 keeps original color */
+    text-decoration: none !important;
     cursor: default;
 }
 
-/* ONLY PDF MODE – clickable */
+/* PDF MODE – clickable but SAME color */
 body.pdf-mode .pdf-link{
     cursor: pointer;
 }
+/* ONLY PDF MODE – clickable */
 
 .btn-inquiry{
     display:inline-flex;
