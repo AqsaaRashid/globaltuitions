@@ -36,6 +36,11 @@
                 <li><a href="#training">Gallery</a></li>
                 <li><a href="#work">How we Work</a></li>
                 <li><a href="#testimonials">Testimonials</a></li>
+                <li>
+    <a href="{{ route('privacy') }}" target="_blank" rel="noopener noreferrer">
+        Privacy Policy
+    </a>
+</li>
             </ul>
         </div>
 
@@ -47,6 +52,11 @@
                 <li><a href="#">About Us</a></li>
                 <li><a href="#">FAQ’s</a></li>
                 <li><a href="#">Discover</a></li>
+<li>
+    <a href="{{ route('terms') }}" target="_blank" rel="noopener noreferrer">
+        Terms & Conditions
+    </a>
+</li>
             </ul>
         </div>
 

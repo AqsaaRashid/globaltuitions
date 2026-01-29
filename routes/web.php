@@ -13,6 +13,7 @@ use App\Http\Controllers\CourseInquiryController;
 // routes/web.php
 
 use App\Http\Controllers\SubscriberController;
+
 Route::delete(
     'admin/course-inquiries/{courseInquiry}',
     [CourseInquiryController::class, 'destroy']
@@ -23,6 +24,13 @@ Route::get(
     [CourseEnrollmentController::class, 'byLaunch']
 )->name('admin.course-enrollments.byLaunch');
 
+
+Route::get('/privacy', function () {
+    return view('components.privacy');
+})->name('privacy');
+Route::get('/terms', function () {
+    return view('components.terms');
+})->name('terms');
 Route::get(
     '/admin/course-inquiries/launch/{launch}',
     [CourseInquiryController::class, 'byLaunch']

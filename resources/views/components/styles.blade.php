@@ -418,12 +418,27 @@
 
 
 /* TOP IMAGE ONLY 40px'*/
-.course-image {
+/* IMAGE WRAPPER WITH GAP */
+.course-image{
     height: 140px;
-    background-size: cover;
-    background-position: center;
+    padding: 6px;                      /* 🔥 THIS CREATES THE GAP */
+    background: #fff;
+    border: 1.5px solid #F47B1E;       /* lighter & premium */
+    border-radius: 10px 10px 0 0;      /* match card radius */
+    box-sizing: border-box;
 }
 
+/* ACTUAL IMAGE */
+.course-image::before{
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-image: inherit;
+    background-size: cover;
+    background-position: center;
+    border-radius: 6px;                /* inner soft corners */
+}
 /* BOTTOM WHITE CONTENT */
 .course-content {
     padding: 14px 16px;
@@ -431,7 +446,7 @@
     flex-direction: column;
     text-align: left;
     flex: 1;
-      min-width: 0;  
+    min-width: 0;  
 }
 
 
@@ -446,6 +461,39 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+/* ===============================
+   FIX BUTTON POSITION (IMPORTANT)
+   =============================== */
+
+/* Make card a vertical flex container */
+.course-card{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Content area grows */
+.course-content{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 16px;
+}
+
+/* Title spacing */
+.course-title{
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+/* PUSH BUTTON TO BOTTOM */
+.course-details-btn.fixed-btn{
+    margin-top: auto;   /* 🔥 THIS LINE FIXES EVERYTHING */
+    align-self: flex-start;
+}
+
 
 .course-content p {
     font-size: 12px;

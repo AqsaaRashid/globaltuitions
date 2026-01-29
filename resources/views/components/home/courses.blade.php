@@ -58,8 +58,9 @@
 </label>
 
 
-   <button id="freeFilterBtn" class="free-checkbox" type="button">
-    <i class="bi bi-gift"></i> Free Courses
+  <button id="freeFilterBtn" class="free-checkbox" type="button">
+    <i class="bi bi-gift"></i>
+    <span id="freeBtnText">Free Courses</span>
 </button>
 
 </div>
@@ -107,26 +108,21 @@
 
 
  <div class="course-image"
-     style="background-image:url('{{ asset('storage/' . $course->image) }}')">
+     style="background-image:url('{{ asset('images/' . $course->image) }}')">
 </div>
 
 
-    <div class="course-content">
-        <div>
-            <h3>{{ $course->title }}</h3>
-            <a href="{{ route('show', $course->id) }}"
-               class="course-details-link" style="color: #636363;">
-                View Course Details
-            </a>
-            <!-- <button class="enroll-btn" 
-                    onclick="openEnrollModal('{{ $course->title }}')">
-                Enroll Now
-            </button> -->
+   <div class="course-content">
+    <h3 class="course-title">
+        {{ $course->title }}
+    </h3>
 
-           
+    <a href="{{ route('show', $course->id) }}"
+       class="course-details-btn fixed-btn">
+        View Course Details
+    </a>
+</div>
 
-        </div>
-    </div>
 </div>
 @endforeach
 
@@ -704,12 +700,12 @@
     font-weight: 700;
 }
 
-/* FREE COURSE TOGGLE */
 .free-checkbox{
-    margin-top: 16px;                   /* reduced */
-    padding: 10px 14px;                 /* reduced */
+    margin-top: 16px;
+    padding: 10px 14px;
     border-radius: 10px;
-    background: linear-gradient(135deg, #0f172a, #09515D);
+    background: linear-gradient(135deg, #dc2626, #ef4444); /* 🔴 RED */
+    color: #ffffff;
     font-size: 14px;
     font-weight: 700;
     letter-spacing: .3px;
@@ -717,9 +713,10 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    box-shadow: 0 10px 24px rgba(15,23,42,0.25);
+    box-shadow: 0 10px 24px rgba(220,38,38,0.35);
     transition: all .2s ease;
 }
+
 
 /* FREE HOVER */
 .free-checkbox:hover{
@@ -729,9 +726,11 @@
 
 /* FREE ACTIVE */
 .free-checkbox.active{
-    background: linear-gradient(135deg, #F47B1E, #ff9f45);
-    box-shadow: 0 12px 26px rgba(244,123,30,0.45);
+    background: linear-gradient(135deg, #b91c1c, #dc2626); /* 🔥 DARK RED */
+    box-shadow: 0 12px 26px rgba(185,28,28,0.5);
 }
+
+
 
 /* MOBILE RESET */
 @media(max-width:992px){
@@ -756,6 +755,43 @@
     align-self: flex-start;
 }
 
+/* buttom */
+/* ===============================
+   COURSE DETAILS CTA BUTTON
+   =============================== */
+
+.course-details-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    padding: 10px 18px;
+    background: linear-gradient(135deg, #F47B1E, #ff9f45);
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 6px;
+    letter-spacing: 0.3px;
+    box-shadow: 0 6px 16px rgba(244,123,30,0.35);
+    transition: all 0.25s ease;
+}
+
+/* HOVER EFFECT */
+.course-details-btn:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(244,123,30,0.45);
+    background: linear-gradient(135deg, #ff8a2a, #ffb066);
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* ACTIVE CLICK */
+.course-details-btn:active{
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(244,123,30,0.3);
+}
+
 </style>
 <script>
 function openEnrollModal(courseTitle) {
@@ -777,35 +813,90 @@ window.onclick = function(e) {
 }
 </script>
 
-
+<script>
+function resetFreeFilterIfActive() {
+    if (freeOnly) {
+        freeOnly = false;
+        freeBtn.classList.remove('active');
+    }
+}
+</script>
 
 <script>
 let selectedCategory = 'all';
+let selectedLevel = 'all';
 let freeOnly = false;
-
-// CATEGORY (radio)
-function setCategory(val){
-    selectedCategory = val;
-
-    // AUTO-SELECT "ALL LEVELS"
-    selectedLevel = 'all';
-    document.querySelector('input[name="level"][value="all"]').checked = true;
-
-    // reset free filter
-    freeOnly = false;
-    freeBtn.classList.remove('active');
-
-    applySidebarFilters();
-}
-
-
-
 
 const freeBtn = document.getElementById('freeFilterBtn');
 
+document.addEventListener('DOMContentLoaded', () => {
+    toggleFreeButtonVisibility();
+    applySidebarFilters();
+});
+
+// ✅ Show Free button ONLY if any upcoming/today FREE course exists
+function toggleFreeButtonVisibility() {
+    const cards = document.querySelectorAll('.course-card');
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    let hasUpcomingFree = false;
+
+    cards.forEach(card => {
+        const isFree = card.dataset.free === 'yes';
+        const launchDate = card.dataset.launch; // yyyy-mm-dd
+
+        if (!isFree) return;
+        if (!launchDate) return;
+
+        const launch = new Date(launchDate);
+        launch.setHours(0,0,0,0);
+
+        if (launch >= today) {
+            hasUpcomingFree = true;
+        }
+    });
+
+    if (!hasUpcomingFree) {
+        freeBtn.style.display = 'none';
+    } else {
+        freeBtn.style.display = '';
+    }
+}
+
+// CATEGORY (radio)
+function setCategory(val){
+    resetFreeFilterIfActive();   // 🔥 AUTO turn off Free filter
+    selectedCategory = val;
+    applySidebarFilters();
+}
+
+// LEVEL (radio)
+function setLevel(level){
+    resetFreeFilterIfActive();   // 🔥 AUTO turn off Free filter
+    selectedLevel = level;
+    applySidebarFilters();
+}
+
+// ✅ Free button click: show ALL free courses, ignore category + level
 freeBtn.addEventListener('click', function () {
-    freeOnly = true;                // always ON
-    freeBtn.classList.add('active');
+    freeOnly = !freeOnly;
+    freeBtn.classList.toggle('active', freeOnly);
+
+    // ✅ remove "click to reset" text logic
+    document.getElementById('freeBtnText').innerText = 'Free Courses';
+
+    // ✅ When Free is ON, auto set filters to All (UI + state)
+    if (freeOnly) {
+        selectedCategory = 'all';
+        selectedLevel = 'all';
+
+        const catAll = document.querySelector('input[name="category"][value="all"]');
+        const lvlAll = document.querySelector('input[name="level"][value="all"]');
+        if (catAll) catAll.checked = true;
+        if (lvlAll) lvlAll.checked = true;
+    }
+
     applySidebarFilters();
 });
 
@@ -819,58 +910,25 @@ function applySidebarFilters(){
     cards.forEach(card => {
         const cardCategory = card.dataset.category;
         const cardLevel = card.dataset.level;
-const isFree = card.dataset.free === 'yes';
-const launchDate = card.dataset.launch; // yyyy-mm-dd
-const today = new Date().toISOString().split('T')[0];
+        const isFree = card.dataset.free === 'yes';
 
         let show = true;
 
-        // CATEGORY FILTER
-        if(selectedCategory !== 'all' && cardCategory !== selectedCategory){
-            show = false;
+        // ✅ If Free filter ON → show ONLY free, ignore category/level/launch
+        if (freeOnly) {
+            show = isFree;
+        } else {
+            // ✅ Normal filters (do NOT hide free courses)
+            if(selectedCategory !== 'all' && cardCategory !== selectedCategory){
+                show = false;
+            }
+
+            if(selectedLevel !== 'all' && cardLevel !== selectedLevel){
+                show = false;
+            }
         }
 
-        // LEVEL FILTER
-if (selectedLevel !== 'all' && cardLevel !== selectedLevel) {
-    show = false;
-}
-
-
-
-        
-// FREE FILTER LOGIC (UPCOMING + TODAY ONLY)
-
-
-// Case 1: Free filter NOT active → HIDE all free courses
-if (!freeOnly && isFree) {
-    show = false;
-}
-
-// Case 2: Free filter active → show ONLY upcoming/today free courses
-if (freeOnly) {
-
-    // must be free
-    if (!isFree) {
-        show = false;
-    }
-
-    // must have launch date AND must be today or future
-    if (!launchDate) {
-    show = false;
-} else {
-    const launch = new Date(launchDate);
-    const now = new Date(today);
-
-    if (launch < now) {
-        show = false;
-    }
-}
-
-}
-
-
-card.style.display = show ? '' : 'none';
-
+        card.style.display = show ? '' : 'none';
         if(show) visibleCount++;
     });
 
@@ -878,36 +936,20 @@ card.style.display = show ? '' : 'none';
     if(visibleCount === 0){
         messageBox.style.display = 'block';
 
-      if (freeOnly) {
-    messageText.innerText = 'No upcoming free courses available yet.';
-}
-
-        else if(selectedLevels.length > 0 && selectedCategory !== 'all'){
+        if (freeOnly) {
+            messageText.innerText = 'No free courses available.';
+        } else if (selectedCategory !== 'all' && selectedLevel !== 'all') {
             messageText.innerText = 'No courses found for this category and level.';
-        }
-        else if(selectedLevels.length > 0){
+        } else if (selectedCategory !== 'all') {
+            messageText.innerText = 'No courses available for this category.';
+        } else if (selectedLevel !== 'all') {
             messageText.innerText = 'No courses found for the selected level.';
-        }
-        else {
-            messageText.innerText = 'No courses found for the selected filters.';
+        } else {
+            messageText.innerText = 'No courses found.';
         }
 
     } else {
         messageBox.style.display = 'none';
     }
 }
-</script>
-
-<script>
-let selectedLevel = 'all';
-function setLevel(level){
-    selectedLevel = level;
-
-    // reset free filter
-    freeOnly = false;
-    freeBtn.classList.remove('active');
-
-    applySidebarFilters();
-}
-
 </script>

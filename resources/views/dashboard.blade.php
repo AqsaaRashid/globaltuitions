@@ -53,7 +53,7 @@
 
 
                 <!-- Divider -->
-                <div class="pt-4 text-xs uppercase tracking-wider text-gray-500">
+                <!-- <div class="pt-4 text-xs uppercase tracking-wider text-gray-500">
                     Training Section
                 </div>
 
@@ -63,7 +63,7 @@
                         ? 'bg-yellow-500 text-black font-semibold'
                         : 'text-white hover:bg-white hover:text-black' }}">
                     Training Moments
-                </a>
+                </a> -->
                 <div class="pt-4 text-xs uppercase tracking-wider text-gray-500">
                     Enrollments & Inquiries
                 </div>

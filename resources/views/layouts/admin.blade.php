@@ -58,18 +58,18 @@
 
 
                 <!-- Divider -->
-                <div class="pt-4 text-xs uppercase tracking-wider text-gray-500">
+                <!-- <div class="pt-4 text-xs uppercase tracking-wider text-gray-500">
                     Training Section
-                </div>
+                </div> -->
 
                 <!-- Training Manager -->
-                <a href="{{ route('training.index') }}"
+                <!-- <a href="{{ route('training.index') }}"
                    class="flex items-center px-4 py-3 rounded-md
                    {{ request()->routeIs('training.index')
                         ? 'bg-yellow-500 text-black font-semibold'
                         : 'text-white hover:bg-white hover:text-black transition' }}">
                     Training Moments
-                </a>
+                </a> -->
                 <!-- Divider -->
                 <div class="pt-4 text-xs uppercase tracking-wider text-gray-500">
                     Enrollments & Inquiries

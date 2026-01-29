@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Providers;
+use App\Models\CourseLaunch;
+use App\Observers\CourseLaunchObserver;
 
 use Illuminate\Support\ServiceProvider;
 use App\Models\CourseEnrollment;
@@ -24,7 +26,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
 {
    View::composer('*', function ($view) {
+    CourseLaunch::observe(CourseLaunchObserver::class);
     $view->with([
+        
         'pendingEnrollmentsCount' => \App\Models\CourseEnrollment::where('status', 'pending')->count(),
         'pendingContactsCount'    => \App\Models\Contact::where('reply_status', 'pending')->count(),
         'pendingInquiriesCount'   => \App\Models\CourseInquiry::where('reply_status', 'pending')->count(),
