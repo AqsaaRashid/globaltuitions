@@ -10,10 +10,11 @@
 
         <h1 class="hero-title">{{ $course->title }}</h1>
       
-
-         <div class="rich-text">
-                {!! $course->description !!}
-            </div>
+<div class="hero-description">
+    <div class="rich-text">
+        {!! $course->description !!}
+    </div>
+</div>
         <div class="hero-pills">
             @if($course->level)
                 <span>
@@ -710,6 +711,20 @@ onclick="openEnrollModal(
     cursor:pointer;
     position:relative;
 }
+.hero-description{
+    min-height: 220px;   /* 👈 FIXED SPACE (buttons start after this) */
+    max-height: 220px;   /* 👈 SAME height */
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+/* smooth scrollbar */
+.hero-description::-webkit-scrollbar{
+    width: 6px;
+}
+.hero-description::-webkit-scrollbar-thumb{
+    background:#cbd5e1;
+    border-radius:6px;
+}
 
 /* underline on hover */
 .cta-buttons .btn-primary::after{
@@ -1193,7 +1208,11 @@ onclick="openEnrollModal(
     color:#64748b;
     text-align:center;
 }
-
+.hero-left{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
 /* MOBILE */
 @media(max-width:640px){
     .reg-grid{
