@@ -1230,14 +1230,22 @@ onclick="openEnrollModal(
 
 /* LEFT */
 .hero-badge{
-    display:inline-block;
+    display:inline-flex;
+    align-items:center;
+
     background:#fde8d8;
-    color: #F47B1E;
+    color:#F47B1E;
+
     font-size:12px;
     font-weight:700;
-    padding:6px 10px;
+
+    padding:6px 14px;
     border-radius:999px;
-    margin-bottom:14px;
+
+    margin-bottom:12px;
+
+    line-height:1;        /* 🔥 IMPORTANT */
+    width:fit-content;    /* 🔥 IMPORTANT */
 }
 .snapshot-card {
     pointer-events: none;
