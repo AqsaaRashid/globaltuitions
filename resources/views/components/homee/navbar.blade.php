@@ -1,26 +1,50 @@
 
-    <section class="hero-section" id="home">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>Empowering IT Skills, Transforming Futures</h1>
-                    <p>Learn in-demand IT skills from expert instructors. Join our online and in-person tuition programs
-                        and build your future in tech!</p>
-                    <div class="hero-buttons"> <button class="btn-primary" onclick="scrollToCourses()">Browse
-                            Courses</button> 
-<button class="btn-outline" onclick="openContactModal()">
-    Contact Us
-</button>
-                        </div>
-                </div>
-                <div class="hero-image"> <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800"
-                        alt="Students learning"> </div>
+<nav class="navbar-wrapper" style="overflow-x:hidden !important;">
+    <div class="nav-container">
+<!-- Mobile Menu Toggle -->
+<div class="nav-toggle" onclick="toggleNav()" style="margin-right:-250px !important; color:#09515D !important;">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+        {{-- Logo --}}
+        <div class="nav-logo">
+            <img src="/images/btmg-logo.png" alt="BTMG Trainings">
+        </div>
+
+        {{-- Navigation Links --}}
+        <ul class="nav-links">
+            <li><a href="#" class="active-link">Home</a></li>
+            <li><a href="#courses">Courses</a></li>
+            <li><a href="#learn">About Platform</a></li>
+            <li><a href="#trust">Why Choose Us</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+<li>
+    <a href="javascript:void(0)" onclick="openContactModal()">Contact Us</a>
+</li>
+        </ul>
+
+        {{-- Right Buttons --}}
+        <div class="nav-right">
+            <a href="#courses" class="join-btn">Join Us</a>
+
+            <div class="lang-box">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M12 3C7.031 3 3 7.031 3 12s4.031 
+                             9 9 9 9-4.031 9-9-4.031-9-9-9zm0 
+                             0c-2.757 0-5 4.031-5 9s2.243 9 
+                             5 9m0-18c2.757 0 5 4.031 5 9s-2.243 
+                             9-5 9m-9-9h18" />
+                </svg>
             </div>
         </div>
-    </section> <!-- What We Offer Section -->
-
-
-    <div id="contactModal" class="modal-overlay">
+    </div>
+</nav>
+<!-- Contact Modal -->
+<!-- CONTACT MODAL -->
+<div id="contactModal" class="modal-overlay">
     <div class="modal-box">
         <span class="close-btn" onclick="closeContactModal()">×</span>
 
@@ -102,7 +126,6 @@
         <button class="success-btn" onclick="closeSuccessModal()">OK</button>
     </div>
 </div>
-
 
 <style>
     /* ===============================
@@ -641,8 +664,6 @@
     }
 }
 </style>
-
-
 <script>
 function openContactModal() {
     document.getElementById('contactModal').style.display = 'flex';
