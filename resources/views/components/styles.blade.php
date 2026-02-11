@@ -12,7 +12,7 @@ body {
     Arial, sans-serif;
   line-height: 1.6;
   color: #333;
-  background-color: #fff;
+  background-color: #fff !important;
   scroll-behavior: smooth;
 }
 
@@ -395,6 +395,81 @@ body {
   display: none;
 }
 
+
+/* ==========================================
+   COURSE CARD STRUCTURE FIX (PRO LAYOUT)
+   ========================================== */
+
+.course-card{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  min-height:360px; /* keeps cards aligned */
+}
+
+/* TITLE */
+.course-card h4{
+  margin-bottom:10px;
+  min-height:52px; /* keeps titles aligned */
+}
+
+/* DESCRIPTION FIXED HEIGHT */
+.course-card > p:first-of-type{
+  min-height:72px;
+  max-height:72px;
+  overflow:hidden;
+  margin-bottom:15px;
+}
+
+/* LEVEL */
+.level-text{
+  margin-bottom:-60px !important;
+}
+
+/* PRICE + DURATION */
+.course-info{
+  margin-bottom:-44px !important;
+}
+
+/* REMOVE EXTRA GAP BEFORE BUTTONS */
+.course-card .course-info:last-of-type{
+  margin-bottom:-30px !important;
+}
+
+/* PUSH BUTTONS TO BOTTOM */
+.course-actions{
+  margin-top:auto;
+  display:flex;
+  gap:10px;
+}
+
+/* MOBILE SAFE */
+@media (max-width:768px){
+  .course-card{
+    min-height:auto;
+  }
+
+  .course-card > p:first-of-type{
+    min-height:auto;
+    max-height:none;
+  }
+  .level-text{
+  margin-bottom:4px !important;
+}
+
+/* PRICE + DURATION */
+.course-info{
+  margin-bottom:4px !important;
+}
+
+/* REMOVE EXTRA GAP BEFORE BUTTONS */
+.course-card .course-info:last-of-type{
+  margin-bottom:4px !important;
+}
+
+}
+
+
 /* Newsletter CTA Section */
 .newsletter-cta-section {
   padding: 80px 0;
@@ -767,6 +842,279 @@ body {
 body.pdf-mode .course-hero,
 body.pdf-mode .hero-snapshot{
   background:#ffffff !important;
+  color:#000 !important;
+}
+
+/* ==========================================
+   SMART BUTTON HOVER SWITCH
+   Only one green at a time
+   ========================================== */
+
+/* When outline button is hovered */
+.course-actions:has(.btn-outline:hover) .btn-primary {
+  background: #ffffff !important;
+  color: #28a745 !important;
+  border: 2px solid #28a745 !important;
+}
+
+/* Optional: keep green when primary hovered */
+.course-actions:has(.btn-primary:hover) .btn-outline {
+  background: #ffffff !important;
+  color: #28a745 !important;
+  border: 2px solid #28a745 !important;
+}
+/* ==========================================
+   HERO BUTTON SMART SWITCH
+   Only one green at a time
+   ========================================== */
+
+/* When outline (Contact Us) is hovered */
+.hero-buttons:has(.btn-outline:hover) .btn-primary {
+  background: #ffffff !important;
+  color: #28a745 !important;
+  border: 2px solid #28a745 !important;
+}
+
+/* When primary (Browse Courses) is hovered */
+.hero-buttons:has(.btn-primary:hover) .btn-outline {
+  background: #ffffff !important;
+  color: #28a745 !important;
+  border: 2px solid #28a745 !important;
+}
+/* ==========================================
+   HEADER BUTTON SMART SWITCH
+   ========================================== */
+
+/* When Sign In (outline) is hovered */
+.header-btn-group:has(.btn-outline:hover) .btn-primary {
+  background: #ffffff !important;
+  color: #28a745 !important;
+  border: 2px solid #28a745 !important;
+}
+
+/* When Get Started (primary) is hovered */
+.header-btn-group:has(.btn-primary:hover) .btn-outline {
+  background: #ffffff !important;
+  color: #28a745 !important;
+  border: 2px solid #28a745 !important;
+}
+.newsletter-form .btn-primary {
+  background: #ffffff !important;
+  color: #28a745 !important;
+  border: 2px solid #ffffff !important;
+  transition: all .3s ease;
+}
+
+.newsletter-form .btn-primary:hover {
+  background: #28a745 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+  transform: translateY(-2px);
+}
+
+/* =====================================================
+   FINAL CLEAN GREEN THEME OVERRIDE (NO ORANGE ANYWHERE)
+   ===================================================== */
+
+:root{
+  --green-main:#28a745;
+  --green-dark:#218838;
+  --black:#000000;
+  --white:#ffffff;
+}
+
+/* ===== REMOVE ALL ORANGE / TEAL ===== */
+*{
+  border-color: inherit;
+}
+
+/* Remove any inline orange colors */
+[style*="#F47B1E"],
+[style*="#09515D"]{
+  color: var(--green-main) !important;
+  background: transparent !important;
+}
+
+/* ===== HERO ===== */
+.course-hero,
+.hero-snapshot{
+  background:#ffffff !important;
+  color:var(--black) !important;
+}
+
+.hero-title{
+  color:var(--black) !important;
+}
+
+/* ===== BADGE (NO BACKGROUND) ===== */
+.hero-badge{
+  background: transparent !important;
+  color: var(--green-main) !important;
+  border: 1px solid var(--green-main) !important;
+}
+
+/* ===== ICONS ===== */
+.bi{
+  color: var(--green-main) !important;
+}
+
+/* ===== PILLS ===== */
+.hero-pills span,
+.meta-pill,
+.info-pill{
+  background:#ffffff !important;
+  border:1px solid rgba(40,167,69,.4) !important;
+  color:var(--black) !important;
+}
+
+/* ===== SNAPSHOT CARD ===== */
+.snapshot-card{
+  border:1px solid rgba(40,167,69,.25) !important;
+}
+
+/* ===== SKILLS ===== */
+.skills-wrap{
+  background: rgba(40,167,69,.06) !important;
+}
+
+.skill-tag{
+  background: rgba(40,167,69,.12) !important;
+  color: var(--black) !important;
+}
+
+/* ===== PRIMARY BUTTONS ===== */
+.btn-primary,
+.btn-solid,
+.reg-submit,
+.submit-btn,
+.success-btn,
+.btn-inquiry{
+  background: var(--green-main) !important;
+  border-color: var(--green-main) !important;
+  color: var(--black) !important;
+}
+
+.btn-primary:hover,
+.btn-solid:hover,
+.reg-submit:hover,
+.submit-btn:hover,
+.success-btn:hover,
+.btn-inquiry:hover{
+  background: var(--green-dark) !important;
+  color: var(--black) !important;
+}
+
+/* ===== OUTLINE BUTTONS ===== */
+.btn-outline,
+.btn-secondary{
+  background: transparent !important;
+  border: 2px solid var(--green-main) !important;
+  color: var(--green-main) !important;
+}
+
+.btn-outline:hover,
+.btn-secondary:hover{
+  background: var(--green-main) !important;
+  color: var(--black) !important;
+}
+
+/* ===== INQUIRY BUTTON ICON FIX ===== */
+.btn-inquiry i{
+  color: var(--black) !important;
+}
+
+/* ===== PRINT BUTTON (TEXT ONLY GREEN) ===== */
+.cta-buttons button[onclick="printCourse()"]{
+  background: transparent !important;
+  border: none !important;
+  color: var(--green-main) !important;
+  box-shadow: none !important;
+}
+
+/* ===== REMOVE SHADOW COLOR TINTS ===== */
+.btn-solid,
+.btn-primary{
+  box-shadow: 0 6px 18px rgba(40,167,69,.15) !important;
+}
+
+/* ===== SUCCESS MODAL ===== */
+.success-box{
+  border-top: 4px solid var(--green-main) !important;
+}
+
+.success-title{
+  color: var(--black) !important;
+}
+
+/* ===== LAUNCH ROW ===== */
+.launch-row,
+.launch-row.pro{
+  background:#ffffff !important;
+  border:1px solid rgba(40,167,69,.25) !important;
+}
+
+/* ===== PDF MODE CLEAN ===== */
+body.pdf-mode *{
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+body.pdf-mode .course-hero{
+  background:#ffffff !important;
+}
+/* ==================================================
+   HERO REGISTER / INQUIRY SMART SWITCH
+   ================================================== */
+
+/* DEFAULT STATE */
+.hero-btn-group .btn-solid{
+  background:#28a745 !important;
+  color:#000 !important;
+  border:2px solid #28a745 !important;
+}
+
+.hero-btn-group .btn-inquiry{
+  background:#ffffff !important;
+  color:#28a745 !important;
+  border:2px solid #28a745 !important;
+}
+
+/* ICON COLORS */
+.hero-btn-group .btn-solid i{
+  color:#000 !important;
+}
+
+.hero-btn-group .btn-inquiry i{
+  color:#28a745 !important;
+}
+
+/* ============================= */
+/* WHEN INQUIRY IS HOVERED */
+/* ============================= */
+.hero-btn-group:has(.btn-inquiry:hover) .btn-inquiry{
+  background:#28a745 !important;
+  color:#000 !important;
+}
+
+.hero-btn-group:has(.btn-inquiry:hover) .btn-inquiry i{
+  color:#000 !important;
+}
+
+.hero-btn-group:has(.btn-inquiry:hover) .btn-solid{
+  background:#ffffff !important;
+  color:#28a745 !important;
+  border:2px solid #28a745 !important;
+}
+
+.hero-btn-group:has(.btn-inquiry:hover) .btn-solid i{
+  color:#28a745 !important;
+}
+
+/* ============================= */
+/* WHEN REGISTER IS HOVERED */
+/* ============================= */
+.hero-btn-group .btn-solid:hover{
+  background:#218838 !important;
   color:#000 !important;
 }
 

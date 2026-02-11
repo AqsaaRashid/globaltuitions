@@ -13,11 +13,23 @@
                     </ul>
                 </nav>
                 <div class="header-actions">
-                    <div class="search-bar"> <input type="text" placeholder="Search courses..." id="searchInput"> <i
-                            class="fas fa-search"></i> </div> <button class="btn-outline">Sign In</button> <button
-                        class="btn-primary">Get Started</button> <button class="mobile-menu-toggle"
-                        id="mobileMenuToggle"> <i class="fas fa-bars"></i> </button>
-                </div>
+
+    <div class="search-bar">
+        <input type="text" placeholder="Search courses..." id="searchInput">
+        <i class="fas fa-search"></i>
+    </div>
+
+    <div class="header-btn-group">
+        <button class="btn-outline">Sign In</button>
+        <button class="btn-primary">Get Started</button>
+    </div>
+
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+</div>
+
             </div>
         </div>
     </header> <!-- Hero Section -->

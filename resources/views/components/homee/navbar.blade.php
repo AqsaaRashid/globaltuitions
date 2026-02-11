@@ -664,6 +664,7 @@
     }
 }
 </style>
+
 <script>
 function openContactModal() {
     document.getElementById('contactModal').style.display = 'flex';

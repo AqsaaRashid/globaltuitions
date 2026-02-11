@@ -40,7 +40,7 @@ Level: {{ $course->level }}</span>
         </div>
 
        
-        <div class="hero-actions">
+<div class="hero-actions hero-btn-group">
             <!-- <button class="btn-solid"
     onclick="handleLaunchCheck()">
     <i class="bi bi-calendar-check-fill" style="margin-right:2px;"></i>
@@ -1338,20 +1338,15 @@ onclick="openEnrollModal(
     cursor:pointer;
 }
 .btn-solid i{
-    color:#F47B1E;
+    color: #000 !important;
 }
 
-.btn-solid:hover{ 
- background:#09515D;
-    color:#ffffff;
+.btn-solid:hover i{ 
+    color: #000 !important;
 
     transform:translateY(-2px);
 
-    box-shadow:
-        0 12px 30px rgba(9,81,93,.25);
-}
-.btn-solid:hover i{ 
-color :#fff !important;
+
 }
 
 
@@ -1791,7 +1786,7 @@ body.pdf-mode *{
 .pdf-link:hover,
 .pdf-link:active{
     color: inherit !important;
-    background-color:#F47B1E !important;      /* 👈 keeps original color */
+    background-color: #28a745 !important;      /* 👈 keeps original color */
     text-decoration: none !important;
     cursor: default;
 }
