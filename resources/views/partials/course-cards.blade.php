@@ -99,6 +99,20 @@
     text-align: center;
 }
 
+
+ .level-text{
+  margin-bottom:4px !important;
+}
+
+/* PRICE + DURATION */
+.course-info{
+  margin-bottom:4px !important;
+}
+
+/* REMOVE EXTRA GAP BEFORE BUTTONS */
+.course-card .course-info:last-of-type{
+  margin-bottom:4px !important;
+}
 /* MOBILE STACK (optional but clean) */
 @media (max-width: 640px) {
     .course-actions {
@@ -118,6 +132,19 @@
     border:1px solid #e5e7eb;
     font-size:13px;
     cursor:pointer;
+}
+ .level-text{
+  margin-bottom:4px !important;
+}
+
+/* PRICE + DURATION */
+.course-info{
+  margin-bottom:4px !important;
+}
+
+/* REMOVE EXTRA GAP BEFORE BUTTONS */
+.course-card .course-info:last-of-type{
+  margin-bottom:4px !important;
 }
 
 .single-level{
