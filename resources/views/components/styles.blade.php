@@ -1118,5 +1118,13 @@ body.pdf-mode .course-hero{
   color:#000 !important;
 }
 
+/* FIX: Prevent card stretching when filtered */
+.courses-grid{
+  align-items: start;   /* stop vertical stretch */
+}
+
+.course-card{
+  height: auto !important;
+}
 
 </style>
