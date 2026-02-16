@@ -249,20 +249,44 @@
 
 .modal-box{
     background:#fff;
-    width:900px;
-    height:600px;
 
-    max-width:95vw;
-    max-height:90vh;
+    width:95%;
+    max-width:900px;
 
-    padding:0;               /* important */
+    max-height:90vh;        /* important */
     border-radius:14px;
     position:relative;
 
     display:flex;
     flex-direction:column;
 
-    overflow:hidden;         /* clean edges */
+    overflow:hidden;
+}
+.registration-card{
+    flex:1;
+    overflow-y:auto;
+    padding:30px;
+}
+.enroll-header{
+    padding:20px 30px 10px 30px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.enroll-info{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;   /* prevents breaking */
+    margin-top:10px;
+}
+
+.info-pill{
+    background:#f3f4f6;
+    padding:6px 12px;
+    border-radius:30px;
+    font-size:13px;
+    display:flex;
+    align-items:center;
+    gap:6px;
 }
 
 

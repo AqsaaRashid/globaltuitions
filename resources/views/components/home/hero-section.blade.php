@@ -521,18 +521,13 @@
 
 /* registration */
 .registration-card{
-    background: linear-gradient(#fff, #fff) padding-box,
-                linear-gradient(135deg,#f59e0b,#22c1c3) border-box;
-    border:2px solid transparent;
+    background:#ffffff;
     border-radius:14px;
-
     padding:28px;
-    font-family: Inter, system-ui, sans-serif;
-
     width:100%;
     height:100%;
-
-    overflow-y:auto;   /* 👈 scroll INSIDE if needed */
+    overflow-y:auto;
+    box-shadow: 0 10px 30px rgba(15,23,42,.08);
 }
 
 
