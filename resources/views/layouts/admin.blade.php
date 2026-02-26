@@ -40,6 +40,13 @@
                         : 'text-white hover:bg-white hover:text-black transition' }}">
                     Manage Courses
                 </a>
+                <a href="{{ route('admin.courses.popular') }}"
+   class="flex items-center px-4 py-3 rounded-md
+   {{ request()->routeIs('admin.courses.popular')
+        ? 'bg-yellow-500 text-black font-semibold'
+        : 'text-white hover:bg-white hover:text-black transition' }}">
+    Popular Courses
+</a>
                 <a href="{{ route('admin.course-launches.index') }}"
    class="flex items-center px-4 py-3 rounded-md
    {{ request()->routeIs('admin.course-launches.*')

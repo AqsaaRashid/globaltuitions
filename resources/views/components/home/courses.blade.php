@@ -8,7 +8,25 @@
                 <aside class="filters-sidebar" id="filtersSidebar">
                     <h4>Filters</h4>
                     <div class="filter-group">
-                         <h5>Filter by Level:</h5>
+                         
+    <h5>Filter by Category:</h5>
+
+<label class="filter-radio">
+  <input type="radio" name="category" value="all" checked onchange="setCategory(this.value)">
+  <span>All Categories</span>
+</label>
+
+@foreach($categories as $category)
+<label class="filter-radio">
+  <input type="radio"
+         name="category"
+         value="{{ $category->id }}"
+         onchange="setCategory(this.value)">
+  <span>{{ $category->name }}</span>
+</label>
+@endforeach
+
+<h5>Filter by Level:</h5>
 
   <label class="filter-radio">
 <input type="radio" name="level" value="all" checked onchange="setLevel('all')">
@@ -29,23 +47,6 @@
 <input type="radio" name="level" value="advanced" onchange="setLevel(this.value)">
     <span>Advanced</span>
   </label>
-    <h5>Filter by Category:</h5>
-
-<label class="filter-radio">
-  <input type="radio" name="category" value="all" checked onchange="setCategory(this.value)">
-  <span>All Categories</span>
-</label>
-
-@foreach($categories as $category)
-<label class="filter-radio">
-  <input type="radio"
-         name="category"
-         value="{{ $category->id }}"
-         onchange="setCategory(this.value)">
-  <span>{{ $category->name }}</span>
-</label>
-@endforeach
-
 </div>
 
                     <button class="btn-free-courses">Free Courses</button>

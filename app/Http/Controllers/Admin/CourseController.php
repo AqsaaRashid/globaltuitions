@@ -163,4 +163,34 @@ class CourseController extends Controller
 
         return view('partials.course-cards', compact('courses'));
     }
+    public function makePopular(Request $request)
+{
+    if (!$request->selected_courses) {
+        return back();
+    }
+
+    Course::whereIn('id', $request->selected_courses)
+          ->update(['is_popular' => true]);
+
+    return back()->with('success', 'Selected courses added to Popular Courses.');
+}
+public function popular()
+{
+    $courses = Course::where('is_popular', true)
+        ->orderBy('sort_order')
+        ->get();
+
+    return view('admin.courses.popular', compact('courses'));
+}
+public function removePopular(Request $request)
+{
+    if (!$request->selected_courses) {
+        return back()->with('success', 'No courses selected.');
+    }
+
+    Course::whereIn('id', $request->selected_courses)
+          ->update(['is_popular' => false]);
+
+    return back()->with('success', 'Selected courses removed from Popular.');
+}
 }

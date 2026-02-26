@@ -24,6 +24,9 @@ Route::get(
     [CourseEnrollmentController::class, 'byLaunch']
 )->name('admin.course-enrollments.byLaunch');
 
+Route::post('courses/make-popular',
+    [CourseController::class, 'makePopular']
+)->name('courses.makePopular');
 
 Route::get('/privacy', function () {
     return view('components.privacy');
@@ -47,7 +50,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
 
     Route::resource('course-launches', \App\Http\Controllers\Admin\CourseLaunchController::class);
-
+Route::get('courses/popular',
+    [CourseController::class, 'popular']
+)->name('courses.popular');
 });
 // categories
 Route::middleware(['auth'])->prefix('admin/training')->name('training.')->group(function () {
@@ -117,7 +122,9 @@ Route::post('/contact', [ContactController::class, 'store'])
 
 
 Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
-
+Route::post('courses/remove-popular',
+    [CourseController::class, 'removePopular']
+)->name('courses.removePopular');
     // Contact listing
     Route::get('/contacts', [ContactController::class, 'index'])
         ->name('contacts.index');
