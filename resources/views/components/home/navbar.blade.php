@@ -33,8 +33,12 @@
             </div>
         </div>
     </header> <!-- Hero Section -->
-    <div class="courses-grid" id="coursesGrid" style="display:none">
+ </header>
+
+<div class="container">
+  <div class="courses-grid" id="coursesGrid" style="display:none">
     {{-- AJAX results injected here --}}
+  </div>
 </div>
 
 

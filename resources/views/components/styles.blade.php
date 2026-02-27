@@ -147,7 +147,6 @@ body {
 .search-bar input:focus {
   outline: none;
   border-color: #28a745;
-  width: 300px;
 }
 
 .search-bar i {
