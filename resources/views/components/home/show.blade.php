@@ -9,7 +9,7 @@
 <a href="https://phplaravel-1208793-6158387.cloudwaysapps.com/"
    class="hero-badge pdf-link"
    target="_blank">
-   GLOBAL TUITIONS Trainings
+    Imperial Tuitions Trainings
 </a>
         <h1 class="hero-title">{{ $course->title }}</h1>
       
@@ -310,7 +310,7 @@ onclick="openEnrollModal(
 <div class="registration-card">
     <h2 class="reg-title">Student Registration</h2>
     <p class="reg-subtitle">
-        Fill the form below. A GLOBAL TUITIONS coordinator will confirm schedule and payment details.
+        Fill the form below. A  Imperial Tuitions coordinator will confirm schedule and payment details.
     </p>
 
     <form method="POST" action="{{ route('course.enroll') }}">
@@ -374,7 +374,7 @@ onclick="openEnrollModal(
                     <strong>Consent & Disclaimer</strong><br>
                     I confirm that all information provided is accurate.<br>
                     I agree that my information will be used by
-                    <span class="highlight">GLOBAL TUITIONS</span>
+                    <span class="highlight"> Imperial Tuitions</span>
                     solely for educational and enrollment purposes.<br>
                     I understand that my data will not be shared with any third-party organizations.
                 </span>
@@ -386,7 +386,7 @@ onclick="openEnrollModal(
         </button>
 
         <p class="reg-footer">
-            By submitting, you agree to be contacted by GLOBAL TUITIONS for scheduling and payment coordination.
+            By submitting, you agree to be contacted by  Imperial Tuitions for scheduling and payment coordination.
         </p>
     </form>
 </div>
@@ -422,7 +422,7 @@ onclick="openEnrollModal(
         <div class="registration-card">
             <h2 class="reg-title">Course Inquiry</h2>
             <p class="reg-subtitle">
-                Share your questions and our GLOBAL TUITIONS team will get back to you.
+                Share your questions and our  Imperial Tuitions team will get back to you.
             </p>
 
             <form method="POST" action="{{ route('course.inquiry') }}">
@@ -472,7 +472,7 @@ onclick="openEnrollModal(
                     <strong>Consent & Disclaimer</strong><br>
                     I confirm that all information provided is accurate.<br>
                     I agree that my information will be used by
-                    <span class="highlight">GLOBAL TUITIONS</span>
+                    <span class="highlight"> Imperial Tuitions</span>
                     solely for educational and enrollment purposes.<br>
                     I understand that my data will not be shared with any third-party organizations.
                 </span>
@@ -496,7 +496,7 @@ onclick="openEnrollModal(
         <h3 class="success-title">Message Sent Successfully</h3>
 
         <p class="success-text">
-            Thank you for reaching out to <strong>GLOBAL TUITIONS</strong>.<br>
+            Thank you for reaching out to <strong> Imperial Tuitions</strong>.<br>
             Our team will contact you shortly.
         </p>
 

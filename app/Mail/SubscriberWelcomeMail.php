@@ -20,7 +20,7 @@ class SubscriberWelcomeMail extends Mailable
     public function build()
     {
         return $this
-            ->subject('Welcome to Global Tuitions  – You’re Subscribed!')
+            ->subject('Welcome to  Imperial Tuitions  – You’re Subscribed!')
             ->view('emails.subscriber_welcome');
     }
 }

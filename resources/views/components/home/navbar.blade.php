@@ -2,7 +2,7 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <h2>Global Tuitions</h2>
+                    <h2> Imperial Tuitions</h2>
                 </div>
                 <nav class="main-nav" id="mainNav">
                     <ul>

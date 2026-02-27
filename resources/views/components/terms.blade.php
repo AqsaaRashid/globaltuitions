@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Terms & Conditions | Global Tuitions</title>
+<title>Terms & Conditions |  Imperial Tuitions</title>
 
 <!-- FONT -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -57,11 +57,11 @@
 
 <section class="privacy-wrapper">
 
-    <h2 class="privacy-title">Terms & Conditions – Global Tuitions</h2>
+    <h2 class="privacy-title">Terms & Conditions –  Imperial Tuitions</h2>
 
     <div class="privacy-section">
         <p>
-            Welcome to <strong>Global Tuitions</strong>. By accessing our website,
+            Welcome to <strong> Imperial Tuitions</strong>. By accessing our website,
             submitting an inquiry, enrolling in our tuition programs, or using
             our educational services, you agree to comply with and be bound by
             the following Terms & Conditions.
@@ -71,7 +71,7 @@
     <div class="privacy-section">
         <h3>1. Use of Website & Services</h3>
         <p>
-            All content and services provided by Global Tuitions are for
+            All content and services provided by  Imperial Tuitions are for
             educational purposes only. You agree not to misuse, copy,
             reproduce, or distribute any content without prior written
             permission.
@@ -91,7 +91,7 @@
         <h3>3. Intellectual Property</h3>
         <p>
             All study materials, lesson plans, videos, documents, graphics,
-            and branding are the intellectual property of Global Tuitions
+            and branding are the intellectual property of  Imperial Tuitions
             and may not be reused or shared without authorization.
         </p>
     </div>
@@ -108,7 +108,7 @@
     <div class="privacy-section">
         <h3>5. Limitation of Liability</h3>
         <p>
-            Global Tuitions shall not be held liable for any direct,
+             Imperial Tuitions shall not be held liable for any direct,
             indirect, or incidental damages arising from the use of our
             services, website, or educational materials.
         </p>

@@ -51,7 +51,7 @@ class CourseEnrollmentController extends Controller
     return back()->with([
         'popup_success' => true,
         'popup_title'   => 'Enrollment Submitted',
-        'popup_message' => 'Thank you for enrolling. A GLOBAL TUITIONS coordinator will contact you shortly.'
+        'popup_message' => 'Thank you for enrolling. A  Imperial Tuitions coordinator will contact you shortly.'
     ]);
 }
 
@@ -92,10 +92,10 @@ public function approve(CourseEnrollment $enrollment)
     "\nOur team will contact you shortly with further information regarding schedule, access, and payment.\n\n" .
     "If you have any questions in the meantime, feel free to reply to this email.\n\n" .
     "Warm regards,\n" .
-    "GLOBAL TUITIONS Training Team",
+    " Imperial Tuitions Training Team",
     function ($mail) use ($enrollment) {
         $mail->to($enrollment->email)
-             ->subject('Enrollment Approved – GLOBAL TUITIONS Training');
+             ->subject('Enrollment Approved –  Imperial Tuitions Training');
     }
 );
 
@@ -116,13 +116,13 @@ public function reject(CourseEnrollment $enrollment)
         : ""
     ) .
     "This decision may be due to limited seat availability, scheduling constraints, or eligibility requirements for the selected batch.\n\n" .
-    "We truly appreciate your interest in GLOBAL TUITIONS Training and encourage you to explore upcoming sessions or reach out to us if you would like guidance on alternative training options.\n\n" .
+    "We truly appreciate your interest in  Imperial Tuitions Training and encourage you to explore upcoming sessions or reach out to us if you would like guidance on alternative training options.\n\n" .
     "If you have any questions or would like further clarification, please feel free to reply to this email.\n\n" .
     "Kind regards,\n" .
-    "GLOBAL TUITIONS Training Team",
+    " Imperial Tuitions Training Team",
     function ($mail) use ($enrollment) {
         $mail->to($enrollment->email)
-             ->subject('Enrollment Update – GLOBAL TUITIONS Training');
+             ->subject('Enrollment Update –  Imperial Tuitions Training');
     }
 );
 
@@ -142,10 +142,10 @@ public function reply(Request $request, CourseEnrollment $enrollment)
     "If you need any further assistance regarding your enrollment for " .
     "{$enrollment->course_name}, please feel free to reply to this email.\n\n" .
     "Kind regards,\n" .
-    "GLOBAL TUITIONS Training Team",
+    " Imperial Tuitions Training Team",
     function ($mail) use ($enrollment) {
         $mail->to($enrollment->email)
-             ->subject('GLOBAL TUITIONS Training – Enrollment Update');
+             ->subject(' Imperial Tuitions Training – Enrollment Update');
     }
 );
 

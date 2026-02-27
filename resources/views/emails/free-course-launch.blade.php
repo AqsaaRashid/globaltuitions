@@ -23,5 +23,5 @@ This course is completely free and beginner-friendly.
 
 <p style="margin-top:20px">
 Happy Learning,<br>
-<strong>Global Tuitions</strong>
+<strong> Imperial Tuitions</strong>
 </p>

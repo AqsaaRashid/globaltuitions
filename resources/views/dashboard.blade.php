@@ -146,7 +146,7 @@
 
             <!-- Footer -->
             <div class="px-6 py-4 border-t border-gray-800 text-sm text-gray-500">
-                © {{ date('Y') }} GLOBAL TUITIONS
+                © {{ date('Y') }}  Imperial Tuitions
             </div>
         </aside>
 

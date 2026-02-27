@@ -18,7 +18,7 @@
 
     <p style="font-size:14px; color:#374151;">
         Thank you for your interest in the following professional training program with
-        <strong>GLOBAL TUITIONS</strong>.
+        <strong> Imperial Tuitions</strong>.
     </p>
 
     <ul style="font-size:14px; color:#374151; line-height:1.6;">
@@ -38,7 +38,7 @@
 
     <p style="margin-top:20px; font-size:14px; color:#374151;">
         Kind regards,<br>
-        <strong>GLOBAL TUITIONS Training Team</strong><br>
+        <strong> Imperial Tuitions Training Team</strong><br>
         <span style="color:#6b7280;">Professional & Corporate Training</span>
     </p>
 

@@ -20,7 +20,7 @@
     </section> <!-- Footer -->
     <footer class="main-footer">
         <div class="container">
-            <p>&copy; 2024 Global Tuitions. All rights reserved.</p>
+            <p>&copy; 2024  Imperial Tuitions. All rights reserved.</p>
         </div>
     </footer>
 
@@ -31,7 +31,7 @@
         </h3>
 
         <p class="success-text">
-            Thank you for subscribing to <strong>Global Tuitions</strong>.<br>
+            Thank you for subscribing to <strong> Imperial Tuitions</strong>.<br>
             Please check your email for updates and announcements.
         </p>
 

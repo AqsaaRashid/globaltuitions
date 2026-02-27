@@ -9,7 +9,7 @@
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
                     <x-application-logo class="block h-8 w-auto fill-current text-yellow-400" />
                     <span class="text-white font-semibold tracking-wide hidden sm:block">
-                        GLOBAL TUITIONS
+                        Imperial Tuitions
                     </span>
                 </a>
 

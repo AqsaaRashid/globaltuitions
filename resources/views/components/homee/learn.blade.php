@@ -68,7 +68,7 @@
         </h3>
 
         <p class="success-text">
-            Thank you for subscribing to <strong>Global Tuitions</strong>.<br>
+            Thank you for subscribing to <strong> Imperial Tuitions</strong>.<br>
             Please check your email for updates and announcements.
         </p>
 

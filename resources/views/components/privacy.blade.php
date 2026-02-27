@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Privacy Policy | Global Tuitions</title>
+<title>Privacy Policy |  Imperial Tuitions</title>
 
 <!-- FONT -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -83,7 +83,7 @@
 <section class="hero-wrapper">
     <h1 class="hero-title">Privacy Policy</h1>
     <p class="hero-subtitle">
-        Your privacy matters. This page explains how Global Tuitions collects,
+        Your privacy matters. This page explains how  Imperial Tuitions collects,
         uses, and protects your information.
     </p>
 </section>
@@ -91,11 +91,11 @@
 <!-- ===== PRIVACY CONTENT ===== -->
 <section class="privacy-wrapper">
 
-    <h2 class="privacy-title">Privacy Policy – Global Tuitions</h2>
+    <h2 class="privacy-title">Privacy Policy –  Imperial Tuitions</h2>
 
     <div class="privacy-section">
         <p>
-            At <strong>Global Tuitions</strong>, we are committed to protecting your
+            At <strong> Imperial Tuitions</strong>, we are committed to protecting your
             personal information and respecting your privacy. This Privacy Policy
             explains how we collect, use, and safeguard your data when you interact
             with our website, tuition programs, and educational services.
@@ -131,7 +131,7 @@
     <div class="privacy-section">
         <h3>3. Cookies & Tracking</h3>
         <p>
-            Global Tuitions may use cookies and analytics tools to understand user
+             Imperial Tuitions may use cookies and analytics tools to understand user
             behavior and improve our services. You may disable cookies through your
             browser settings; however, some features of the website may not function
             properly.
@@ -173,7 +173,7 @@
     <div class="privacy-section">
         <h3>7. External Links</h3>
         <p>
-            Our website may contain links to third-party websites. Global Tuitions
+            Our website may contain links to third-party websites.  Imperial Tuitions
             is not responsible for the privacy practices or content of external sites.
         </p>
     </div>
@@ -192,7 +192,7 @@
             If you have questions regarding this Privacy Policy, you may contact us at:
         </p>
         <p>
-            <strong>Global Tuitions</strong><br>
+            <strong> Imperial Tuitions</strong><br>
             Email: <strong>btmgusa@gmail.com</strong><br>
             Website: <strong>https://trainings.btmgusa.com</strong>
         </p>

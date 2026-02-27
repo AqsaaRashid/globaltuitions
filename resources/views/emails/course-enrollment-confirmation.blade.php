@@ -42,7 +42,7 @@ to confirm availability, schedule, and payment details.
 
         <p style="margin-top:20px; font-size:14px; color:#374151;">
             Kind regards,<br>
-            <strong>GLOBAL TUITIONS Training Team</strong><br>
+            <strong> Imperial Tuitions Training Team</strong><br>
             <span style="color:#6b7280;">Professional & Corporate Training</span>
         </p>
 

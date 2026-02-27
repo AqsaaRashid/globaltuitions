@@ -152,7 +152,7 @@
         <div class="registration-card">
             <h2 class="reg-title">Course Inquiry</h2>
             <p class="reg-subtitle">
-                Share your questions and our GLOBAL TUITIONS team will get back to you.
+                Share your questions and our  Imperial Tuitions team will get back to you.
             </p>
 
             <form method="POST" action="{{ route('course.inquiry') }}">
@@ -202,7 +202,7 @@
                     <strong>Consent & Disclaimer</strong><br>
                     I confirm that all information provided is accurate.<br>
                     I agree that my information will be used by
-                    <span class="highlight">GLOBAL TUITIONS</span>
+                    <span class="highlight"> Imperial Tuitions</span>
                     solely for educational and enrollment purposes.<br>
                     I understand that my data will not be shared with any third-party organizations.
                 </span>
@@ -226,7 +226,7 @@
         <h3 class="success-title">Message Sent Successfully</h3>
 
         <p class="success-text">
-            Thank you for reaching out to <strong>GLOBAL TUITIONS</strong>.<br>
+            Thank you for reaching out to <strong> Imperial Tuitions</strong>.<br>
             Our team will contact you shortly.
         </p>
 
