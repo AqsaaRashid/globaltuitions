@@ -68,7 +68,12 @@
                     <input
                         type="number"
                         name="sort_order"
-                        value="1"
+                        @php
+    $maxSort = $topics->max('sort_order') ?? 0;
+    $nextSort = ceil(($maxSort + 1) / 10) * 10;
+@endphp
+
+value="{{ $nextSort }}"
                         required
                         class="w-full rounded-md border border-gray-300 px-4 py-2
                                focus:outline-none focus:ring-2 focus:ring-yellow-500">

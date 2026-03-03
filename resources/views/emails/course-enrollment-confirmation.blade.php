@@ -1,52 +1,45 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Enrollment Confirmation</title>
-</head>
-<body style="font-family: Arial, sans-serif; background:#f9fafb; padding:20px;">
+@extends('emails.layout')
 
-    <div style="max-width:600px; margin:0 auto; background:#ffffff; padding:30px; border-radius:8px; border:1px solid #e5e7eb;">
+@section('title', 'Registration Received – Imperial Tuitions')
 
-        <h2 style="color:#09515D; margin-bottom:10px;">
-    Registration Received
-</h2>
+@section('preheader')
+We've received your registration. Our team will contact you shortly to confirm schedule and payment.
+@endsection
 
-<p style="font-size:14px; color:#374151;">
-    Dear {{ $enrollment->name }},
-</p>
+@section('header_title', 'Registration Received')
+@section('header_subtitle', 'Thank you for your interest — we'll be in touch shortly.')
 
-<p style="font-size:14px; color:#374151;">
-    Thank you for submitting your registration for the following professional training
-    program with <strong>BTMG USA</strong>.
-</p>
+@section('body')
+<p>Dear <strong>{{ $enrollment->name }}</strong>,</p>
 
+<p>Thank you for contacting <strong>Imperial Tuitions</strong> and for your interest in one of our professional training programs.
+We have successfully received your registration and appreciate the opportunity to assist you.</p>
 
-        <ul style="font-size:14px; color:#374151; line-height:1.6;">
-            <li><strong>Course:</strong> {{ $enrollment->course_name }}</li>
+<div class="email-details-box">
+  <div class="email-details-label">Course Details</div>
+  <table role="presentation" width="100%" class="email-details-table">
+    <tr>
+      <td class="email-details-key email-stack" style="width: 140px; padding: 6px 0; color:#64748b; font-size: 14px;">Course</td>
+      <td class="email-details-val email-stack" style="padding: 6px 0; color:#0f172a; font-size: 14px; font-weight: 600;">{{ $enrollment->course_name }}</td>
+    </tr>
+    <tr>
+      <td class="email-details-key email-stack" style="width: 140px; padding: 6px 0; color:#64748b; font-size: 14px;">Level</td>
+      <td class="email-details-val email-stack" style="padding: 6px 0; color:#0f172a; font-size: 14px; font-weight: 600;">{{ $enrollment->level ? ucfirst($enrollment->level) : '—' }}</td>
+    </tr>
+  </table>
+</div>
 
-            @if($enrollment->level)
-                <li><strong>Level:</strong> {{ ucfirst($enrollment->level) }}</li>
-            @endif
+<p>Our team will review your registration and will contact you shortly to confirm availability, schedule, and payment details.</p>
 
-           
-        </ul>
+<p>Thank you for your interest in learning with <strong>Imperial Tuitions</strong>. We look forward to supporting you in your <strong>professional development journey</strong>.</p>
 
-        <p style="font-size:14px; color:#374151;">
-            Our training coordinator will review your registration and contact you shortly
-to confirm availability, schedule, and payment details.
+<div class="email-signature">
+  <div class="email-signature-line1">Kind regards,</div>
+  <div class="email-signature-line2">Imperial Tuitions</div>
+  <div class="email-signature-line3">Training &amp; Support Team</div>
+</div>
+@endsection
 
-        </p>
-
-       
-
-        <p style="margin-top:20px; font-size:14px; color:#374151;">
-            Kind regards,<br>
-            <strong> Imperial Tuitions Training Team</strong><br>
-            <span style="color:#6b7280;">Professional & Corporate Training</span>
-        </p>
-
-    </div>
-
-</body>
-</html>
+@section('footer_note')
+This is an automated confirmation that we received your registration. If you did not request this, you may ignore this message.
+@endsection

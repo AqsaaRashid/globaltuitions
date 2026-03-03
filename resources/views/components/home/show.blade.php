@@ -6,7 +6,7 @@
     <!-- LEFT SIDE -->
     <div class="hero-left">
 
-<a href="https://phplaravel-1208793-6158387.cloudwaysapps.com/"
+<a href="/"
    class="hero-badge pdf-link"
    target="_blank">
     Imperial Tuitions Trainings
@@ -123,11 +123,23 @@ onclick="openEnrollModal('{{ $course->title }}', {{ $course->id }})">
             </div>
         @endif
 
-
-            <!-- <button class="btn-solid full"
-                onclick="openEnrollModal('{{ $course->title }}')">
-                Register Now
-            </button> -->
+            <div class="snapshot-card-actions">
+                <button type="button" class="btn-inquiry btn-snapshot"
+                    onclick="openInquiryModal(
+                        '{{ $course->title }}',
+                        {{ $course->id }},
+                        '{{ $course->level ?? '' }}',
+                        '{{ $course->duration ?? '' }}'
+                    )">
+                    Inquiry
+                </button>
+                <button type="button" class="btn-primary btn-snapshot" onclick="downloadPDF()">
+                    Download PDF
+                </button>
+                <button type="button" class="btn-primary btn-snapshot" onclick="printCourse()">
+                    Print
+                </button>
+            </div>
 
         </div>
     </div>
@@ -144,21 +156,24 @@ onclick="openEnrollModal('{{ $course->title }}', {{ $course->id }})">
             <h3 class="sec-title">What you will learn ?</h3>
 
             @if($course->topics->count())
-                <div class="topics">
-                    @foreach($course->topics as $topic)
-                        <div class="topic-item">
-                            <h4 class="topic-title">{{ $topic->title }}</h4>
-                            @if($topic->description)
-                                <div class="topic-desc rich-text">
-                                    {!! $topic->description !!}
-                                </div>
-                            @endif
-                        </div>
-                    @endforeach
-                </div>
-            @else
-                <p class="muted">No topics added yet.</p>
-            @endif
+    <div class="topics">
+        @foreach($course->topics as $topic)
+            <div class="topic-item">
+                <h4 class="topic-title">
+                    {{ $loop->iteration }}. {{ $topic->title }}
+                </h4>
+
+                @if($topic->description)
+                    <div class="topic-desc rich-text">
+                        {!! $topic->description !!}
+                    </div>
+                @endif
+            </div>
+        @endforeach
+    </div>
+@else
+    <p class="muted">No topics added yet.</p>
+@endif
         </div>
         <!-- @if($course->launches->count())
         
@@ -280,212 +295,153 @@ onclick="openEnrollModal(
 </section>
 
 <!-- ENROLL MODAL -->
- <!-- ENROLL MODAL -->
-<div id="enrollModal" class="modal-overlay">
-    <div class="modal-box">
-        <span class="close-btn" onclick="closeEnrollModal()">×</span>
-
-<div class="enroll-header">
-    <h3 id="selectedCourse" class="modal-title">
-        Enroll
-    </h3>
-
-    <div class="enroll-info" id="enrollInfo" style="display:none;">
-        <span class="info-pill">
-            <i class="bi bi-clock"></i>
-            <span id="enrollDuration"></span>
-        </span>
-           
-        
-    <span class="info-pill" id="enrollLevelWrap" style="display:none;">
-        <i class="bi bi-bar-chart-steps"></i>
-        <span id="enrollLevel"></span>
-    </span>
-        <span class="info-pill" id="enrollDateWrap" style="display:none;">
-            <i class="bi bi-calendar-event"></i>
-            <span id="enrollDate"></span>
-        </span>
-    </div>
-</div>
-<div class="registration-card">
-    <h2 class="reg-title">Student Registration</h2>
-    <p class="reg-subtitle">
-        Fill the form below. A  Imperial Tuitions coordinator will confirm schedule and payment details.
-    </p>
-
-    <form method="POST" action="{{ route('course.enroll') }}">
-        @csrf
-        <input type="hidden" name="course_name" id="courseName">
-        <!-- <input type="hidden" name="launch_date" id="selectedLaunchDate"> -->
-        <input type="hidden" name="course_id" id="courseId">
-        <!-- <input type="hidden" name="launch_id" id="launchId"> -->
-
-        <input type="hidden" name="level" id="selectedLevel">
-
-
-
-        <div class="reg-grid">
-            <div class="reg-group">
-                <label>Full Name</label>
-                <input type="text" name="name" placeholder="Your full name" required>
-            </div>
-
-            <div class="reg-group">
-                <label>Email</label>
-                <input type="email" name="email" placeholder="name@email.com" required>
-            </div>
-
-            <div class="reg-group">
-                <label>Phone (Optional)</label>
-                <input type="tel" name="phone" placeholder="+1 (___) ___-____">
-            </div>
-
-            <div class="reg-group">
-                <label>Registration Type</label>
-                <select name="registration_type">
-                    <option>Individual</option>
-                    <option>Corporate</option>
-                </select>
-            </div>
-            <div class="reg-group">
-    <label>Preferred Date</label>
-    <input type="date" name="preferred_date">
-</div>
-
-<div class="reg-group">
-    <label>Preferred Time</label>
-    <input type="time" name="preferred_time">
-</div>
-
-
-            <div class="reg-group full">
-                <label>Message (Optional)</label>
-                <textarea
-                    name="message"
-                    placeholder="Any questions, goals, or corporate training request details..."
-                    rows="4"></textarea>
-            </div>
-        </div>
-
-        <div class="consent-box">
-            <label class="consent-label">
-                <input type="checkbox" required>
-                <span>
-                    <strong>Consent & Disclaimer</strong><br>
-                    I confirm that all information provided is accurate.<br>
-                    I agree that my information will be used by
-                    <span class="highlight"> Imperial Tuitions</span>
-                    solely for educational and enrollment purposes.<br>
-                    I understand that my data will not be shared with any third-party organizations.
-                </span>
-            </label>
-        </div>
-
-        <button type="submit" class="reg-submit">
-            Submit Registration
+<div id="enrollModal" class="modal-overlay enroll-modal-overlay">
+    <div class="modal-box enroll-modal-box">
+        <button type="button" class="enroll-close-btn" onclick="closeEnrollModal()" aria-label="Close">
+            <i class="bi bi-x-lg"></i>
         </button>
 
-        <p class="reg-footer">
-            By submitting, you agree to be contacted by  Imperial Tuitions for scheduling and payment coordination.
-        </p>
-    </form>
-</div>
+        <div class="enroll-modal-header">
+            <h3 id="selectedCourse" class="enroll-modal-title">Enroll</h3>
+            <p class="enroll-modal-subtitle">A coordinator will confirm schedule and payment details</p>
+            <div class="enroll-info enroll-info-pills" id="enrollInfo" style="display:none;">
+                <span class="info-pill">
+                    <i class="bi bi-clock"></i>
+                    <span id="enrollDuration"></span>
+                </span>
+                <span class="info-pill" id="enrollLevelWrap" style="display:none;">
+                    <i class="bi bi-bar-chart-steps"></i>
+                    <span id="enrollLevel"></span>
+                </span>
+                <span class="info-pill" id="enrollDateWrap" style="display:none;">
+                    <i class="bi bi-calendar-event"></i>
+                    <span id="enrollDate"></span>
+                </span>
+            </div>
+        </div>
 
+        <div class="enroll-modal-body">
+            <form method="POST" action="{{ route('course.enroll') }}" class="enroll-form">
+                @csrf
+                <input type="hidden" name="course_name" id="courseName">
+                <input type="hidden" name="course_id" id="courseId">
+                <input type="hidden" name="level" id="selectedLevel">
+
+                <div class="enroll-form-grid">
+                    <div class="enroll-field">
+                        <label for="enrollName">Full Name</label>
+                        <input type="text" name="name" id="enrollName" placeholder="Your full name" required>
+                    </div>
+                    <div class="enroll-field">
+                        <label for="enrollEmail">Email</label>
+                        <input type="email" name="email" id="enrollEmail" placeholder="name@email.com" required>
+                    </div>
+                    <div class="enroll-field">
+                        <label for="enrollPhone">Phone <span class="optional">(Optional)</span></label>
+                        <input type="tel" name="phone" id="enrollPhone" placeholder="+1 (___) ___-____">
+                    </div>
+                    <div class="enroll-field">
+                        <label for="enrollRegType">Registration Type</label>
+                        <select name="registration_type" id="enrollRegType">
+                            <option>Individual</option>
+                            <option>Corporate</option>
+                        </select>
+                    </div>
+                    <div class="enroll-field">
+                        <label for="enrollDate">Preferred Date</label>
+                        <input type="date" name="preferred_date" id="enrollDate">
+                    </div>
+                    <div class="enroll-field">
+                        <label for="enrollTime">Preferred Time</label>
+                        <input type="time" name="preferred_time" id="enrollTime">
+                    </div>
+                    <div class="enroll-field enroll-field-full">
+                        <label for="enrollMessage">Message <span class="optional">(Optional)</span></label>
+                        <textarea name="message" id="enrollMessage" rows="3" placeholder="Any questions, goals, or corporate training details..."></textarea>
+                    </div>
+                </div>
+
+                <div class="enroll-consent">
+                    <label class="enroll-consent-label">
+                        <input type="checkbox" required class="enroll-consent-checkbox">
+                        <span class="enroll-consent-text">
+                            I confirm the information provided is accurate and agree that Imperial Tuitions may use it for educational and enrollment purposes. My data will not be shared with third parties.
+                        </span>
+                    </label>
+                </div>
+
+                <button type="submit" class="enroll-submit-btn">
+                    <i class="bi bi-pencil-square"></i>
+                    Submit Registration
+                </button>
+                <p class="enroll-footer">By submitting, you agree to be contacted for scheduling and payment coordination.</p>
+            </form>
+        </div>
     </div>
 </div>
 
 <!-- INQUIRY MODAL -->
-<div id="inquiryModal" class="modal-overlay">
-    <div class="modal-box">
-        <span class="close-btn" onclick="closeInquiryModal()">×</span>
-        <div class="enroll-header">
+<div id="inquiryModal" class="modal-overlay inquiry-modal-overlay">
+    <div class="modal-box inquiry-modal-box">
+        <button type="button" class="inquiry-close-btn" onclick="closeInquiryModal()" aria-label="Close">
+            <i class="bi bi-x-lg"></i>
+        </button>
 
- <h3 id="inquiryTitle" class="modal-title">
-    Inquiry
-</h3>
-
-<div class="enroll-info" id="inquiryInfo" style="display:none; justify-content:center;">
-    <span class="info-pill">
-        <i class="bi bi-clock"></i>
-        <span id="inquiryDuration"></span>
-    </span>
-
-    <span class="info-pill">
-        <i class="bi bi-bar-chart-steps"></i>
-        <span id="inquiryLevelText"></span>
-    </span>
-
-    
-</div>
+        <div class="inquiry-modal-header">
+            <h3 id="inquiryTitle" class="inquiry-modal-title">Inquiry</h3>
+            <p class="inquiry-modal-subtitle">We’ll get back to you within 24 hours</p>
+            <div class="enroll-info inquiry-info-pills" id="inquiryInfo" style="display:none;">
+                <span class="info-pill inquiry-pill">
+                    <i class="bi bi-clock"></i>
+                    <span id="inquiryDuration"></span>
+                </span>
+                <span class="info-pill inquiry-pill">
+                    <i class="bi bi-bar-chart-steps"></i>
+                    <span id="inquiryLevelText"></span>
+                </span>
+            </div>
         </div>
 
-        <div class="registration-card">
-            <h2 class="reg-title">Course Inquiry</h2>
-            <p class="reg-subtitle">
-                Share your questions and our  Imperial Tuitions team will get back to you.
-            </p>
-
-            <form method="POST" action="{{ route('course.inquiry') }}">
+        <div class="inquiry-modal-body">
+            <form method="POST" action="{{ route('course.inquiry') }}" class="inquiry-form">
                 @csrf
+                <input type="hidden" name="course_title" id="inquiryCourseTitle">
+                <input type="hidden" name="course_id" id="inquiryCourseId">
+                <input type="hidden" name="level" id="inquiryLevel">
 
-       <!-- KEEP THIS EXACT -->
-<input type="hidden" name="course_title" id="inquiryCourseTitle">
-<input type="hidden" name="course_id" id="inquiryCourseId"> <!-- NEW -->
-<!-- <input type="hidden" name="launch_date" id="inquiryLaunchDate">
-<input type="hidden" name="launch_id" id="inquiryLaunchId">  -->
-<input type="hidden" name="level" id="inquiryLevel">
-
-
-
-                <div class="reg-grid">
-                    <div class="reg-group">
-                        <label>Full Name</label>
-                        <input type="text" name="name" required>
+                <div class="inquiry-form-grid">
+                    <div class="inquiry-field">
+                        <label for="inquiryName">Full Name</label>
+                        <input type="text" name="name" id="inquiryName" placeholder="John Smith" required>
                     </div>
-
-                    <div class="reg-group">
-                        <label>Email</label>
-                        <input type="email" name="email" required>
+                    <div class="inquiry-field">
+                        <label for="inquiryEmail">Email</label>
+                        <input type="email" name="email" id="inquiryEmail" placeholder="john@example.com" required>
                     </div>
-
-                    <div class="reg-group">
-                        <label>Phone (Optional)</label>
-                        <input type="tel" name="phone">
+                    <div class="inquiry-field inquiry-field-full">
+                        <label for="inquiryPhone">Phone <span class="optional">(Optional)</span></label>
+                        <input type="tel" name="phone" id="inquiryPhone" placeholder="+1 (555) 000-0000">
                     </div>
-
-                    <!-- EMPTY GRID SLOT (keeps 2-column layout clean) -->
-                    <div></div>
-
-                    <div class="reg-group full">
-                        <label>Message</label>
-                        <textarea
-                            name="message"
-                            rows="4"
-                            placeholder="Your inquiry message..."
-                            required></textarea>
+                    <div class="inquiry-field inquiry-field-full">
+                        <label for="inquiryMessage">Your message</label>
+                        <textarea name="message" id="inquiryMessage" rows="3" placeholder="Tell us your questions about this course, schedule, or pricing..." required></textarea>
                     </div>
                 </div>
-                 <div class="consent-box">
-            <label class="consent-label">
-                <input type="checkbox" required>
-                <span>
-                    <strong>Consent & Disclaimer</strong><br>
-                    I confirm that all information provided is accurate.<br>
-                    I agree that my information will be used by
-                    <span class="highlight"> Imperial Tuitions</span>
-                    solely for educational and enrollment purposes.<br>
-                    I understand that my data will not be shared with any third-party organizations.
-                </span>
-            </label>
-        </div>
 
-                <button type="submit" class="reg-submit">
-                    Submit Inquiry
+                <div class="inquiry-consent">
+                    <label class="inquiry-consent-label">
+                        <input type="checkbox" name="consent" required class="inquiry-consent-checkbox">
+                        <span class="inquiry-consent-text">
+                            I confirm the information provided is accurate and agree that Imperial Tuitions may use it for educational and enrollment purposes. My data will not be shared with third parties.
+                        </span>
+                    </label>
+                </div>
+
+                <button type="submit" class="inquiry-submit-btn">
+                    <i class="bi bi-send-fill"></i>
+                    Send Inquiry
                 </button>
-
-                <p class="reg-footer">
-                    We usually respond within 24 hours.
-                </p>
+                <p class="inquiry-footer">We usually respond within 24 hours.</p>
             </form>
         </div>
     </div>
@@ -563,11 +519,520 @@ onclick="openEnrollModal(
     background:#f59e0b;
 }
 
+/* ===============================
+   INQUIRY MODAL – PROFESSIONAL STYLE
+   =============================== */
+@keyframes inquiryModalIn {
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.inquiry-modal-overlay {
+    background: rgba(9, 81, 93, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 24px;
+    align-items: center;
+    justify-content: center;
+}
+
+.inquiry-modal-overlay[style*="flex"] .inquiry-modal-box {
+    animation: inquiryModalIn 0.3s ease-out;
+}
+
+.inquiry-modal-box {
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    height: auto;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 24px 48px rgba(9, 81, 93, 0.2), 0 0 0 1px rgba(9, 81, 93, 0.08);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.inquiry-modal-box .inquiry-close-btn {
+    top: 10px;
+    right: 12px;
+    width: 34px;
+    height: 34px;
+    font-size: 16px;
+}
+
+.inquiry-close-btn {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: #f1f5f9;
+    color: #64748b;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    z-index: 2;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.inquiry-close-btn:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+    transform: scale(1.05);
+}
+
+.inquiry-modal-header {
+    background: linear-gradient(180deg, #09515D 0%, #0a6573 100%);
+    color: #fff;
+    padding: 14px 20px 12px;
+    text-align: center;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.inquiry-modal-title {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0 0 2px;
+    letter-spacing: -0.02em;
+    color: #fff;
+    line-height: 1.3;
+}
+
+.inquiry-modal-subtitle {
+    font-size: 12px;
+    opacity: 0.9;
+    margin: 0 0 10px;
+    font-weight: 500;
+}
+
+.inquiry-info-pills {
+    justify-content: center;
+    gap: 8px;
+    margin-top: 0;
+}
+
+.inquiry-modal-header .info-pill {
+    padding: 4px 10px;
+    font-size: 11px;
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+.inquiry-modal-header .bi {
+    color: #fff !important;
+}
+
+.inquiry-modal-body {
+    padding: 18px 20px 20px;
+    overflow: visible;
+    flex: 1;
+    min-height: 0;
+}
+
+.inquiry-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.inquiry-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.inquiry-field-full {
+    grid-column: 1 / -1;
+}
+
+.inquiry-field label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.inquiry-field .optional {
+    font-weight: 500;
+    color: #64748b;
+}
+
+.inquiry-field input,
+.inquiry-field textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #0f172a;
+    background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.inquiry-field input::placeholder,
+.inquiry-field textarea::placeholder {
+    color: #94a3b8;
+}
+
+.inquiry-field input:focus,
+.inquiry-field textarea:focus {
+    outline: none;
+    border-color: #09515D;
+    box-shadow: 0 0 0 3px rgba(9, 81, 93, 0.15);
+}
+
+.inquiry-field textarea {
+    resize: vertical;
+    min-height: 68px;
+}
+
+.inquiry-consent {
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.inquiry-consent-label {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    cursor: pointer;
+    font-size: 12px;
+    color: #475569;
+    line-height: 1.4;
+}
+
+.inquiry-consent-checkbox {
+    margin-top: 2px;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    accent-color: #09515D;
+}
+
+.inquiry-submit-btn {
+    margin-top: 14px;
+    width: 100%;
+    padding: 12px 20px;
+    background: #09515D;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 800;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 14px rgba(9, 81, 93, 0.35);
+}
+
+.inquiry-submit-btn:hover {
+    background: #0a6573;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(9, 81, 93, 0.4);
+}
+
+.inquiry-submit-btn:active {
+    transform: translateY(0);
+}
+
+.inquiry-submit-btn i {
+    font-size: 18px;
+}
+
+.inquiry-footer {
+    margin-top: 8px;
+    text-align: center;
+    font-size: 12px;
+    color: #64748b;
+}
+
+@media (max-width: 560px) {
+    .inquiry-modal-box {
+        max-height: 95vh;
+    }
+    .inquiry-modal-header {
+        padding: 12px 16px 10px;
+    }
+    .inquiry-modal-body {
+        padding: 14px 16px 16px;
+    }
+    .inquiry-form-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
+
+/* ===============================
+   ENROLL MODAL – same as inquiry (compact, no scroll)
+   =============================== */
+@keyframes enrollModalIn {
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.enroll-modal-overlay {
+    background: rgba(9, 81, 93, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 24px;
+    align-items: center;
+    justify-content: center;
+}
+
+.enroll-modal-overlay[style*="flex"] .enroll-modal-box {
+    animation: enrollModalIn 0.3s ease-out;
+}
+
+.enroll-modal-box {
+    width: 100%;
+    max-width: 540px;
+    max-height: 90vh;
+    height: auto;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 24px 48px rgba(9, 81, 93, 0.2), 0 0 0 1px rgba(9, 81, 93, 0.08);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.enroll-close-btn {
+    position: absolute;
+    right: 16px;
+    top: 10px;
+    width: 34px;
+    height: 34px;
+    border: none;
+    background: #f1f5f9;
+    color: #64748b;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    z-index: 2;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.enroll-close-btn:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+    transform: scale(1.05);
+}
+
+.enroll-modal-header {
+    background: linear-gradient(180deg, #09515D 0%, #0a6573 100%);
+    color: #fff;
+    padding: 14px 20px 12px;
+    text-align: center;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.enroll-modal-title {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0 0 2px;
+    letter-spacing: -0.02em;
+    color: #fff;
+    line-height: 1.3;
+}
+
+.enroll-modal-subtitle {
+    font-size: 12px;
+    opacity: 0.9;
+    margin: 0 0 10px;
+    font-weight: 500;
+}
+
+.enroll-modal-header .enroll-info-pills {
+    justify-content: center;
+    gap: 8px;
+    margin-top: 0;
+}
+
+.enroll-modal-header .info-pill {
+    padding: 4px 10px;
+    font-size: 11px;
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+.enroll-modal-header .bi {
+    color: #fff !important;
+}
+
+.enroll-modal-body {
+    padding: 18px 20px 20px;
+    overflow: visible;
+    flex: 1;
+    min-height: 0;
+}
+
+.enroll-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.enroll-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.enroll-field-full {
+    grid-column: 1 / -1;
+}
+
+.enroll-field label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.enroll-field .optional {
+    font-weight: 500;
+    color: #64748b;
+}
+
+.enroll-field input,
+.enroll-field select,
+.enroll-field textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #0f172a;
+    background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.enroll-field input::placeholder,
+.enroll-field textarea::placeholder {
+    color: #94a3b8;
+}
+
+.enroll-field input:focus,
+.enroll-field select:focus,
+.enroll-field textarea:focus {
+    outline: none;
+    border-color: #09515D;
+    box-shadow: 0 0 0 3px rgba(9, 81, 93, 0.15);
+}
+
+.enroll-field textarea {
+    resize: vertical;
+    min-height: 68px;
+}
+
+.enroll-consent {
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.enroll-consent-label {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    cursor: pointer;
+    font-size: 12px;
+    color: #475569;
+    line-height: 1.4;
+}
+
+.enroll-consent-checkbox {
+    margin-top: 2px;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    accent-color: #09515D;
+}
+
+.enroll-submit-btn {
+    margin-top: 14px;
+    width: 100%;
+    padding: 12px 20px;
+    background: #09515D;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 800;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 14px rgba(9, 81, 93, 0.35);
+}
+
+.enroll-submit-btn:hover {
+    background: #0a6573;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(9, 81, 93, 0.4);
+}
+
+.enroll-submit-btn i {
+    font-size: 16px;
+}
+
+.enroll-footer {
+    margin-top: 8px;
+    text-align: center;
+    font-size: 12px;
+    color: #64748b;
+}
+
+@media (max-width: 560px) {
+    .enroll-modal-header {
+        padding: 12px 16px 10px;
+    }
+    .enroll-modal-body {
+        padding: 14px 16px 16px;
+    }
+    .enroll-form-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
+
 /* ===== LAYOUT ===== */
 .course-detail-wrapper{
-    max-width:1200px;
+    max-width:min(1600px, 96vw);
     margin:0 auto;
-    padding:40px 16px;
+    padding:32px 24px;
 }
 
 /* ===== HERO ===== */
@@ -656,7 +1121,7 @@ onclick="openEnrollModal(
 /* ===== SKILLS ===== */
 .skills-wrap{
     background:rgba(255,255,255,.06);
-    padding:16px;
+    padding:18px;
     border-radius:12px;
     margin-bottom:26px;
 }
@@ -664,14 +1129,14 @@ onclick="openEnrollModal(
 .skills{
     display:flex;
     flex-wrap:wrap;
-    gap:8px;
+    gap:10px;
 }
 
 .skill-tag{
     background:rgba(244,123,30,.18);
     color:#ffedd5;
-    font-size:12px;
-    padding:6px 10px;
+    font-size:13px;
+    padding:7px 12px;
     border-radius:999px;
     font-weight:700;
 }
@@ -680,15 +1145,15 @@ onclick="openEnrollModal(
 .cta-buttons{
     display:flex;
     align-items:center;
-    gap:18px;
-    margin-top:30px;
+    gap:20px;
+    margin-top:32px;
     flex-wrap:wrap;
 }
 
 /* PRIMARY – ENROLL */
 .cta-buttons .btn-primary:first-child{
-    padding:14px 30px;
-    font-size:14px;
+    padding:16px 34px;
+    font-size:16px;
     font-weight:900;
     border-radius:4px;
     background:#F47B1E;
@@ -708,17 +1173,17 @@ onclick="openEnrollModal(
     background:none;
     border:none;
     padding:0;
-    font-size:13px;
+    font-size:14px;
     font-weight:700;
     color: #cbd5e1;
     cursor:pointer;
     position:relative;
 }
 .hero-description{
-    min-height: 220px;   /* 👈 FIXED SPACE (buttons start after this) */
-    max-height: 220px;   /* 👈 SAME height */
+    min-height: 240px;
+    max-height: 260px;
     overflow-y: auto;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
 }
 /* smooth scrollbar */
 .hero-description::-webkit-scrollbar{
@@ -766,10 +1231,10 @@ onclick="openEnrollModal(
 .btn-secondary{
     margin-left:auto;
     padding:0;
-    font-size:13px;
+    font-size:14px;
     font-weight:700;
     color:#94a3b8;
-    padding:10px 16px;
+    padding:12px 20px;
     border-radius:999px;
     background:#eef7f6;
     color:#09515D;
@@ -839,54 +1304,54 @@ onclick="openEnrollModal(
 
 /* ===== BODY ===== */
 .course-body{
-    margin-top:32px;
+    margin-top:36px;
 }
 
 .card{
     background:#fff;
-    border-radius:16px;
-    padding:24px;
-    margin-bottom:22px;
+    border-radius:18px;
+    padding:32px 28px;
+    margin-bottom:26px;
     box-shadow:0 12px 28px rgba(15,23,42,.08);
 }
 
 .sec-title{
-    font-size:18px;
+    font-size: clamp(1.75rem, 2.5vw + 1.5rem, 42px);
     font-weight:800;
-    margin-bottom:14px;
+    margin-bottom:16px;
 }
 
 /* ===== RICH TEXT ===== */
 .rich-text{
-    font-size:15px;
-    line-height:1.75;
+    font-size:17px;
+    line-height:1.8;
     color:#374151;
-    max-width:780px;
+    max-width:100%;
 }
 
 /* ===== TOPICS ===== */
 .topics{
     display:flex;
     flex-direction:column;
-    gap:14px;
+    gap:18px;
 }
 
 .topic-item{
     background:#f9fafb;
     border:1px solid #e5e7eb;
-    padding:16px;
-    border-radius:12px;
+    padding:20px;
+    border-radius:14px;
 }
 
 .topic-title{
-    font-size:15px;
+    font-size:18px;
     font-weight:800;
-    margin-bottom:8px;
+    margin-bottom:10px;
 }
 
 .muted{
     color:#6b7280;
-    font-size:14px;
+    font-size:17px;
 }
 
 /* ===== MODAL ===== */
@@ -903,21 +1368,20 @@ onclick="openEnrollModal(
 .modal-box{
     background:#fff;
     width:900px;
-    height:600px;
-
     max-width:95vw;
-    max-height:90vh;
 
-    padding:0;               /* important */
+    max-height:90vh;     /* allow modal to fit screen */
+    height:auto;         /* remove fixed height */
+
+    padding:0;
     border-radius:14px;
     position:relative;
 
     display:flex;
     flex-direction:column;
 
-    overflow:hidden;         /* clean edges */
+    overflow-y:auto;     /* scroll inside modal if needed */
 }
-
 
 .close-btn{
     position:absolute;
@@ -959,8 +1423,17 @@ onclick="openEnrollModal(
 
 /* LARGE TABLET */
 @media (max-width: 1024px) {
-    .course-title {
-        font-size: 30px;
+    .course-detail-wrapper {
+        padding: 28px 20px;
+    }
+
+    .hero-snapshot {
+        padding: 36px 32px;
+        gap: 32px;
+    }
+
+    .hero-title {
+        font-size: clamp(1.5rem, 4vw + 1rem, 36px);
     }
 
     .course-hero {
@@ -971,6 +1444,27 @@ onclick="openEnrollModal(
     .course-hero-img {
         min-height: 320px;
     }
+
+    .snapshot-card {
+        padding: 26px 22px;
+    }
+
+    .snapshot-price {
+        font-size: 34px;
+    }
+
+    .card {
+        padding: 26px 22px;
+    }
+
+    .sec-title,
+    .snapshot-card h4 {
+        font-size: clamp(1.5rem, 4vw + 1rem, 36px);
+    }
+
+    .rich-text {
+        font-size: 16px;
+    }
 }
 
 /* TABLET */
@@ -979,12 +1473,24 @@ onclick="openEnrollModal(
         grid-template-columns: 1fr;
     }
 
+    .hero-snapshot {
+        grid-template-columns: 1fr;
+        padding: 28px 24px;
+        gap: 28px;
+    }
+
+    .hero-snapshot .snapshot-card {
+        margin-top: 0;
+    }
+
     .course-hero-img {
         min-height: 280px;
     }
 
-    .course-title {
-        font-size: 28px;
+    .hero-title,
+    .sec-title,
+    .snapshot-card h4 {
+        font-size: clamp(1.4rem, 4vw + 1rem, 32px);
     }
 
     .course-meta {
@@ -999,12 +1505,23 @@ onclick="openEnrollModal(
     .level-switcher {
         flex-wrap: wrap;
     }
+
+    .hero-description {
+        min-height: 200px;
+        max-height: 220px;
+    }
 }
 
 /* MOBILE */
 @media (max-width: 640px) {
     .course-detail-wrapper {
-        padding: 30px 14px;
+        padding: 20px 16px;
+    }
+
+    .hero-snapshot {
+        padding: 22px 18px;
+        gap: 22px;
+        border-radius: 16px;
     }
 
     .course-hero {
@@ -1016,8 +1533,14 @@ onclick="openEnrollModal(
         min-height: 220px;
     }
 
-    .course-title {
-        font-size: 24px;
+    .hero-pills span {
+        font-size: 12px;
+        padding: 7px 12px;
+    }
+
+    .hero-description {
+        min-height: 180px;
+        max-height: 200px;
     }
 
     .skills-wrap {
@@ -1036,33 +1559,69 @@ onclick="openEnrollModal(
     .cta-buttons .btn-primary:first-child {
         width: 100%;
         text-align: center;
-        padding: 12px 0;
+        padding: 14px 0;
+        font-size: 15px;
     }
 
     .cta-buttons .btn-primary {
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .btn-secondary {
-        font-size: 12px;
+        font-size: 13px;
+        padding: 10px 16px;
     }
 
     .card {
-        padding: 18px;
+        padding: 20px 18px;
+        border-radius: 14px;
     }
 
-    .sec-title {
-        font-size: 16px;
+    .hero-title,
+    .sec-title,
+    .snapshot-card h4 {
+        font-size: clamp(1.25rem, 5vw + 1rem, 28px);
     }
 
     .rich-text {
+        font-size: 16px;
+    }
+
+    .topic-item {
+        padding: 16px;
+    }
+
+    .topic-title {
+        font-size: 16px;
+    }
+
+    .snapshot-card {
+        padding: 22px 18px;
+    }
+
+    .snapshot-price {
+        font-size: 32px;
+    }
+
+    .snapshot-list li {
+        font-size: 16px;
+    }
+
+    .snapshot-card-actions .btn-snapshot {
+        padding: 10px 14px;
         font-size: 14px;
     }
 }
 
 /* VERY SMALL PHONES */
 @media (max-width: 420px) {
-    .course-title {
+    .course-detail-wrapper {
+        padding: 16px 12px;
+    }
+
+    .hero-title,
+    .sec-title,
+    .snapshot-card h4 {
         font-size: 22px;
     }
 
@@ -1075,11 +1634,11 @@ onclick="openEnrollModal(
     }
 
     .topic-title {
-        font-size: 14px;
+        font-size: 15px;
     }
 
     .topic-desc {
-        font-size: 13px;
+        font-size: 14px;
     }
 }
 @media (max-width: 768px){
@@ -1224,63 +1783,148 @@ onclick="openEnrollModal(
 }
 .hero-snapshot{
     background: linear-gradient(180deg,#eef7f6,#ffffff);
-    border-radius:18px;
-    padding:42px;
+    border-radius:20px;
+    padding:48px 44px;
     display:grid;
     grid-template-columns:1.2fr .8fr;
-    gap:36px;
+    gap:44px;
+    align-items: stretch;
+}
+
+.hero-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 /* LEFT */
 .hero-badge{
     display:inline-flex;
     align-items:center;
-
     background:#fde8d8;
     color:#F47B1E;
-
-    font-size:12px;
+    font-size:13px;
     font-weight:700;
-
-    padding:6px 14px;
+    padding:8px 16px;
     border-radius:999px;
-
-    margin-bottom:12px;
-
-    line-height:1;        /* 🔥 IMPORTANT */
-    width:fit-content;    /* 🔥 IMPORTANT */
+    margin-bottom:14px;
+    line-height:1;
+    width:fit-content;
 }
 .snapshot-card {
     pointer-events: none;
 }
 
 
-.hero-title{
-    font-size:34px;
-    font-weight:900;
-    margin-bottom:18px;
-     color:#09515D;
+/* ===============================
+   SNAPSHOT ACTION BUTTONS – PRO
+   =============================== */
 
+.snapshot-card-actions {
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid #e5e7eb;
+}
+
+/* Shared Button Base */
+.snapshot-card-actions .btn-snapshot {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    transition: all .25s ease;
+}
+
+/* Primary (Inquiry) */
+.snapshot-card-actions .btn-inquiry.btn-snapshot {
+    background: #28a745;
+    color: #000;
+    box-shadow: 0 6px 18px rgba(40,167,69,.25);
+}
+
+.snapshot-card-actions .btn-inquiry.btn-snapshot:hover {
+    background: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(40,167,69,.35);
+}
+
+/* Secondary (Download / Print) */
+.snapshot-card-actions .btn-primary.btn-snapshot {
+    background: #ffffff;
+    color: #000;
+    border: 1px solid #e5e7eb;
+}
+
+.snapshot-card-actions .btn-primary.btn-snapshot:hover {
+    background: #f8fafc;
+    border-color: #28a745;
+    transform: translateY(-2px);
+}
+
+/* Icon styling */
+.snapshot-card-actions .btn-snapshot i {
+    font-size: 16px;
+    transition: transform .2s ease;
+}
+
+.snapshot-card-actions .btn-snapshot:hover i {
+    transform: translateX(2px);
+}
+
+.snapshot-card-actions .btn-inquiry.btn-snapshot {
+    background: var(--green-main);
+    color: var(--black);
+}
+
+.snapshot-card-actions .btn-primary.btn-snapshot {
+    background: #eef7f6;
+    color: #09515D;
+    border: 1px solid rgba(40,167,69,.4);
+}
+
+.snapshot-card-actions .btn-primary.btn-snapshot:hover {
+    background: var(--green-main);
+    color: var(--black);
+}
+
+
+.hero-title{
+    font-size:clamp(1.75rem, 2.5vw + 1.5rem, 42px);
+    font-weight:900;
+    margin-bottom:20px;
+    color:#09515D;
+    line-height:1.2;
 }
 
 .hero-pills{
     display:flex;
     flex-wrap:wrap;
-    gap:12px;
-    margin-bottom:22px;
-        color:#09515D;
-
+    gap:14px;
+    margin-bottom:24px;
+    color:#09515D;
 }
 
 .hero-pills span{
     background:#ffffff;
     border:1px solid #e5e7eb;
-    padding:7px 12px;
+    padding:9px 16px;
     border-radius:999px;
-    font-size:12px;
+    font-size:14px;
     font-weight:600;
-     color: #09515D;
-
+    color:#09515D;
 }
 /* ===============================
    HERO ACTION BUTTONS – RESPONSIVE
@@ -1330,8 +1974,8 @@ onclick="openEnrollModal(
 .btn-solid{
     background: #09515D;
     color:#fff;
-    padding:14px 26px;
-    font-size:16px;
+    padding:16px 30px;
+    font-size:17px;
     font-weight:800;
     border:none;
     border-radius:8px;
@@ -1361,19 +2005,19 @@ onclick="openEnrollModal(
     cursor:pointer;
 }
 
-/* RIGHT CARD */
+/* RIGHT CARD – compact so bottom aligns with left column */
 .snapshot-card{
     background: #ffffff;
-    border-radius:16px;
-    padding:26px;
-    margin-top:55px;
+    border-radius:18px;
+    padding:22px 24px;
+    margin-top:0;
     box-shadow:0 14px 36px rgba(15,23,42,.12);
 }
 
 .snapshot-card h4{
-    font-size:18px;
+    font-size: clamp(1.75rem, 2.5vw + 1.5rem, 42px);
     font-weight:800;
-    margin-bottom:12px;
+    margin-bottom:10px;
     color:#09515D;
 }
 
@@ -1381,25 +2025,39 @@ onclick="openEnrollModal(
     font-size:34px;
     font-weight:900;
     color: #09515D;
-    margin-bottom:14px;
+    margin-bottom:10px;
 }
 
 .snapshot-list{
     list-style:none;
     padding:0;
-    margin:0 0 22px;
-
+    margin:0 0 14px;
 }
 
 .snapshot-list li{
-    font-size:18px;
+    font-size:17px;
     font-weight:600;
     color:#334155;
-    margin-bottom:8px;
+    margin-bottom:6px;
 }
 
 .snapshot-card .full{
     width:100%;
+}
+
+/* compact skills inside snapshot so card height aligns with left */
+.snapshot-card .skills-wrap {
+    padding: 12px;
+    margin-bottom: 12px;
+    margin-left: 0 !important;
+}
+.snapshot-card .skills-wrap .sec-title {
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+.snapshot-card .skill-tag {
+    font-size: 12px;
+    padding: 5px 10px;
 }
 
 /* MOBILE */
@@ -1408,9 +2066,11 @@ onclick="openEnrollModal(
         grid-template-columns:1fr;
         padding:28px;
     }
+    .hero-right {
+        justify-content: flex-start;
+    }
     .snapshot-card{
       margin-top:0px !important;
-
     }
 }
 /* lastt */
@@ -2015,7 +2675,7 @@ function openEnrollModal(courseTitle, courseId = null){
 
     // Title
     document.getElementById('selectedCourse').innerText =
-        'Enroll in ' + courseTitle;
+        'Enroll in "' + courseTitle + '"';
 
     // Hidden fields
     document.getElementById('courseName').value = courseTitle;
@@ -2102,7 +2762,7 @@ function openInquiryModal(courseTitle, courseId = null, level = '', duration = '
     document.getElementById('inquiryModal').style.display = 'flex';
 
     document.getElementById('inquiryTitle').innerText =
-        'Inquiry about ' + courseTitle;
+        'Inquiry about "' + courseTitle + '"';
 
     document.getElementById('inquiryCourseTitle').value = courseTitle;
     document.getElementById('inquiryCourseId').value = courseId;

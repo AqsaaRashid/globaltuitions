@@ -19,19 +19,20 @@ class CourseController extends Controller
             ->orderByDesc('id')
             ->get();
 
-        return view('admin.courses.index', compact('courses'));
+        return view('admin.courses.index', compact('courses'))->with('title', 'Manage Courses');
     }
 
     /* ==============================
      | CREATE
      ============================== */
-    public function create()
-    {
-        $categories = TrainingCategory::orderBy('name')->get();
+   public function create()
+{
+    $categories = TrainingCategory::orderBy('name')->get();
+    $courses = Course::all();
 
-        return view('admin.courses.create', compact('categories'));
-    }
-
+    return view('admin.courses.create', compact('categories', 'courses'))
+        ->with('title', 'Add Course');
+}
     /* ==============================
      | STORE
      ============================== */
@@ -79,7 +80,7 @@ class CourseController extends Controller
     {
         $categories = TrainingCategory::orderBy('name')->get();
 
-        return view('admin.courses.edit', compact('course', 'categories'));
+        return view('admin.courses.edit', compact('course', 'categories'))->with('title', 'Edit Course');
     }
 
     /* ==============================
@@ -180,7 +181,7 @@ public function popular()
         ->orderBy('sort_order')
         ->get();
 
-    return view('admin.courses.popular', compact('courses'));
+    return view('admin.courses.popular', compact('courses'))->with('title', 'Popular Courses');
 }
 public function removePopular(Request $request)
 {

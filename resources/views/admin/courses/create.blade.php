@@ -164,12 +164,18 @@
                 <label class="block text-sm font-medium mb-1">
                     Sort Order
                 </label>
-                <input
-                    type="number"
-                    name="sort_order"
-                    required
-                    class="w-full rounded-md border border-gray-300 px-4 py-2
-                           focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                @php
+    $maxSort = $courses->max('sort_order') ?? 0;
+    $nextSort = $maxSort ? $maxSort + 10 : 10;
+@endphp
+
+<input
+    type="number"
+    name="sort_order"
+    value="{{ $nextSort }}"
+    required
+    class="w-full rounded-md border border-gray-300 px-4 py-2
+           focus:outline-none focus:ring-2 focus:ring-yellow-500">
             </div>
 
             <!-- Image Upload -->

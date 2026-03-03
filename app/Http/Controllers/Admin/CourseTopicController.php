@@ -16,7 +16,7 @@ class CourseTopicController extends Controller
             ->orderBy('sort_order')
             ->get();
 
-        return view('admin.courses.topics.index', compact('course', 'topics'));
+        return view('admin.courses.topics.index', compact('course', 'topics'))->with('title', 'Manage Topics');
     }
 
     // Store new topic

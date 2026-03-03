@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Mail\InquiryReceivedMail;
 use App\Models\CourseInquiry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -113,14 +113,8 @@ public function byLaunch($launchId)
         ]);
 
         /* ===== SEND CONFIRMATION EMAIL (LIKE ENROLL) ===== */
-       Mail::send(
-    'emails.inquiry-received',
-    ['inquiry' => $inquiry],
-    function ($mail) use ($inquiry) {
-        $mail->to($inquiry->email)
-             ->subject('BTMG USA Training – Inquiry Received');
-    }
-);
+  Mail::to($inquiry->email)
+    ->send(new InquiryReceivedMail($inquiry));
 return back()->with([ 'popup_success' => true, 'popup_title' => 'Inquiry Sent', 'popup_message' => 'Your inquiry has been received. Our team will respond within 24 hours.' ]);
 
     }

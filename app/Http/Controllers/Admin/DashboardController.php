@@ -68,6 +68,6 @@ class DashboardController extends Controller
             'totalEnrollments',
             'totalActiveCourses',
             'recentActivities'
-        ));
+        ))->with('title', 'Dashboard');
     }
 }

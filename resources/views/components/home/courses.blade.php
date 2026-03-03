@@ -53,7 +53,7 @@
                 </aside> <!-- Course Cards Grid -->
 
                 <div id="noCoursesMessage"
-     style="display:none;text-align:center;padding:40px 20px;color:#6b7280;font-size:16px;font-weight:500;">
+     style="display:none;text-align:center;padding:40px 20px;color:#6b7280;font-size:17px;font-weight:500;">
     <i class="bi bi-info-circle"></i>
     <span id="noCoursesText">No courses available.</span>
 </div>
@@ -124,98 +124,63 @@
     </section> <!-- Newsletter CTA Section -->
     
     
-<!-- INQUIRY MODAL -->
-<div id="inquiryModal" class="modal-overlay">
-    <div class="modal-box">
-        <span class="close-btn" onclick="closeInquiryModal()">×</span>
-        <div class="enroll-header">
-
- <h3 id="inquiryTitle" class="modal-title">
-    Inquiry
-</h3>
-
-<div class="enroll-info" id="inquiryInfo" style="display:none; justify-content:center;">
-    <span class="info-pill">
-        <i class="bi bi-clock"></i>
-        <span id="inquiryDuration"></span>
-    </span>
-
-    <span class="info-pill">
-        <i class="bi bi-bar-chart-steps"></i>
-        <span id="inquiryLevelText"></span>
-    </span>
-
-    
-</div>
+<!-- INQUIRY MODAL (same style as course details page) -->
+<div id="inquiryModal" class="modal-overlay inquiry-modal-overlay">
+    <div class="modal-box inquiry-modal-box">
+        <button type="button" class="inquiry-close-btn" onclick="closeInquiryModal()" aria-label="Close">
+            <i class="bi bi-x-lg"></i>
+        </button>
+        <div class="inquiry-modal-header">
+            <h3 id="inquiryTitle" class="inquiry-modal-title">Inquiry</h3>
+            <p class="inquiry-modal-subtitle">We’ll get back to you within 24 hours</p>
+            <div class="enroll-info inquiry-info-pills" id="inquiryInfo" style="display:none;">
+                <span class="info-pill">
+                    <i class="bi bi-clock"></i>
+                    <span id="inquiryDuration"></span>
+                </span>
+                <span class="info-pill">
+                    <i class="bi bi-bar-chart-steps"></i>
+                    <span id="inquiryLevelText"></span>
+                </span>
+            </div>
         </div>
-
-        <div class="registration-card">
-            <h2 class="reg-title">Course Inquiry</h2>
-            <p class="reg-subtitle">
-                Share your questions and our  Imperial Tuitions team will get back to you.
-            </p>
-
-            <form method="POST" action="{{ route('course.inquiry') }}">
+        <div class="inquiry-modal-body">
+            <form method="POST" action="{{ route('course.inquiry') }}" class="inquiry-form">
                 @csrf
-
-       <!-- KEEP THIS EXACT -->
-<input type="hidden" name="course_title" id="inquiryCourseTitle">
-<input type="hidden" name="course_id" id="inquiryCourseId"> <!-- NEW -->
-<!-- <input type="hidden" name="launch_date" id="inquiryLaunchDate">
-<input type="hidden" name="launch_id" id="inquiryLaunchId">  -->
-<input type="hidden" name="level" id="inquiryLevel">
-
-
-
-                <div class="reg-grid">
-                    <div class="reg-group">
-                        <label>Full Name</label>
-                        <input type="text" name="name" required>
+                <input type="hidden" name="course_title" id="inquiryCourseTitle">
+                <input type="hidden" name="course_id" id="inquiryCourseId">
+                <input type="hidden" name="level" id="inquiryLevel">
+                <div class="inquiry-form-grid">
+                    <div class="inquiry-field">
+                        <label for="inquiryName">Full Name</label>
+                        <input type="text" name="name" id="inquiryName" placeholder="John Smith" required>
                     </div>
-
-                    <div class="reg-group">
-                        <label>Email</label>
-                        <input type="email" name="email" required>
+                    <div class="inquiry-field">
+                        <label for="inquiryEmail">Email</label>
+                        <input type="email" name="email" id="inquiryEmail" placeholder="john@example.com" required>
                     </div>
-
-                    <div class="reg-group">
-                        <label>Phone (Optional)</label>
-                        <input type="tel" name="phone">
+                    <div class="inquiry-field inquiry-field-full">
+                        <label for="inquiryPhone">Phone <span class="optional">(Optional)</span></label>
+                        <input type="tel" name="phone" id="inquiryPhone" placeholder="+1 (555) 000-0000">
                     </div>
-
-                    <!-- EMPTY GRID SLOT (keeps 2-column layout clean) -->
-                    <div></div>
-
-                    <div class="reg-group full">
-                        <label>Message</label>
-                        <textarea
-                            name="message"
-                            rows="4"
-                            placeholder="Your inquiry message..."
-                            required></textarea>
+                    <div class="inquiry-field inquiry-field-full">
+                        <label for="inquiryMessage">Your message</label>
+                        <textarea name="message" id="inquiryMessage" rows="3" placeholder="Tell us your questions about this course, schedule, or pricing..." required></textarea>
                     </div>
                 </div>
-                 <div class="consent-box">
-            <label class="consent-label">
-                <input type="checkbox" required>
-                <span>
-                    <strong>Consent & Disclaimer</strong><br>
-                    I confirm that all information provided is accurate.<br>
-                    I agree that my information will be used by
-                    <span class="highlight"> Imperial Tuitions</span>
-                    solely for educational and enrollment purposes.<br>
-                    I understand that my data will not be shared with any third-party organizations.
-                </span>
-            </label>
-        </div>
-
-                <button type="submit" class="reg-submit">
-                    Submit Inquiry
+                <div class="inquiry-consent">
+                    <label class="inquiry-consent-label">
+                        <input type="checkbox" name="consent" required class="inquiry-consent-checkbox">
+                        <span class="inquiry-consent-text">
+                            I confirm the information provided is accurate and agree that Imperial Tuitions may use it for educational and enrollment purposes. My data will not be shared with third parties.
+                        </span>
+                    </label>
+                </div>
+                <button type="submit" class="inquiry-submit-btn">
+                    <i class="bi bi-send-fill"></i>
+                    Send Inquiry
                 </button>
-
-                <p class="reg-footer">
-                    We usually respond within 24 hours.
-                </p>
+                <p class="inquiry-footer">We usually respond within 24 hours.</p>
             </form>
         </div>
     </div>
@@ -234,92 +199,25 @@
     </div>
 </div>
 
-<!-- stylesheet -->
- <style>
-
-/* ===== MODAL ===== */
-.modal-overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(15,23,42,.6);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:9999;
+<!-- Success modal and any other modals on this page use global styles; inquiry modal uses inquiry-modal-* from components.styles -->
+<style>
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
 }
 
-.modal-box{
-    background:#fff;
-
-    width:95%;
-    max-width:900px;
-
-    max-height:90vh;        /* important */
-    border-radius:14px;
-    position:relative;
-
-    display:flex;
-    flex-direction:column;
-
-    overflow:hidden;
+.modal-box {
+    max-height: 90vh;
+    overflow-y: auto;
 }
-.registration-card{
-    flex:1;
-    overflow-y:auto;
-    padding:30px;
-}
-.enroll-header{
-    padding:20px 30px 10px 30px;
-    border-bottom:1px solid #e5e7eb;
-}
-
-.enroll-info{
-    display:flex;
-    gap:12px;
-    flex-wrap:wrap;   /* prevents breaking */
-    margin-top:10px;
-}
-
-.info-pill{
-    background:#f3f4f6;
-    padding:6px 12px;
-    border-radius:30px;
-    font-size:13px;
-    display:flex;
-    align-items:center;
-    gap:6px;
-}
-
-
-.close-btn{
-    position:absolute;
-    right:14px;
-    top:10px;
-    font-size:22px;
-    cursor:pointer;
-}
-
-/* ===== FORM ===== */
-.form-group{margin-bottom:12px;}
-.form-group input,
-.form-group textarea{
-    width:100%;
-    padding:10px 12px;
-    border:1px solid #e5e7eb;
-    border-radius:6px;
-}
-
-.submit-btn{
-    width:100%;
-    padding:12px;
-    background:#09515D;
-    color:#fff;
-    font-weight:700;
-    border:none;
-    border-radius:6px;
-}
-
-.submit-btn:hover{background:#F47B1E;}
 </style>
 
 
@@ -458,24 +356,19 @@ function applySidebarFilters(){
 <!-- script -->
  <script>
 function openInquiryModal(title, id, level, duration) {
-    // Set hidden inputs
+    document.body.style.overflow = 'hidden';
+    document.getElementById('inquiryModal').style.display = 'flex';
+
+    document.getElementById('inquiryTitle').innerText = 'Inquiry about "' + title + '"';
     document.getElementById('inquiryCourseTitle').value = title;
     document.getElementById('inquiryCourseId').value = id;
-    document.getElementById('inquiryLevel').value = level;
+    document.getElementById('inquiryLevel').value = level || '';
 
-    // Set modal heading
-    document.getElementById('inquiryTitle').innerText = 'Inquiry for ' + title;
-
-    // Optional info pills
-    if (duration || level) {
-        document.getElementById('inquiryInfo').style.display = 'flex';
-        document.getElementById('inquiryDuration').innerText = duration || '';
-        document.getElementById('inquiryLevelText').innerText = level || '';
+    document.getElementById('inquiryInfo').style.display = (duration || level) ? 'flex' : 'none';
+    if (duration) document.getElementById('inquiryDuration').innerText = duration;
+    if (level) {
+        document.getElementById('inquiryLevelText').innerText = level.charAt(0).toUpperCase() + level.slice(1);
     }
-
-    // Show modal
-    document.getElementById('inquiryModal').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
 }
 
 function closeInquiryModal() {
